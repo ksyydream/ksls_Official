@@ -1,0 +1,85 @@
+<!-- content start -->
+<script src="/statics/js/My97DatePicker/WdatePicker.js"></script>
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+           产品列表</strong></div>
+    </div>
+
+    <div class="am-g">
+
+        <form method="post" action="{{site_url url='goods/list_goods'}}/1" class="search_form">
+
+            <div class="am-u-sm-12 am-u-md-8">
+                <div class="am-input-group am-input-group-sm">
+                    <input style="width: 210px;height: 40px;" type="text" class="am-form-field" name="keyword" value="{{$data.keyword}}" placeholder="请输入商品名称">
+                    &nbsp;&nbsp;商品状态:
+                    <select style="width: 200px;height: 40px;" name="flag">
+                    <option value="">全部</option>
+                    <option value="1" {{if $data.flag == 1}} selected="selected" {{/if}} >在售</option>
+                    <option value="-1" {{if $data.flag == -1}} selected="selected" {{/if}} >停售</option>
+                </select>
+                </div>
+                <div class="am-input-group am-input-group-sm" style="margin-top: 15px;">
+                   创建时间:
+                    <input style="height: 40px;width: 180px"  class="form-control" id="s_date" name="s_date" type="text" value="{{$data.s_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">——
+                    <input style="height: 40px;width: 180px"  class="form-control" id="e_date" name="e_date" type="text" value="{{$data.e_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">
+                    <span class="am-input-group-btn" style="float: right;">
+                         <input style="height: 40px;" type="submit" class="am-btn am-btn-default" value="搜索"/>
+                        <a style="margin-left: 10px;height: 40px;" href="{{site_url url='goods/add_good'}}" class="am-btn am-btn-primary">新增</a>
+                    </span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                <tr>
+                    <th>编码</th>
+                    <th>商品名称</th>
+                    <th>商品种类</th>
+                  <th>商品销量</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{foreach from=$data.items key=key item=item}}
+                <tr>
+                    <td>{{$item.id}}</td>
+                    <td><a>{{$item.good_name}}</a></td>
+                    <td><a>{{$item.type_name}}</a></td>
+                    <td><a>{{$item.buy_num}}</a></td>
+                    <td><a>{{$item.cdate}}</a></td>
+                    <td><a>
+                        {{if $item.flag == 1}}在售{{/if}}
+                        {{if $item.flag == -1}}停售{{/if}}
+                    </a></td>
+                    <td><div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a type="button" class="am-btn am-btn-danger" href="{{site_url url='goods/add_good'}}/{{$item.id}}/{{$page}}">
+                                <span class="am-icon-pencil-square-o"></span> 详情
+                            </a>
+                        </div>
+                    </div></td>
+                </tr>
+                {{/foreach}}
+                </tbody>
+            </table>
+            <div class="am-cf">{{$pager}}</div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+</script>
+<!-- content end -->
+

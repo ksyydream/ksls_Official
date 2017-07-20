@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<script type="text/javascript" charset="utf-8" src="/statics/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/statics/ueditor/ueditor.all.min.js"></script>
+<link href="/statics/css/yy_style.css" rel="stylesheet" type="text/css">
+<style>
+.yy_div{
+    margin-top: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+    .yy_div ul li{
+        list-style: none;
+        float: left;
+    }
+
+</style>
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">创建商品</strong> /
+            <small>Add Good</small>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+
+        </div>
+        <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='goods/save_good'}}">
+                <input type="hidden" name="good_id" value="{{$detail.id|default:''}}">
+                <input type="hidden" id="hidImgName" name="logo" value="{{$detail.logo|default:''}}" />
+                <label class="am-u-sm-2 am-form-label">商品LOGO</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-12 control-label text-center">
+                                <img style="width: 300px" id="imgShow" {{if !empty($detail) }} src="/upload/goods_logo/{{$detail.logo}}"{{/if}}>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <div class="col-sm-10 col-sm-offset-2 control-label text-left">
+                                <button type="button" class="btn btn-primary btn-md btn-raised btn-block ink" id="btnUploadImg">上传商品LOGO</button>
+                                <div class="control-label" style="text-align:left;padding-top:10px;">
+                                    （图片大小3M以内，图片格式支持：jpg、png、gif）
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class="am-u-sm-2 am-form-label">商品名称</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <input required type="text" id="good_name" name="good_name" value="{{$detail.good_name|default:''}}">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">商品类别</label>
+                    <div class="am-u-sm-10">
+                       <select id="type_id" name="type_id">
+                           <option value="">请选择商品类别</option>
+                           {{foreach from=$goods_type item=row}}
+                           <option value="{{$row.id}}" {{if !empty($detail) }}{{if $detail.type_id==$row.id}} selected{{/if}}{{/if}}>{{$row.type_name}}</option>
+                           {{/foreach}}
+                       </select>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">
+                        <button id="add_gg_btn" style="height: 40px;width: 100px" type="button" class="am-btn am-btn-primary">新增规格</button>
+                    </label>
+                    <div class="am-u-sm-12">
+                        <div>
+                            <div class="yy_div" >
+                                <div style="float: left">
+                                    <ul>
+                                        <li style="width: 200px">规格</li>
+                                        <li style="width: 100px">原价</li>
+                                        <li style="width: 100px">售价</li>
+                                        <li style="width: 100px">库存</li>
+                                        <li style="width: 50px">操作</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="gg_list">
+                            {{if !empty($goods_gg) }}
+                            {{foreach from=$goods_gg item=item}}
+                            <div class="yy_div" >
+                                <div style="float: left">
+                                    <ul>
+                                        <li><input required style="width: 200px" type="text" name="gg[]" value="{{$item.gg_name}}"></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_old_price[]" value="{{($item.gg_old_price|default:0)/100}}"></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_price[]" value="{{($item.gg_price|default:0)/100}}"></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_kc[]" value="{{$item.gg_kc|default:0}}"></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="gg_id[]" value="{{$item.id}}">
+                                <button name="del_btn" style="margin-left: 10px;height: 40px;" type="button" class="am-btn am-btn-default">删除</button>
+                            </div>
+                            {{/foreach}}
+                            {{else}}
+                            <div class="yy_div" >
+                                <div style="float: left">
+                                    <ul>
+                                        <li><input required style="width: 200px" type="text" name="gg[]"></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_old_price[]" ></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_price[]" ></li>
+                                        <li><input required style="width: 100px" type="text" name="gg_kc[]"></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="gg_id[]">
+                                <button name="del_btn" style="margin-left: 10px;height: 40px;" type="button" class="am-btn am-btn-default">删除</button>
+                            </div>
+                            {{/if}}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">购买须知</label>
+                    <div class="am-u-sm-10">
+                        <input type="text" id="gmxz" name="gmxz" value="{{$detail.gmxz|default:''}}">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">商品详情</label>
+                    <div class="am-u-sm-10">
+                        <textarea name="demo" rows="2" cols="3" class="sce-remarks" placeholder="">{{$detail.demo|default:''}}</textarea>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">商品单位</label>
+                    <div class="am-u-sm-10">
+                        <input type="text" id="unit" name="unit" value="{{$detail.unit|default:''}}">
+                    </div>
+                </div>
+
+               <!-- <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">商品库存</label>
+                    <div class="am-u-sm-10">
+                        <input type="text" id="kc" name="kc" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur = "this.value = this.value.replace(/\D+/g, '')" value="{{$detail.kc|default:''}}">
+                    </div>
+                </div>-->
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">分销类别</label>
+                    <div class="am-u-sm-10">
+                        <select id="percent" name="percent">
+                            <option value="">请选择分销类别</option>
+                            <option value="6" {{if !empty($detail) }}{{if $detail.percent==6}} selected{{/if}}{{/if}}>6系列</option>
+                            <option value="12" {{if !empty($detail) }}{{if $detail.percent==12}} selected{{/if}}{{/if}}>12系列</option>
+                            <option value="24" {{if !empty($detail) }}{{if $detail.percent==24}} selected{{/if}}{{/if}}>24系列</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">商品状态</label>
+                    <div class="am-u-sm-10">
+                        <select id="flag" name="flag">
+                            <option value="1" {{if !empty($detail) }}{{if $detail.flag==1}} selected{{/if}}{{/if}}>在售</option>
+                            <option value="-1" {{if !empty($detail) }}{{if $detail.flag==-1}} selected{{/if}}{{/if}}>暂停销售</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">轮播图片</label>
+                    <div class="div-bd div-bd1">
+                        <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+
+                            <tr>
+                                <td>
+                                    <dl class="uploadInformation">
+                                        <dt>
+                                            <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload()"></a>
+                                        </dt>
+                                        <dd>
+                                            <ul id="uploadImgcontainer">
+                                                {{if !empty($goods_pics) }}
+                                                {{foreach from=$goods_pics item=item}}
+                                                <li>
+                                                    <img src="{{$base_url}}upload/goods_pic/{{$item->folder}}/{{$item->pic}}" alert="" width="100" height="80" />
+                                                    <span class="delete-this" onclick="del_pic(this);"><i></i></span>
+                                                    <input type="hidden" name="pic_short[]" class="pic_short" value="{{$item->m_pic}}">
+                                                    <input type="hidden" name="folder[]" value="{{$item->folder}}">
+                                                </li>
+                                                {{/foreach}}
+                                                {{/if}}
+                                            </ul>
+                                        </dd>
+                                    </dl>
+                            </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <div class="am-u-sm-9 am-u-sm-push-3">
+                        <button type="button" id="save_btn" class="am-btn am-btn-danger" id="doc-confirm-toggle">提交</button>
+                        <a class="am-btn am-btn-default" href="{{site_url url='goods/list_goods'}}/{{$page}}">返回</a>
+                    </div>
+                </div>
+                <input type="hidden" name="_folder" value="{{$time}}" id="folder">
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="am-popup" id="my-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">订单明细</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                    <tr>
+                        <td>会员姓名</td>
+                        <td>会员手机</td>
+                        <td>金额</td>
+                        <td>创建时间</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link href="{{$base_url}}statics/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<script src="{{$base_url}}statics/js/jquery-ui/jquery-ui.min.js"></script>
+<!--plupload start--------------------------------------------------------------------------->
+<!-- Load plupload and all it's runtimes and finally the UI widget -->
+<link rel="stylesheet" href="/statics/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css" type="text/css" />
+<!-- production -->
+<script type="text/javascript" src="/statics/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/statics/plupload/js/zh_CN.js"></script>
+<script type="text/javascript" src="/statics/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js"></script>
+<!--plupload END--------------------------------------------------------------------------->
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<script src="/statics/js/ajaxfileupload.js"></script>
+<script>
+    window.onload = function() {
+        init();  //初始化
+
+        $("#gg_list").find("button").on('click',function () {
+            if($('#gg_list').children('div').length <= 1){
+                layer.msg('需至少保留一条‘规格’信息');
+            }
+            else{
+                $(this).parent().remove();
+            }
+        })
+    }
+
+    //初始化
+    function init() {
+        //初始化图片上传
+        var btnImg = document.getElementById("btnUploadImg");
+        var img = document.getElementById("imgShow");
+        var hidImgName = document.getElementById("hidImgName");
+        g_AjxUploadImg(btnImg, img, hidImgName);
+    }
+
+    var g_AjxTempDir = "/upload/goods_logo/";
+
+    //图片上传
+    function g_AjxUploadImg(btn, img, hidPut) {
+        var button = btn, interval;
+        new AjaxUpload(button, {
+            action: "{{site_url url='goods/upload_image'}}",
+            data: {},
+            name: 'userfile',
+            onSubmit: function(file, ext) {
+                if (!(ext && /^(jpg|JPG|png|PNG|gif|GIF)$/.test(ext))) {
+                    alert("您上传的图片格式不对，请重新选择！");
+                    return false;
+                }
+            },
+            onComplete: function(file, response) {
+                flagValue = response;
+                if (flagValue == "1") {
+                    alert("您上传的图片存在错误");
+                }
+                else {
+                    hidPut.value = response;
+                    img.src = g_AjxTempDir + response;
+
+                }
+            }
+        });
+    }
+
+
+
+    function triggerFileUpload() {
+        var data_ ="{{$f_user_id}}_{{$time}}_" + Date.parse(new Date());
+        $("#folder").val(data_);
+        var html = '<div id="uploader" style="width:550px;"><p>Your browser doesn\'t have Flash, Silverlight or HTML5 support.</p></div>';
+
+        var layerIndex = layer.confirm(html, {
+            offset: ['100px', (document.body.offsetWidth - 800) / 2],
+            maxWidth: 800,
+            btn: ['确定','取消'],
+            shade: false
+        }, function(){
+            uploadFile();
+            layer.close(layerIndex);
+        }, function(){
+        });
+
+        $("#uploader").plupload({
+            runtimes : 'html5,flash,silverlight',
+            url : "{{$base_url}}admin.php/goods/save_pics/" + $("#folder").val(),
+            max_file_size : '50mb',
+            resize : { crop: true },
+            file_data_name: 'userfile',
+            filters : [],
+            filters: {
+                mime_types : [{
+                    title : "Image files",
+                    extensions : "jpg,gif,png,jpeg"
+                }],
+                max_file_size : '8024kb',
+                prevent_duplicates : true
+            },
+            rename: true,
+            sortable: true,
+            dragdrop: true,
+            views: {
+                list: true,
+                thumbs: true,
+                active: 'thumbs'
+            },
+            flash_swf_url : '{{$base_url}}statics/plupload/js/Moxie.swf',
+            silverlight_xap_url : '{{$base_url}}statics/plupload/js/Moxie.xap'
+        });
+    }
+
+    $("[name='gg_price[]']").keyup(function () {
+    $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("[name='gg_old_price[]']").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("[name='gg_kc[]']").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    function uploadFile() {
+        if ($('#uploader').plupload('getFiles').length < 1) {
+            alert("图片未上传,请重新选择.");
+            return false;
+        } else {
+            $.getJSON("{{$base_url}}admin.php/goods/get_pics/" + $("#folder").val() +  "/?_=" + Math.random(), function(data){
+                var html = '';
+                var now_pic = [];
+                $('input[name="pic_short[]"]').each(function(index){
+                    now_pic[index] = $(this).val();
+                });
+                $.each(data.img,function(index,item){
+                    var path = "{{$base_url}}upload/goods_pic/" + data.time + "/" + item;
+                    if($.inArray(item, now_pic) < 0){
+                        html+='<li><img src="'+path+'" alert="" width="85" height="65" />';
+                        html+='<span class="delete-this" onclick="del_pic(this);"><i></i></span>';
+                        html+='<input type="hidden" name="pic_short[]" class="pic_short" value="'+item+'">';
+                        html+='<input type="hidden" name="folder[]" value="'+ $("#folder").val() +'">';
+                        html+='</li>';
+                    }
+                });
+                $("#uploadImgcontainer").append(html);
+            });
+            return true;
+        }
+    }
+
+    function del_pic(obj) {
+        var current_pic = $(obj).parent().find('input[name="pic_short[]"]').val();
+        $.getJSON("{{$base_url}}admin.php/goods/del_pic/" + $("#folder").val()  + "/" + current_pic + "/{{$detail.id|default:''}}", function(data){
+            if(data.flag == 1){
+                $(obj).parent().remove();
+            }else{
+                alert("删除图片失败，请清理图片缓存并刷新标签页");
+            }
+        });
+    }
+
+    $("#save_btn").click(function(){
+        if($("#hidImgName").val()==""){
+            layer.alert('商品LOGO必须添加!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        if($.trim($("#good_name").val())==""){
+            layer.alert('商品名称不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        if($("#type_id").val()==""){
+            layer.alert('商品类别不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        if($.trim($("#gmxz").val())==""){
+            layer.alert('商品购买须知不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        if($.trim($("#unit").val())==""){
+            layer.alert('商品单位不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        /*if($.trim($("#kc").val())==""){
+            layer.alert('商品库存不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }*/
+        if($.trim($("#percent").val())==""){
+            layer.alert('商品分销类别不能为空!', {skin: 'layui-layer-lan',closeBtn: 0,shift: 4 });
+            return false;
+        }
+        var flag=0;
+        $("[name='gg_kc[]']").each(function(){
+            if ($.trim($(this).val())==''){
+                layer.msg('存在规格库存是空!');
+                flag=1;
+                return false;
+            }
+        });
+        $("[name='gg_price[]']").each(function(){
+            if ($.trim($(this).val())==""){
+                layer.msg('存在未设置的售价!');
+                flag=1;
+                return false;
+            }
+        });
+        $("[name='gg_old_price[]']").each(function(){
+            if ($.trim($(this).val())==""){
+                layer.msg('存在未设置的原价!');
+                flag=1;
+                return false;
+            }
+        });
+        $("[name='gg[]']").each(function(){
+            if ($.trim($(this).val())==''){
+                layer.msg('存在规格是空!');
+                flag=1;
+                return false;
+            }
+        });
+
+
+        if (flag !=1){
+            $('#save_form').submit();
+        }
+    })
+
+    $("#add_gg_btn").click(function(){
+        //解绑事件
+        $("#gg_list").find("button").off('click');
+        $("[name='gg_price[]']").off('keyup').off('blur').off('paste');
+        $("[name='gg_old_price[]']").off('keyup').off('blur').off('paste');
+        $("[name='gg_kc[]']").off('keyup').off('blur').off('paste');
+        //divbox=$("#gg_list").children().html();
+        //divbox.find("input").eq(0).val('');
+        divbox =" <div style='float: left'><ul>" +
+                "<li><input required style='width: 200px' type='text' name='gg[]'></li> " +
+                "<li><input required style='width: 100px' type='text' name='gg_old_price[]' ></li>" +
+                "<li><input required style='width: 100px' type='text' name='gg_price[]' ></li>"+
+                "<li><input required style='width: 100px' type='text' name='gg_kc[]' ></li>"+
+                "</ul></div>"
+        divbox +="<input type='hidden' name='gg_id[]'>"
+        divbox +="<button name='del_btn' style='margin-left: 10px;height: 40px;' type='button' class='am-btn am-btn-default'>删除</button>"
+        divbox="<div class='yy_div'>"+divbox+"</div>"
+        $('#gg_list').append(divbox);
+        //绑定事件
+        $("#gg_list").find("button").on('click',function () {
+            if($('#gg_list').children('div').length <= 1){
+                layer.msg('需至少保留一条‘规格’信息');
+            }
+            else{
+                $(this).parent().remove();
+            }
+        })
+
+        $("[name='gg_price[]']").keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).blur(function(){
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).bind("paste", function () {  //CTR+V事件处理
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+        $("[name='gg_old_price[]']").keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).blur(function(){
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).bind("paste", function () {  //CTR+V事件处理
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+        $("[name='gg_kc[]']").keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).blur(function(){
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).bind("paste", function () {  //CTR+V事件处理
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+    })
+</script>

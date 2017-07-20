@@ -1,0 +1,212 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>淼溪信息科技后台管理系统</title>
+<meta name="description" content="这是一个 index 页面">
+<meta name="renderer" content="webkit">
+<meta name="keywords" content="index">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+<link rel="apple-touch-icon-precomposed"
+	href="{{$base_url}}statics/amaze/i/app-icon72x72@2x.png">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="stylesheet"
+	href="{{$base_url}}statics/amaze/css/amazeui.min.css" />
+<link rel="stylesheet" href="{{$base_url}}statics/amaze/css/admin.css">
+<!--[if lt IE 9]>
+  <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+  <script src="{{$base_url}}assets/js/polyfill/rem.min.js"></script>
+  <script src="{{$base_url}}assets/js/polyfill/respond.min.js"></script>
+  <script src="{{$base_url}}assets/js/amazeui.legacy.js"></script>
+  <![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{{$base_url}}statics/amaze/js/jquery.min.js"></script>
+<script src="{{$base_url}}statics/amaze/js/amazeui.js"></script>
+<!--<![endif]-->
+<script src="{{$base_url}}statics/amaze/js/app.js"></script>
+
+<script src="{{$base_url}}statics/js/common.js"></script>
+
+</head>
+<body style="overflow-y:hidden;">
+	<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+	<header class="am-topbar admin-header">
+		<div class="am-topbar-brand">
+			<strong>淼溪信息科技后台管理系统</strong> <small></small>
+		</div>
+
+		<button
+			class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+			data-am-collapse="{target: '#topbar-collapse'}">
+			<span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
+		</button>
+
+		<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+			<ul
+				class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+				<li class="am-dropdown" data-am-dropdown><a
+					class="am-dropdown-toggle" data-am-dropdown-toggle
+					href="javascript:;"> <span class="am-icon-users"></span> {{$user_info.rel_name}} <span
+						class="am-icon-caret-down"></span>
+				</a>
+					<ul class="am-dropdown-content">
+						<li><a href="#" id="pwd-confirm-toggle"><span class="am-icon-user"></span> 修改密码</a></li>
+						<li><a href="#" id="doc-confirm-toggle"><span class="am-icon-power-off"></span>退出</a></li>
+					</ul></li>
+				<li class="am-hide-sm-only"><a href="javascript:;"
+					id="admin-fullscreen"><span class="am-icon-arrows-alt"></span>
+						<span class="admin-fullText">开启全屏</span></a></li>
+			</ul>
+		</div>
+	</header>
+
+	<div class="am-cf admin-main">
+		<!-- sidebar start -->
+		<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+			{{include file="./sidebar.html"}}</div>
+		<!-- sidebar end -->
+
+		<!-- content start -->
+		<div id="contentq" style="width: 100%;">
+		<iframe src="{{$base_url}}admin.php/index/main"  id="mainFrame"  frameborder="0" width="81%" height="700" >
+		</iframe>
+		<div id="load" style="position:absolute;top:40%;left:50%;display:none;">
+			 loading...
+		</div> 
+		</div>
+		<!-- content end -->
+
+	</div>
+	<a class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+		data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+	<footer>
+		<hr>
+		<p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under
+			MIT license.</p>
+	</footer>
+	
+	
+	<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+	  <div class="am-modal-dialog">
+	    <div class="am-modal-hd">退出</div>
+	    <div class="am-modal-bd">
+	      您确定退出登陆吗？
+	    </div>
+	    <div class="am-modal-footer">
+	      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+	      <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="am-modal am-modal-confirm" tabindex="-1" id="my-password">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd"style="font-size: 16px; font-family: '黑体';">修改密码</div>
+			<div class="am-modal-bd" style="margin: 0 auto;font-size: 12px; font-family: '宋体';margin: 0 auto;text-align: center;margin-top: 5px;">
+				<table  cellpadding="0" cellspacing="0" class="action-table"style="margin: 0 auto;text-align: center;">
+					<tr>
+						<td>当前登录密码：</td>
+						<td><input type="text" id="index_old_pass" name="index_oldpassword" class="input-txt" style="height: 30px;border: 1px solid #ccc;"></td>
+						<td id="cur_pass_error"></td>
+					</tr>
+					<tr>
+						<td>新的登录密码：</td>
+						<td><input type="text" id="index_new_pass" name="index_password" class="input-txt" style="height: 30px;border: 1px solid #ccc;"></td>
+						<td id="new_pass_error"></td>
+					</tr>
+					<tr>
+						<td>确认新的登录密码：</td>
+						<td><input type="text" id="index_re_new_pass" name="index_repassword" class="input-txt" style="height: 30px;border: 1px solid #ccc;"></td>
+						<td id="re_new_pass_error"></td>
+					</tr>
+				</table>
+				<div style="width: 100%;text-align: center;margin-top: 10px;">
+					<a href="javascript:void(0);" id="btnUpdatePSW" class="confirm-btn" style="font-size: 16px; font-family: '黑体';">确认</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+$(function() {
+	  $("#doc-confirm-toggle").click(function(){
+	      $('#my-confirm').modal({
+		        relatedTarget: this,
+		        onConfirm: function(options) {
+		        	location.href="{{site_url url='login/logout'}}";
+		        }
+		      });
+	  });
+
+	$("#pwd-confirm-toggle").click(function(){
+		$('#my-password').modal('open');
+	});
+	$("#btnUpdatePSW").click(function() {
+		var $old_pass = $("#index_old_pass").val();
+		if($.trim($old_pass) == "") {
+			$("#cur_pass_error").html('<p><em></em>当前密码不能为空</p>');
+			return;
+		}
+		var check = checkCurrentPass($old_pass);
+		if(check < 1) {
+			$("#cur_pass_error").html('<p><em></em>当前密码输入不正确</p>');
+			return;
+		}
+		$("#cur_pass_error").empty();
+		var new_pass = $("#index_new_pass").val();
+		if($.trim(new_pass) == "") {
+			$("#new_pass_error").html('<p><em></em>新密码不能为空</p>');
+			return;
+		}
+		$("#new_pass_error").empty();
+		var re_new_pass = $("#index_re_new_pass").val();
+		if(new_pass != re_new_pass) {
+			$("#re_new_pass_error").html('<p><em></em>两次输入的密码不一致</p>');
+			return;
+		}
+		$("#re_new_pass_error").empty();
+
+
+		$.post('/admin.php/index/update_password', {password: new_pass,old_pass:$old_pass}, function(data) {
+			$("#index_old_pass").val("");
+			$("#index_new_pass").val("");
+			$("#index_re_new_pass").val("");
+			if(data==1){
+				alert('修改成功,请重新登陆!');
+				location.href="{{site_url url='login/logout'}}";
+			};
+			if(data == -1){
+				alert('修改密码失败!');
+			}
+			//location.href="{{site_url url='login/logout'}}";
+		});
+	});
+	/*relatedTarget: this,
+	 onConfirm: function(options) {
+
+
+	 }*/
+
+
+	function checkCurrentPass($old_pass) {
+		return $.ajax({
+			url: "/admin.php/index/check_pass/" + $old_pass,
+			async: false
+		}).responseText;
+	}
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加用户</strong> /
+            <small>Add user</small>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+
+        </div>
+        <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+            <form class="am-form" method="post" action="{{site_url url='admin_user/save_user'}}">
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">用户账号</label>
+                    <div class="am-u-sm-10">
+                        <input type="hidden" name="id" {{if $user_data}}value="{{$user_data.id}}"{{/if}}>
+                        <input type="text" name="username" {{if $user_data}}readonly{{/if}}  placeholder="请输入用户账号" {{if $user_data}}value="{{$user_data.username}}"{{/if}} required>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">用户密码</label>
+                    <div class="am-u-sm-10">
+                        <input type="text" name="password" placeholder="请输入用户密码" required>
+                    </div>
+                </div>
+                <br><br>
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">真实姓名</label>
+                    <div class="am-u-sm-10">
+                        <input type="text" name="rel_name" placeholder="请输入真实姓名"{{if $user_data}}value="{{$user_data.rel_name}}"{{/if}} required>
+                    </div>
+                </div>
+                <br><br>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label">操作权限</label>
+                    <div class="am-u-sm-10">
+                        {{foreach from=$data item=row}}
+                        <label class="am-checkbox">
+                            <input type="checkbox" name="permission[]" value="{{$row.flag}}" data-am-ucheck {{if $user_data && $row.flag|in_array:$permission}}checked{{/if}}> {{$row.name}}
+                        </label>
+                        {{/foreach}}
+
+                    </div>
+                </div>
+                <br><br>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label"></label>
+                    <div class="am-u-sm-10">
+                        <select name="status">
+                            <option value="1" {{if $user_data && $user_data.status == 1}}selected="selected"{{/if}}>正常</option>
+                            <option value="-1" {{if $user_data && $user_data.status == -1}}selected="selected"{{/if}}>停用</option>
+                        </select>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class="am-form-group">
+                    <div class="am-u-sm-9 am-u-sm-push-3">
+                        <input type="submit" class="am-btn am-btn-primary" value="确认">
+                        <a class="am-btn am-btn-default" href="{{site_url url='admin_user/list_users'}}">返回</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

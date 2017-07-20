@@ -1,0 +1,55 @@
+<div class="am-offcanvas-bar admin-offcanvas-bar" id="menuDiv">
+    <ul class="am-list admin-sidebar-list am-panel">
+        <li><a href="/admin.php"><span class="am-icon-home"></span> 工作台</a></li>
+
+
+
+        {{if 'f'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav8'}">
+                <span class="am-icon-file"></span> 新闻管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav8">
+                <li><a href="javascript:open_content('/admin.php/news/list_news');" class="am-cf menu"><span class="am-icon-check"></span> 新闻列表</a></li>
+            </ul>
+        </li>
+        {{/if}}
+        {{if 'j'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav1'}">
+                <span class="am-icon-file"></span> 招聘管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav1">
+                <li><a href="javascript:open_content('/admin.php/Jobs/list_job');" class="am-cf menu"><span class="am-icon-check"></span> 招聘列表</a></li>
+            </ul>
+        </li>
+        {{/if}}
+        {{if 'm'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav2'}">
+                <span class="am-icon-file"></span> 留言管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                <li><a href="javascript:open_content('/admin.php/messages/list_message');" class="am-cf menu"><span class="am-icon-check"></span> 留言列表</a></li>
+            </ul>
+        </li>
+        {{/if}}
+        {{if $user_info.username == 'admin'}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav7'}">
+                <span class="am-icon-file"></span> 后台用户 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav7">
+                <li><a href="javascript:open_content('/admin.php/Admin_user/list_users');" class="am-cf menu"><span class="am-icon-check"></span> 后台用户</a></li>
+            </ul>
+        </li>
+        {{/if}}
+
+    </ul>
+</div>
+<script>
+    $('.menu').click(function () {
+        $('.menu').css('background-color', '#FFFFFF');
+        $(this).css('background-color', '#E3E3E3');
+    });
+</script>

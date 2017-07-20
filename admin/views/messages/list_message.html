@@ -1,0 +1,209 @@
+<!-- content start -->
+<script src="/statics/js/My97DatePicker/WdatePicker.js"></script>
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+           招聘人才列表</strong></div>
+    </div>
+
+    <div class="am-g">
+
+        <form method="post" action="{{site_url url='messages/list_message'}}/1" class="search_form">
+
+            <div class="am-u-sm-12 am-u-md-8">
+                <div class="am-input-group am-input-group-sm">
+                    <input style="width: 210px;height: 40px;" type="text" class="am-form-field" name="keyword" value="{{$data.keyword}}" placeholder="请输入留言关键词">
+                    &nbsp;&nbsp;留言状态:
+                    <select style="width: 200px;height: 40px;" name="flag">
+                        <option value="">全部</option>
+                        <option value="1" {{if $data.flag == 1}} selected="selected" {{/if}} >新留言</option>
+                        <option value="2" {{if $data.flag == 2}} selected="selected" {{/if}} >已阅读</option>
+                        <option value="3" {{if $data.flag == 3}} selected="selected" {{/if}} >重要</option>
+                    </select>
+                </div>
+                <div class="am-input-group am-input-group-sm" style="margin-top: 15px;">
+                   创建时间:
+                    <input style="height: 40px;width: 180px"  class="form-control" id="s_date" name="s_date" type="text" value="{{$data.s_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">——
+                    <input style="height: 40px;width: 180px"  class="form-control" id="e_date" name="e_date" type="text" value="{{$data.e_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">
+                    <span class="am-input-group-btn" style="float: right;">
+                         <input style="height: 40px;" type="submit" class="am-btn am-btn-default" value="搜索"/>
+                    </span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                <tr>
+                    <th>编码</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{foreach from=$data.items key=key item=item}}
+                <tr>
+                    <td>{{$item.id}}</td>
+                    <td><a>{{$item.content|strip_tags|strip|default:''|truncate:20:"...":true}}</a></td>
+                    <td><a>{{$item.create_time}}</a></td>
+                    <td><a>
+                        {{if $item.flag == 1}}未阅读{{/if}}
+                        {{if $item.flag == 2}}已阅读{{/if}}
+                        {{if $item.flag == 3}}重要{{/if}}
+                    </a></td>
+                    <td><div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a name="read_message" type="button" class="am-btn am-btn-danger" href="#">
+                                <input type="hidden" name="item_id" value="{{$item.id}}">
+                                <span class="am-icon-pencil-square-o"></span> 详情
+                            </a>
+                            <a name="delete_btn" class="am-btn am-btn-default" href="#">
+                                <input type="hidden" name="item_id" value="{{$item.id}}">
+                                <span class="am-icon-pencil-square-o"></span> 删除
+                            </a>
+                        </div>
+                    </div></td>
+                </tr>
+                {{/foreach}}
+                </tbody>
+            </table>
+            <div class="am-cf">{{$pager}}</div>
+        </div>
+
+    </div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="super_id_page">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd"style="font-size: 16px; font-family: '黑体';">留言信息</div>
+        <div class="am-modal-bd" style="margin: 0 auto;font-size: 12px; font-family: '宋体';margin: 0 auto;text-align: center;margin-top: 5px;">
+            <table  cellpadding="0" cellspacing="0" class="action-table"style="margin: 0 auto;text-align: left;">
+                <input type="hidden" id="message_id">
+                <tr>
+                    <td><textarea readonly="readonly" name="content" id="content" cols="30" rows="10" placeholder="" maxlength="400"></textarea></td>
+                    <td id="new_pass_error"></td>
+                </tr>
+            </table>
+            <div style="width: 100%;text-align: center;margin-top: 10px;">
+                <a href="javascript:void(0);" id="btnVI" class="am-btn am-btn-danger" style="font-size: 16px; font-family: '黑体';">设置为重要</a>
+                <a href="javascript:void(0);" id="btnRead" class="am-btn am-btn-default" style="font-size: 16px; font-family: '黑体';">设置为已读</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<script>
+    function edit_super_id(id) {
+
+        $.getJSON('/admin.php/messages/get_detail/' + id, function (data) {
+            if (data == -1) {
+                $('#message_id').val('')
+                $('#content').val('');
+                $('#super_id_page').modal(data);
+            } else {
+                $('#message_id').val(data.id)
+                $('#content').val(data.content);
+                $('#super_id_page').modal('open');
+            }
+        });
+    }
+
+        $("#btnVI").click(function(){
+            var message_id = $('#message_id').val();
+            $.post('/admin.php/messages/become_3', {message_id:message_id}, function(data) {
+                if(data == 2){
+                    layer.msg('设置失败!', {icon: 2});
+                }else if(data==1){
+                    layer.msg('设置成功!', {icon: 1});
+                }else{
+                    location.href="{{site_url url='messages/list_message'}}";
+                }
+            });
+        })
+
+        $("#btnRead").click(function(){
+            var message_id = $('#message_id').val();
+            $.post('/admin.php/messages/become_2', {message_id:message_id}, function(data) {
+                if(data == 2){
+                    layer.msg('设置失败!', {icon: 2});
+                }else if(data==1){
+                    layer.msg('设置成功!', {icon: 1});
+                }else{
+                    location.href="{{site_url url='Super_id/list_super_id'}}";
+                }
+            });
+        })
+
+    $("a[name='read_message']").click(function(){
+        var id = $(this).find('input').eq(0).val();
+        $.getJSON('/admin.php/messages/get_detail/' + id, function (data) {
+            if (data == -1) {
+                layer.msg('获取失败!', {icon: 2});
+            } else {
+                var html_content = "<div><textarea readonly='readonly'  cols='31' rows='15'>";
+                html_content +=data.content;
+                html_content+="</textarea></div>"
+                layer.confirm(html_content, {
+                    btn: ['设置为重要','设置为已读'], //按钮
+                    area: ['500px', 'auto']
+                , btn1:function(){
+                        $.post('/admin.php/messages/become_3', {message_id:id}, function(data) {
+                            if(data == 2){
+                                layer.msg('设置失败!', {icon: 2});
+                            }else if(data==1){
+                                layer.msg('设置成功!', {icon: 1});
+                                var action = "{{site_url url='messages/list_message'}}/{{$page}}"
+                                $('.search_form').attr('action',action);
+                                $('.search_form').submit();
+                            }else{
+                                location.href="{{site_url url='messages/list_message'}}";
+                            }
+                        });
+                },btn2:function(){
+                        $.post('/admin.php/messages/become_2', {message_id:id}, function(data) {
+                            if(data == 2){
+                                layer.msg('设置失败!', {icon: 2});
+                            }else if(data==1){
+                                layer.msg('设置成功!', {icon: 1});
+                                var action = "{{site_url url='messages/list_message'}}/{{$page}}"
+                                $('.search_form').attr('action',action);
+                                $('.search_form').submit();
+                            }else{
+                                location.href="{{site_url url='messages/list_message'}}";
+                            }
+                        });
+                }}
+            );
+            }
+        });
+    })
+
+        $("a[name='delete_btn']").click(function(){
+            var id = $(this).find('input').eq(0).val();
+            layer.confirm('是否确定删除!', {
+                btn: ['同意','不同意'], //按钮
+                area: ['400px', 'auto']
+            }, function(){
+                $.getJSON("{{site_url url='messages/delete_id'}}/"+id,function(data){
+                    if(data == 1){
+                        var action = "{{site_url url='messages/list_message'}}/{{$page}}"
+                        $('.search_form').attr('action',action);
+                        $('.search_form').submit();
+                    }else{
+                        layer.msg('操作失败!', {icon: 2});
+                    }
+                })
+            },function(){
+                layer.msg('已取消!', {icon: 2});
+            });
+        })
+</script>
+<!-- content end -->
+
