@@ -1,0 +1,66 @@
+@charset "UTF-8";
+html{
+    height: 100%;
+}
+body{
+    position: relative;z-index: 111;height: 100%;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+ul {
+    padding-left: 0px;
+}
+.layui-layer-molv .layui-layer-title {background-color: #F8F8F8;border-bottom: 1px solid #eee;color: #333;}
+
+.table1{
+    width: 100%; height: 45px; border-collapse:collapse;color: #bfbfbf; cursor:pointer;
+}
+.table1 tr{
+    font-size: 14px;text-align: center;color: #999999;
+}
+.td1{
+    border-bottom:1px solid #e5e5e5;
+}
+.td1 a{
+    color: #777777;
+}
+.table{
+    width: 100%; height: 50px; border-collapse:collapse;color: #bfbfbf;
+}
+.table tr{
+    font-size: 14px; height: 50px; text-align: center;color: #343434;font-weight: bold;
+}
+.td{
+    border-bottom:1px solid #e5e5e5;
+}
+.footer{
+    width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 555;border-top:1px solid #e9e9e9;color: #696969;
+}
+.footer_tab{
+    text-align: center;
+}
+.footer_tab td{
+    width: 20%;
+}
+.footer_tab img{
+    width: 20px;height: 20px;margin: 0 auto;margin-top: 8px;
+}
+.footer_span_2{
+    font-size: 15px; font-family: '宋体';color: #808080;
+}
+#is_end{
+    text-align: center;font-size: 12px;margin-top: 10px;
+}
+.money_log_list_div_all{
+    padding-bottom: 100px;
+}
+.xuanfu_plus{
+    z-index: 222;position: fixed;right: 6%;bottom:130px;
+}

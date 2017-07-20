@@ -1,0 +1,160 @@
+@charset "UTF-8";
+.body_all{
+    padding-bottom: 80px;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.top {height: 30px;}
+.top input{
+    height: 30px; line-height: 30px;
+}
+.top #r-result{
+    float: left;
+}
+.top .right{
+    float: right;
+}
+.top .right .points{
+    width: 110px;
+    float: left;
+    margin-right: 10px;
+}
+.top .right .points input{
+    width:75px;
+    display: inline-block;
+}
+.top .right .queren{
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: red;
+    color: #fff;
+    float: right;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.tangram-suggestion-main{
+    z-index:10000
+}
+img{
+    width:100%
+}
+.upload_img_all{
+    width: 100%;text-align: center;margin-top: 20px;
+}
+.upload_img_div1{
+    position: relative;
+}
+.upload_img_div2{
+    width: 100px;height: 100px;margin: 0 auto;border-radius: 100px;
+}
+.upload_img_div3{
+    width: 100px;height: 100px;margin: 0 auto;
+}
+#previewResult{
+    width: 100px;height: 100px;z-index: 11;border-radius: 100px;
+}
+#license_previewResult{
+    width: 100px;height: 90px;z-index: 11;
+}
+#cns1_previewResult{
+    width: 100px;height: 90px;z-index: 11;
+}
+#cns2_previewResult{
+    width: 100px;height: 90px;z-index: 11;
+}
+.upload_img_btn{
+    margin-top: 10px;
+}
+.merchants_settled_information{
+    height: 50px;width: 96%;margin: 0 auto;margin-top: 15px;
+}
+#merchants_settled_information_input_1{
+    height: 50px; border-radius: 10px;
+}
+#merchants_settled_information_input_2{
+    height: 50px; border-radius: 10px;
+}
+#shop_type{
+    width: 100%;margin: 0 auto;height: 50px;border-radius: 10px;
+}
+#shop_type1{
+    width: 100%;margin: 0 auto;height: 50px;border-radius: 10px;
+}
+#province_code{
+    height: 50px;border-radius: 10px;width: 96%;margin: 0 auto;margin-top: 15px;
+}
+#city_code{
+    height: 50px;border-radius: 10px;width: 96%;margin: 0 auto;margin-top: 15px;
+}
+#area_code{
+    height: 50px;border-radius: 10px;width: 96%;margin: 0 auto;margin-top: 15px;
+}
+#merchants_settled_information_input_3{
+    height: 50px; border-radius: 10px;
+}
+#merchants_settled_information_input_4{
+    height: 50px; border-radius: 10px;
+}
+#merchants_settled_information_input_5{
+    height: 50px; border-radius: 10px;
+}
+.merchants_settled_map{
+    margin-top: 15px;
+}
+.merchants_settled_map_img img{
+    width: 25px;height: 25px;margin-top: 10px;margin-left: 10px;
+}
+.merchants_settled_map button{
+    width:24%;float: right;;margin-right: 5px;height: 50px;border-radius: 10px;
+}
+#merchants_settled_information_input_6{
+    width:30%;float: right;height: 50px;border-radius: 10px;margin-right:5px;
+}
+#merchants_settled_information_input_7{
+    width:30%;height: 50px;float: right;border-radius: 10px;
+}
+.merchants_settled_shop_information{
+    width: 96%;margin:0 auto;margin-top: 10px;
+}
+.merchants_settled_shop_information textarea{
+    height: 100px;border-radius: 10px;
+}
+.merchants_settled_shop_information_images{
+    margin-left: 2%;color: #00a0e9;margin-top: 5px;
+}
+.merchants_settled_shop_information_upload{
+    margin-top: 10px;border-bottom:1px solid #ccc;padding-bottom: 14px;
+}
+.merchants_settled_shop_information_upload_1{
+    width: 80px;height: 80px;float: left;
+}
+.merchants_settled_shop_information_upload_1 img{
+    width: 80px;height: 80px;
+}
+.merchants_settled_shop_information_upload_2{
+    padding-top: 10px;
+}
+.merchants_settled_shop_information_upload_3{
+    padding-top: 8px;
+}
+.merchants_settled_shop_information_upload_4{
+    float: right;margin-right:10%;margin-top: -50px;
+}
+.merchants_settled_shop_information_btn{
+    margin-top: 20px;
+}
+.login_form_btn{
+    border-radius: 10px;width: 96%;margin: 0 auto;
+}
+.login_form_btn1{
+    border-radius: 10px;;width: 96%;margin: 0 auto;margin-top: 10px;
+}

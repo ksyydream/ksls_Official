@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 62.5%;
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+.row-one{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.row-one-money{
+    color: #fd4e87;
+    font-size: 1.8rem;
+}
+.row-one-money span{
+    font-size: 1.2rem;
+}
+.jiange{
+    width:100%;
+    height: 15px;
+    background: #ecf1eb;
+}
+.row-two{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #cfcfcf;
+}
+.row-two-img {
+    text-align: center;
+
+}
+.row-two-img img{
+    width: 30px;
+}
+.row-two-pay{
+    height: 50px;
+    padding: 0;
+}
+.row-two p{
+    height: 10px;
+    font-size: 1.6rem;
+    line-height:35px;
+}
+.row-two span{
+    color: #a3a3a3;
+    font-size: 1.2rem;
+}

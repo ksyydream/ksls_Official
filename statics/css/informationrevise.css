@@ -1,0 +1,44 @@
+@charset "UTF-8";
+body,h1,h2,h3,p,ul,ol,form,fieldset,figure{
+    margin: 0;
+    padding: 0;
+}
+body{
+    padding-bottom: 80px;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.upload_img_all{
+    margin-top: 40px;
+}
+.user_informatio{
+    margin-left: 25%;
+}
+.login_form_btn{
+    background: #dc514c;border: 1px solid #ffffff;color: #ffffff;
+}
+.information_revise_btn_confirm{
+    margin-top: 10px;
+}
+.information_revise_btn_confirm_back{
+    width: 96%;border-radius: 10px;margin: 0 auto;
+}
+#save_btn{
+    width: 96%;border-radius: 10px;margin: 0 auto;
+}
+.information_revise_layer{
+    background: #ffffff;
+}
+.am-form-icon [class*=am-icon-]{
+    left: 1em;
+}
+#pwd_pass, #pwd_new_one,#pwd_new_two,#edit_pwd_btn{
+    width:94%;margin:0 auto;height: 50px;border-radius: 10px;
+}

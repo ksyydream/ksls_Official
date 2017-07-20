@@ -1,0 +1,42 @@
+.register_one_header{
+    width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.register_one_header{
+    border-color: #01a2f2;
+}
+.table{
+    width: 100%; height: 50px; border-collapse:collapse;color: #bfbfbf;margin-left: 5px;
+}
+.table tr{
+    font-size: 14px; height: 50px; text-align: center;color: #343434;font-weight: bold;
+}
+.td{
+    border-bottom:1px solid #e5e5e5;
+}
+.footer{
+    width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 555;border-top:1px solid #e9e9e9;color: #696969;
+}
+.footer_tab{
+    text-align: center;
+}
+.footer_tab td{
+    width: 20%;
+}
+.footer_tab img{
+    width: 20px;height: 20px;margin: 0 auto;margin-top: 8px;
+}
+.footer_span_2{
+    font-size: 15px; font-family: '宋体';color: #808080;
+}
+.sky_my_income{
+    padding-bottom: 80px;overflow-x: hidden;
+}
+#is_end{
+    text-align: center;font-size: 12px;margin-top: 10px;
+}

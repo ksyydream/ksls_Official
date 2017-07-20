@@ -1,0 +1,65 @@
+/* Write your styles */
+
+#month-plan-content .am-input-group .select-month .am-form-field{ width:200px;}
+#month-plan-content .month-txt{margin-right:20px; float: left;
+    display: block;
+    line-height: 38px;}
+#month-plan-content .am-datepicker-date{
+    margin-bottom: 20px;}
+#month-plan-content .am-btn-group-xs{
+    margin-bottom: 10px;}
+
+/*#month-plan-content .am-btn-group-xs{margin-top:5px;}*/
+#month-plan-content .widTit{width:350px;padding:.3rem;}
+#month-plan-content .widLevel{width:150px;padding:.3rem;}
+#month-plan-content .widScore{width:150px;padding:.3rem;}
+#month-plan-content .other-options{
+    float: right;
+    margin: 20px 50px 0 0;}
+
+/*费用报销*/
+#list-reimbursement-table th,#list-reimbursement-table td{text-align: center;}
+#list-reimbursement-table .table-id,#list-reimbursement-table .table-time{width:100px;}
+#list-reimbursement-table .table-department,#list-reimbursement-table .table-apply-name{width:120px;}
+#list-reimbursement-table .table-money,#list-reimbursement-table .table-abstract{width: 150px;}
+#list-reimbursement-table .table-option{width:210px;}
+
+
+#add-reimbursement-table th,#add-reimbursement-table td{text-align: center;}
+#add-reimbursement-table .table-id{width:200px}
+#add-reimbursement-table .table-time{width:110px;}
+#add-reimbursement-table .table-money{width: 180px;}
+#add-reimbursement-table .table-freestyle{width:180px;}
+#add-reimbursement-table .table-abstract{width:180px;}
+
+.am-u-lis{margin-top:30px;}
+.am-u-lis li{margin-bottom:10px; list-style: none;}
+.am-u-lis .s-tit{display:inline-block; width: 70px;}
+/*创建费用报销单*/
+#add-reimbursement .clear{clear:both;}
+#add-reimbursement h3{ text-align: center;}
+#add-reimbursement .reimbursement-items-div{ margin-top:50px;}
+#add-reimbursement .div-cost{margin:0 10%;width:30%;dispaly:inline-block; float: left;
+    color: #0e90d2;font-size: 2rem; }
+
+#add-reimbursement .div-cost .choose-cost-style{ display: block; padding:.5rem 0 ; background:#fff;text-align: center; }
+#add-reimbursement .div-cost .choose-cost-style.current,#add-reimbursement .div-cost .choose-cost-style:hover{ background:#0e90d2;
+    color: #fff;}
+
+#applyUserInput{ width: 200px; display:inline-block;}
+.am-cost-total{margin:0 100px 30px 0; text-align: right;}
+/*popup*/
+#commItemTable {margin: 0 0 20px 100px;}
+#commItemTable th{width:80px;}
+#commItemTable td{padding:0.5rem 0;}
+#addBulletinForm table th,#statisticForm table th{ width:145px;padding:0 1.2rem; text-align: right;}
+#addBulletinForm table td,#statisticForm table td{padding:0.5rem 0; text-align: left;}
+.am-modal{ width: 450px;}#am-modal-statistic{width:750px;margin-left:-375px;}
+#itemInput,#itemTime,#moneyInput,#house_no,#room_no,#amount,#store_info,#contract_no,#user_id,#status,#remark{ width: 200px;}
+#statisticForm .am-btn-primary{margin-left:330px;}
+
+#search-statistic-form .am-input-group  .am-form-field{height:33px;}
+#search-statistic-user .am-selected-btn{
+    margin-right: 10px; width:200px;padding-top:.5rem; padding-bottom: .5rem;}
+#am-cost-total1{ margin-right: 270px;}
+#am-cost-total2{ margin-right: 350px;}

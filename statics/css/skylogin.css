@@ -1,0 +1,52 @@
+@charset "UTF-8";
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.am-slider-default .am-direction-nav a {
+    /*display: none;*/
+}
+.login_all{
+    width: 100%;
+}
+.login_all_form{
+    width: 100%;margin-top: 30px;
+}
+.login_form_mobile{
+    width: 90%;margin: 0 auto;
+}
+.login_form_mobile i{
+    font-size: 20px;
+}
+.login_form_mobile input,.login_form_password input{
+    height: 50px;
+}
+.login_form_password{
+    width: 90%;margin: 0 auto;margin-top: 5px;
+}
+.login_form_password i{
+    font-size: 18px;
+}
+.login_form_btn{
+    width: 90%; height:50px;margin:0 auto;margin-top: 40px;
+}
+.login_others{
+    font-size: 14px;color: #f6c70a;margin-top: 10px;
+}
+.login_others .login_others_forget_pwd{
+    margin-left: 8%;
+}
+.login_others .login_others_news_user{
+    float: right;margin-right: 8%;
+}
+.sky_register_logo {
+    margin: 0 auto;
+    display: block;
+    margin-top: 70px;
+
+}

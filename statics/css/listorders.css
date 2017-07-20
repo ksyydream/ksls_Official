@@ -1,0 +1,98 @@
+@charset "UTF-8";
+body,h1,h2,h3,p,ul,ol,form,fieldset,figure{
+    margin: 0;
+    padding: 0;
+}
+body{
+    padding-bottom: 80px;background:#ecf1eb;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.sky_list_orders_content_one,.sky_list_orders_content_two{
+    width: 100%;height: 50px;border-bottom: 1px solid #e9e9e9;background: #ffffff;
+}
+.am-icon-list-ul{
+    line-height: 50px;color: #66b3e1;margin-left: 10px;
+}
+.sky_list_orders_content_price{
+    float: right; line-height: 50px;margin-right: 20px;
+}
+.sky_list_orders_content_price span{
+    color: #66b3e1;
+}
+.sky_list_orders_content_two{
+    margin-top: 8px;
+}
+.sky_list_orders_content_two_shoptitle{
+    line-height: 50px;margin-left: 10px;font-size: 18px; display: inline-block;width: 50%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+}
+.sky_list_orders_content_two_shoptime{
+    float: right; line-height: 50px;margin-right:15px;color: #a4a4a4;
+}
+.sky_list_orders_content_three, .sky_list_orders_content_four,.sky_list_orders_content_five{
+    width: 100%;background: #ffffff;padding: 10px;border-bottom: 1px solid #e9e9e9;
+}
+.sky_list_orders_content_four{
+    color: #a4a4a4;
+}
+.sky_list_orders_content_four_price{
+    font-size: 18px;color:#ff528d;
+}
+.sky_list_orders_content_four_time{
+    font-size: 14px;
+}
+.sky_list_orders_content_four_pending{
+    float: right;margin-top: -38px;color:#ff528d;margin-right: 10px;
+}
+.sky_list_orders_content_five img{
+    margin-top: -3px;
+}
+.sky_list_orders_content_assess{
+    float: right;margin-right: 10px;font-size: 14px;color:#179fed;
+}
+.sky_list_orders_content_assess .am-icon-sort-desc{
+    font-size: 18px;
+}
+.sky_list_orders_content_six{
+    width: 100%;background: #ffffff;
+}
+.admin-sidebar-sub{
+    padding-left: 0;padding: 10px;
+}
+.sky_list_orders_content_six_username{
+    font-size: 17px;
+}
+.sky_list_orders_content_six_usertime{
+    font-size: 14px;color: #a4a4a4;
+}
+.sky_list_orders_content_six_userassess{
+    padding-top: 10px;
+}
+.sky_list_orders_content_six_userimg{
+    margin-top: 10px;
+}
+.sky_list_orders_content_six_userimg img{
+    width: 23%;height: 25%;
+}
+.footer{
+    width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 555;border-top:1px solid #e9e9e9;color: #696969;
+}
+.footer_tab{
+    text-align: center;
+}
+.footer_tab td{
+    width: 20%;
+}
+.footer_tab img{
+    width: 20px;height: 20px;margin: 0 auto;margin-top: 8px;
+}
+.footer_span_2{
+    font-size: 15px; font-family: '宋体';color: #808080;
+}

@@ -1,0 +1,106 @@
+@charset "UTF-8";
+html{
+    font-size: 62.5%;
+    font-family: "Hiragino Sans GB W3";
+}
+body,h1,h2,h3,p,ul,ol,form,fieldset,figure{
+    margin: 0;
+    padding: 0;
+}
+ul,ol{
+    list-style: none;
+}
+.body_all{
+    padding-bottom: 80px;
+}
+.am-topbar{
+    boder-style:none;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.am-slider-default .am-direction-nav a {
+    /*display: none;*/
+}
+.am-slider-default .am-control-nav{
+    bottom: 10px;
+}
+.product_detail_1{
+    width: 100%;border-bottom: 1px solid #e3e3e3;padding-bottom: 10px;
+}
+.product_detail_1 .product_detail_1_title{
+    margin-left: 15px;font-size: 20px;
+}
+.product_detail_1 .product_detail_1_price{
+    margin-left: 15px;font-size: 18px;color: #fd4e87;
+}
+.product_detail_1 .product_detail_1_price img{
+    height: 16px;width: 30px;
+}
+.product_detail_1 .product_detail_1_information{
+    margin-left: 15px;font-size: 16px;color: #a4a4a4;
+}
+.product_detail_2{
+    width: 100%;margin-top: 10px;
+}
+.am-icon-check-circle-o{
+    color: #fd4e87;
+}
+.product_detail_2 .commit{
+    margin-left: 10px;
+}
+.product_detail_2 .product_detail_2_confirm{
+    margin-left: 15px;
+}
+.product_detail_3{
+    width: 100%;height: 15px;background: #ecf1eb;margin-top: 8px;
+}
+.product_detail_4{
+    margin-top: 10px;margin-left: 15px;
+}
+.product_detail_5{
+    width: 100%;height: 15px;background: #ecf1eb;margin-top:10px;
+}
+.product_detail_6{
+    width: 100%;padding: 5px 0px; border-bottom: 1px solid #ecf1eb;
+}
+.product_detail_6 span{
+    margin-left: 15px;font-size: 16px;
+}
+.product_detail_7{
+    width: 100%;height: 15px;background: #ecf1eb;
+}
+.footer{
+    width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 555;border-top:1px solid #e9e9e9;color: #696969;
+}
+.footer_tab{
+    text-align: center;
+}
+
+.footer_tab img{
+    width: 20px;height: 20px;margin: 0 auto;margin-top: 5px;
+}
+.footer_span_2{
+    font-size: 14px; font-family: '宋体';color: #808080;
+}
+.product_detail_goods_count{
+    width: 22px;height: 22px;border-radius: 22px;background: #ff2c32;margin: 0 auto;margin-top:5px;line-height: 22px;
+}
+.product_detail_goods_count span{
+    text-align: center; color: #ffffff;font-size: 12px;
+}
+#order_add{
+    background: #ff9503;color: #ffffff;
+}
+#oeder_buy_now{
+    background: #ff4f01;color: #ffffff;
+}
+#oeder_shop .order_shop{
+    font-size: 18px;
+}

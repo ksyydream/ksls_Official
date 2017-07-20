@@ -1,0 +1,335 @@
+body{
+    border:none;
+    overflow:scroll;
+    overflow-y:hidden;
+}
+.beijing{
+    background: url("../../statics/images/shujubeijing.png");
+    background-size: cover;
+}
+.am-slider-a1 .am-control-nav{
+    display: none;
+}
+.am-slider {
+    height:700px;
+}
+.am-slider-a1{
+    box-shadow: none;
+}
+.am-u-sm-1{
+    height: 10px;
+}
+.am-u-sm-10{
+    padding: 0;
+}
+/*第一个 datacontent1*/
+.main{
+    /*background: url("../img/shujubeijing.png") no-repeat;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.top{
+    margin:30% auto 30px;
+    background: url("../../statics/images/shujutou1.png ") no-repeat ;
+    background-size: 100% 100%;
+    height: 80px;
+}
+.top-one{
+    margin-left: 14%;
+    width: 100%;
+    padding-top: 16px;
+    font-size: 1.4rem;
+    color: #fff;
+}
+p{
+    margin: 0;
+}
+.top-two{
+    margin-left:15%;
+    font-size: 1.8rem;
+    color: #fff;
+}
+.center{
+    padding-top: 20px;
+}
+.center-left {
+    width: 100%;
+    /*height: 300px;*/
+    float: left;
+    background: url("../../statics/images/shujumain1.png ") no-repeat ;
+    background-size: 120px;
+    margin-left: 12%;
+    color: #01a2f2;
+    font-size: 1.7rem;
+    /*padding-bottom: 300px;*/
+}
+/*.center-right{*/
+/*color: #01a2f2;*/
+/*font-size: 1.6rem;*/
+/*overflow: hidden;*/
+/*}*/
+.wenzi3{
+    margin-top:-25px;
+    margin-left: 38%;
+}
+.wenzi4{
+    margin-left: 38%;
+}
+.wenzi5{
+    margin-top:10%;
+    margin-left: 38%;
+}
+.wenzi6{
+    margin-left:  46%;
+}
+.wenzi7{
+    margin-left: 54%;
+}
+.wenzi8{
+    margin-top:8%;
+    margin-left: 38%;
+}
+.wenzi9{
+    margin-left: 38%;
+}
+/*第二个 datacontent2*/
+.main-data2{
+    /*background: url("../img/shujubeijing.png") no-repeat;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.top-data2{
+    margin:30% auto 30px;
+    background: url("../../statics/images/shujutu2.png ") no-repeat ;
+    background-size: 100% 100%;
+    /*margin-top: 50px;*/
+    height: 100px;
+}
+.top-one-data2{
+    margin-left:22%;
+    padding-top: 10px;
+    font-size: 1.8rem;
+    color: #fff;
+}
+p{
+    margin: 0;
+}
+.top-two-data2{
+    margin-left: 20%;
+    font-size: 1.6rem;
+    color: #fff;
+}
+.top-three-data2{
+    margin-left: 22%;
+    font-size: 1.4rem;
+    color: #fff;
+}
+.center-data2{
+    padding-top: 10px;
+}
+.center-left-data2 {
+    width: 100%;
+    /*height: 300px;*/
+    float: left;
+    background: url("../../statics/images/shujumain21.png ") no-repeat ;
+    background-size: 240px;
+    margin-left: 8%;
+    color: #01a2f2;
+    font-size: 1.7rem;
+    /*padding-bottom: 300px;*/
+}
+.wenzi3-data2{
+    display: inline-block;
+    margin-left: 52%;
+    padding-top: 34px;
+}
+.wenzi5-data2{
+    display: inline-block;
+    margin-left:  58%;
+    padding-top: 74px;
+}
+.wenzi7-data2{
+    display: inline-block;
+    margin-left:  50%;
+    padding-top: 70px;
+}
+/*第三个 datacontent3*/
+.main-data3{
+    /*background: url("../img/shujubeijing.png") no-repeat;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /*padding-bottom: 350px;*/
+
+}
+.show_information{
+    margin:30% auto;
+    width: 280px;
+    text-align: center;
+    background: rgba(255,255,255,0.3);
+    line-height: 30px;
+}
+.show_information thead{
+    line-height: 40px;
+    padding-left: 20px;
+    font-size: 2.0rem;
+}
+/*第四个 quanlianmeng-sjzx*/
+.main-s{
+    /*background: url("../img/shujubeijing.png") no-repeat;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.top-s{
+    margin:30% auto 30px;
+    background: url("../../statics/images/shujutou1.png ") no-repeat ;
+    background-size: 100% 100%;
+    height: 80px;
+}
+.top-one-s{
+    margin-left: 14%;
+    padding-top: 16px;
+    font-size: 1.4rem;
+    color: #fff;
+}
+p{
+    margin: 0;
+}
+.top-two-s{
+    margin-left:15%;
+    font-size: 1.8rem;
+    color: #fff;
+}
+.center-s{
+    padding-top: 20px;
+}
+.center-left-s {
+    width: 100%;
+    /*height: 300px;*/
+    float: left;
+    background: url("../../statics/images/shujumain1.png ") no-repeat ;
+    background-size: 120px;
+    margin-left: 12%;
+    color: #01a2f2;
+    font-size: 1.7rem;
+    /*padding-bottom: 300px;*/
+}
+/*.center-right{*/
+/*color: #01a2f2;*/
+/*font-size: 1.6rem;*/
+/*overflow: hidden;*/
+/*}*/
+.wenzi3-s{
+    margin-top:-25px;
+    margin-left: 90px;
+}
+.wenzi4-s{
+    margin-left: 100px;
+}
+.wenzi5-s{
+    margin-top:35px;
+    margin-left: 100px;
+}
+.wenzi6-s{
+    margin-left: 130px;
+}
+.wenzi7-s{
+    margin-left: 130px;
+}
+.wenzi8-s{
+    margin-top:42px;
+    margin-left: 110px;
+}
+.wenzi9-s{
+    margin-left: 110px;
+}
+/*第五个 quanlm-zrxf*/
+.main-data{
+    /*background: url("../img/shujubeijing.png") no-repeat;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.top-data{
+    margin:30% auto 30px;
+    background: url("../../statics/images/shujutou1.png ") no-repeat ;
+    background-size: 100% 100%;
+    height: 80px;
+    height: 80px;
+}
+.top-one-data{
+    margin-left: 20%;
+    padding-top: 16px;
+    font-size: 1.4rem;
+    color: #fff;
+}
+p{
+    margin: 0;
+}
+.top-two-data{
+    margin-left:16%;
+    font-size: 1.6rem;
+    color: #fff;
+}
+.center-data{
+    padding-top: 20px;
+}
+.center-left-data {
+    width: 100%;
+    /*height: 300px;*/
+    float: left;
+    background: url("../../statics/images/shujumain1.png") no-repeat;
+    background-size: 120px;
+    margin-left: 20%;
+    color: #01a2f2;
+    font-size: 1.7rem;
+    /*padding-bottom: 300px;*/
+}
+/*.center-right{*/
+/*color: #01a2f2;*/
+/*font-size: 1.6rem;*/
+/*overflow: hidden;*/
+/*}*/
+.wenzi3-data{
+    margin-top:-25px;
+    margin-left: 100px;
+}
+.wenzi4-data{
+    margin-left: 100px;
+}
+.wenzi5-data{
+    margin-top:35px;
+    margin-left: 130px;
+}
+.wenzi6-data{
+    margin-left: 130px;
+}
+.wenzi7-data{
+    margin-left: 130px;
+}
+.wenzi8-data{
+    margin-top:42px;
+    margin-left: 110px;
+}
+.wenzi9-data{
+    margin-left: 110px;
+}
+
+footer{
+     width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 55;border-top:1px solid #e9e9e9;color: #696969;
+     }
+.footer_tab{
+     text-align: center;
+     }
+.footer_tab td{
+        width: 20%;
+     }
+.footer_tab img{
+       width: 20px;height: 20px;margin: 0 auto;margin-top: 8px;
+     }
+.footer_span_2{
+       font-size: 15px; font-family: '宋体';color: #808080;
+ }

@@ -1,0 +1,181 @@
+@charset "UTF-8";
+.am-g{
+    margin-top: 70px;
+}
+.am-icon-mobile-phone{
+    font-size: 26px;
+}
+.am-form-mobile{
+    height: 50px;
+}
+.get_yzm_all{
+    width:100%;
+}
+.get_btn_yzm{
+    position:absolute;height: 50px;color: #ffffff;width:100px;right:3%;border: 1px solid #ffffff;border-radius: 10px;
+}
+.checkbox_agreement{
+    color: #ff9003;
+}
+.checkbox_zhanghaoed{
+    margin-left: 2px;font-size: 13px;
+}
+.checkbox_zhanghaoed .span2{
+    font-size: 16px;
+}
+.am-btn-next{
+    height:50px;margin:0 auto;margin-top: 90px;border-radius: 10px;
+}
+.sky_register_xieyi{
+    margin-top: 5px;
+}
+.sky_register_xieyi .sky_register_xieyi_input{
+    width: 16px;height: 16px;
+}
+.sky_register_xieyi_agree{
+    font-size: 13px;
+}
+.sky_register_logo {
+    margin: 0 auto;
+    display: block
+}
+.sky_register_border{
+    border:1px solid #ccc;border-radius: 10px;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.am-slider-default .am-direction-nav a {
+    /*display: none;*/
+}
+
+
+
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.am-slider-default .am-direction-nav a {
+    /*display: none;*/
+}
+.app{
+    height: 100%;
+    position: absolute;
+    display: none;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+}
+.bar{
+    height: 50px;
+    padding: 10px;
+    line-height: 30px;
+    position: relative;
+    z-index: 999;
+}
+.main{
+    position: absolute;
+    top:30px;
+    bottom: 0;
+    left:0;
+    right: 0;
+}
+.upload-mask{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 3;
+}
+.bar{
+    color: white;
+    background: darkslategrey;
+}
+.photo-canvas{
+    position: absolute;
+    top:50%;
+    left:50%;
+    border: 1px solid black;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    transform: translate3d(-50%,-50%,0);
+    z-index: 4;
+    /*background:white;*/
+}
+#preview{
+    display: block;
+    z-index: 2;
+}
+#previewResult{
+    border-radius: 100px;
+    width: 100px;
+    height: 100px;
+    background-image: url(../../statics/images/registered_avatar@2x.png);
+    z-index: 11;
+}
+.preview-box{
+    position: absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    transform: translate3d(-50%,-50%,0);
+    z-index: 2;
+}
+
+#getFile{
+    color: #fef4e9;
+    border: solid 1px #da7c0c;
+    background: #f78d1d;
+    vertical-align: middle;
+    padding: 6px 5px;
+    line-height: 1;
+    background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+    background: -moz-linear-gradient(top, #faa51a, #f47a20);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+
+#uploadPage button{
+    width: 140px;
+    line-height: 38px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px #333;
+    border-radius: 5px;
+    margin: 10px 20px;
+    position: relative;
+}
+.sky_register_div_all{
+    width: 100%;text-align: center;margin-top: -40px;
+}
+.sky_register_div_btn_img{
+    margin-top: 10px;border-radius: 10px;
+}
+.sky_register_one_pwd{
+    height: 50px;border-radius: 10px;
+}
+#save_btn{
+    height:50px;margin:0 auto;border-radius: 10px;
+}
+.sky_register_all{
+    padding-bottom: 80px;
+}
+.sky_register_address{
+    width:100%; height: 50px;border-radius: 10px;
+}
+i{
+    font-size: 18px;
+}
+.am-icon-credit-card{
+    font-size: 16px;
+}

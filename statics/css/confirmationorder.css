@@ -1,0 +1,99 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding: 0;
+}
+.confirmation_order_body_all{
+    background: #ecf1eb;padding-bottom: 80px;position: relative;
+}
+.register_one_header{
+    width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.register_one_header{
+    border-color: #01a2f2;
+}
+.confirmation_order_name_address{
+    width: 100%;background:#ffffff;
+}
+.confirmation_order_name_address .confirmation_order_name{
+    width: 96%;margin: 0 auto;padding: 10px;
+}
+.confirmation_order_name_address .confirmation_order_address{
+    width: 96%;margin: 0 auto;padding-left: 10px;margin-top: -5px;font-size: 14px;padding-bottom: 5px;
+}
+.confirmation_order_image_fenge{
+    margin-top: -15px;
+    width: 100%;
+}
+.confirmation_order_image_fenge img{
+    width: 100%;
+}
+.confirmation_order_goods_information{
+    background: #ffffff;margin-top: 5px;
+}
+.confirmation_order_goods_information .confirmation_order_goods_information_img_name{
+    padding: 10px;
+}
+.confirmation_order_goods_information .confirmation_order_goods_information_img_name img{
+    margin-top: -3px;
+}
+.confirmation_order_goods_information_all{
+    margin-top: -5px;
+}
+.confirmation_order_goods_information_all .confirmation_order_goods_information_img{
+    float: left;
+}
+.confirmation_order_goods_information_all .confirmation_order_goods_information_img img{
+    width:110px;height: 110px;padding: 10px;
+}
+.confirmation_order_goods_information_all_name{
+    padding-top: 10px;
+}
+.confirmation_order_goods_information_all_size{
+    font-size: 14px;color: #a3a3a3;
+}
+.confirmation_order_goods_information_all_price{
+    padding-top: 20px;color: #fe5f91;font-size: 17px;
+}
+.confirmation_order_goods_information_all_price span{
+    float: right;margin-right: 10%;color: #a3a3a3;
+}
+.confirmation_order_goods_pay_way_all{
+    background: #ffffff;margin-top: 15px;
+}
+.confirmation_order_goods_pay_way_all .confirmation_order_goods_pay{
+    padding: 10px;
+}
+.confirmation_order_goods_pay_way_all .confirmation_order_goods_way{
+    width: 86%;margin: 0 auto;margin-top: -5px;padding-bottom: 5px;color: #a3a3a3;font-size: 13px;
+}
+.confirmation_order_goods_price_all{
+    margin-top: -10px;padding-left: 10px;padding-bottom: 10px;
+}
+.confirmation_order_goods_price_all .confirmation_order_goods_price{
+    color: #fe5f91;
+}
+.confirmation_order_goods_price_all .confirmation_order_goods_price_btn{
+    float: right;margin-right: 5%;
+}
+.confirmation_order_goods_user_advice{
+    margin-top: 10px;
+}
+.confirmation_order_goods_user_advice textarea{
+    width: 98%;height:80px; display: block; margin:0 auto;border: 1px solid #ffffff;
+}
+.confirmation_order_goods_pay_price{
+    width: 100%;
+    margin-top: 10px;
+    background: #ffffff;
+    position: absolute;
+}
+.confirmation_order_goods_pay{
+    padding: 10px;
+}

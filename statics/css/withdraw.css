@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 62.5%;
+}
+.user_center_body_all{
+    padding-bottom: 80px;
+}
+.register_one_header{
+    width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.register_one_header{
+    border-color: #01a2f2;
+}
+.table1{
+    width: 100%; height: 45px; border-collapse:collapse;color: #bfbfbf;
+}
+.table1 tr{
+    font-size: 14px;text-align: center;color: #999999;
+}
+.td1{
+    border-bottom:1px solid #e5e5e5;
+}
+.td1 a{
+    color: #777777;
+}
+.row-one{
+    height: 51px;
+    line-height: 51px;
+    /*background: #89d7ff;*/
+    border-bottom: 1px solid #e5e5e5;
+}
+.row-one .am-u-sm-4:active{
+    color:#01a2f2;
+}
+.withdraw_welcome_user{
+    margin-left: 8%;
+}
+.am-form-group{
+    margin: 0;
+}
+.row-two{
+    padding: 12px 20px 0;
+    /*background: #89d7ff;*/
+    font-weight: 200;
+}
+.row-two input{
+    line-height: 30px;
+    font-size: 1.6rem;
+    border-radius: 10px;
+}
+.am-u-sm-8 {
+    padding: 0;
+}
+.row-phone .am-u-sm-4{
+    padding-left: 0;
+    /*background: #c7254e;*/
+    height: 50px;
+}
+.am-btn{
+    padding: 0;
+    width: 90%;
+    height: 48px;
+    margin-top: 12px;
+    border-radius: 10px;
+}
+.tishi{
+    margin-top: 20px;
+}
+.tishi span{
+    color: #01a2f2;
+    margin-left: 20px;
+}
+.tishi-next{
+    color: #a3a3a3;
+    font-size: 1.4rem;
+    margin-left: 20px;
+}
+.yue{
+    width: 100%;
+    text-align: center;
+    color: #01a2f2;
+    margin-top: 40px;
+    font-weight: 400;
+}
+footer{
+    width: 100%;height: 60px; position:fixed; bottom:0;background-color: #ffffff;z-index: 55;border-top:1px solid #e9e9e9;color: #696969;
+}
+.footer_tab{
+    text-align: center;
+}
+.footer_tab td{
+    width: 20%;
+}
+.footer_tab img{
+    width: 20px;height: 20px;margin: 0 auto;margin-top: 8px;
+}
+.footer_span_2{
+    font-size: 15px; font-family: '宋体';color: #808080;
+}
+.am-btn-primary{
+    font-size: 14px;
+}
+.merchants_settled_shop_information_btn{
+    margin-top: 30px;
+}
+.login_form_btn{
+    margin: 0 auto;
+}
+.withdraw_bank_select{
+    width: 100%;
+}
+.withdraw_bank_select select{
+    width: 88%;height:50px;margin: 0 auto;margin-top: 10px;border-radius: 10px;
+}

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+body,h1,h2,h3,p,ul,ol,form,fieldset,figure{
+    margin: 0;
+    padding: 0;
+}
+.register_one_header{
+    height: 50px;width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.rewrite_pwd_input,.rewrite_pwd_input_again,.rewrite_pwd_btn{
+    height: 50px;
+}
+.rewrite_pwd_btn{
+    border-radius: 10px;
+}

@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 62.5%;
+    height: 100%;
+}
+.receive_management_address_body_all{
+    height:100%;
+    width: 100%;
+    position: relative;
+}
+.register_one_header{
+    width: 100%;text-align: center;background: #01a2f2;
+}
+.register_header_title{
+    text-align: center;line-height: 50px;font-size: 20px;font-family: '宋体';
+}
+.register_header_back{
+    line-height: 50px;font-size: 20px;float: left;margin-left:5px ;
+}
+.register_one_header{
+    border-color: #01a2f2;
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+.jiange{
+    width:100%;
+    height: 15px;
+    background: #ecf1eb;
+}
+.row-one{
+    /*background: #89d7ff;*/
+    font-size: 1.8rem;
+}
+#row-two-choice{
+    color:  #01a2f2;
+}
+.row-one-name{
+    display: inline-block;
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-right: 26px;
+}
+.row-one-address{
+    font-size: 1.3rem;
+    padding-left: 13px;
+}
+.row-two{
+    /*background: #fd4e87;*/
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+
+}
+.row-two img{
+    margin: 0 7px;
+    width: 22px;
+    vertical-align:text-bottom;
+}
+footer img{
+    width: 96%; position: absolute;left: 2%;bottom: 10%;
+}
+.am-popup-hd .am-popup-title{
+    font-weight: normal;
+}
+.am-modal-dialog{
+    background: #ffffff;position: relative;
+}
+.am-close{
+    position: absolute;top: 0;right: 0;
+}
+.am-btn-next{
+    border-radius: 10px;background: #fd4e87;color: #ffffff;
+}
