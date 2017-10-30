@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1,ie=9" />
+	<title>昆山楼市发布会</title>
+	<meta mane="keywords" content="昆山楼市发布会" />
+	<meta name="description" content="昆山楼市发布会" />
+</head>
+<style type="text/css">	
+body,div,ul,li,em{margin:0;padding:0;border:none;list-style: none;}
+
+	body{background:#b13a1c url(../static/images/choujiang/bg.jpg) no-repeat center top;}
+.main{width:980px; margin:0 auto;text-align: left;}
+.num-list{padding-top:400px; height: 135px;margin-bottom:30px;}
+.num-list li{margin-right: 50px;width:120px; height:120px; background: #fff; float:left;  text-align:center;}
+.num-list li em{color:#bb3c1c; font-size: 100px;font-style: normal; display: block; font-family: "微软雅黑"；}
+.num-list li:last-child{margin:0;}
+.btns{width:190px;margin:0 auto;}.btn-start{float: left; background: #dc7236; width:80px; height:40px; text-align: center; line-height:40px; color:#fff; margin-right: 30px; cursor: pointer; }
+.btn-start:last-child{margin:0}
+</style>
+<body>
+	<div class="main">
+		<ul class="num-list">
+			<li><em id="em1">0</em></li>
+			<li><em id="em2">0</em></li>
+			<li><em id="em3">0</em></li>
+			<li><em id="em4">0</em></li>
+			<li><em id="em5">0</em></li>
+			<li><em id="em6">0</em></li>
+		</ul>
+		<div class="btns">
+			<span id="start_btn" class="btn-start">开始</span>
+			<span id="end_btn" class="btn-start">暂停</span>
+		</div>
+	</div>
+	<script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+	function Refresh(){
+		$("#em1").html(Math.floor(Math.random()*10));
+		$("#em2").html(Math.floor(Math.random()*10));
+		$("#em3").html(Math.floor(Math.random()*10));
+		$("#em4").html(Math.floor(Math.random()*10));
+		$("#em5").html(Math.floor(Math.random()*10));
+		$("#em6").html(Math.floor(Math.random()*10));
+	}
+	var time
+	$("#start_btn").click(function(){
+		clearInterval(time);
+		time = setInterval('Refresh()',50);
+	});
+
+	$("#end_btn").click(function(){
+		var data_ = Date.parse(new Date());
+		$.getJSON('/cj/get_number/'+data_,function (data) {
+			if(data > 0) {
+				clearInterval(time);
+				$("#em1").html(8);
+				$("#em2").html(8);
+				$("#em3").html(8);
+				if(data >= 100){
+					$("#em4").html(1);
+				}else{
+					$("#em4").html(0);
+				}
+				var dai_ge = data - ((Math.floor(data/10))*10);//个位
+				var dai_shi = (data - ((Math.floor(data/100))*100) - dai_ge)/10;//十位数
+				$("#em5").html(dai_shi);
+				$("#em6").html(dai_ge);
+			} else {
+				layer.msg('请重新开始!')
+			}
+		})
+	});
+// var alldata = "a,b,c,d,e" 
+// var alldataarr = alldata.split(","); 
+// var num = alldataarr.length-1 ; 
+// var timer 
+// function change() 
+// { 
+// document.getElementById("oknum").innerHTML = alldataarr[GetRnd(0,num)]; 
+// } 
+// function start(){ 
+// clearInterval(timer); 
+// timer = setInterval('change()',10); 
+// } 
+// function ok(){ 
+// clearInterval(timer); 
+// document.getElementById("showresult").value=document.getElementById("oknum").innerText; 
+// } 
+// function GetRnd(min,max){ 
+// return parseInt(Math.random()*(max-min+1)); 
+// } 
+</script> 
+
+<!-- <div id="oknum" name="oknum" >请单击开始</div> 
+<button onclick="start()" accesskey="s">开始</button> 
+<button onclick="ok()" accesskey="o">停止</button> 
+您的选择是： 
+<input type="text" id="showresult" value=""> -->
+			
+</body>
+</html>

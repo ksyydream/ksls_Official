@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/account/recharge_list"><em class="rechargelist"></em>公司账户</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">公司账户</p>
+                <div class="publish-document-main">
+                    <form action="/account/recharge_list" method="post" id="formAccount">
+                        <div class="vSearch-box">
+                            <label>模糊查找:</label><input type="text" name="company" value="{{$recharge_list.company}}" class="vSearch-txt">
+                            <a href="javascript:void(0);" class="vSearch-btn" id="btn_search">查询</a>
+                        </div>
+                    </form>
+
+                    <span class="vSearch-result">
+                      共搜索到 <em>{{$recharge_list.countPage}}</em> 条记录
+                    </span>
+                    <table cellspadding="0" clospading="0" class="recharge-table">
+                       <tr>
+                            <th width="10%">序号</th>
+                            <th width="30%">公司名称</th>
+                            <th width="20%">手机号码</th>
+                            <th width="30%">地址</th>
+                            <th width="10%">操作</th>
+                       </tr>
+                        {{foreach from=$recharge_list.res_list item=item}}
+                        <tr>
+                            <td>{{$item.id}}</td>
+                            <td>{{$item.name}}</td>
+                            <td>{{$item.tel}}</td>
+                            <td>{{$item.address}}</td>
+                            <td><a href="/account/company_account/1/{{$item.id}}">编辑</a></td>
+                        </tr>
+                        {{/foreach}}
+                     </table>
+                    <div id="account_page" class="pages">
+                        {{$pager}}
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script>
+    $("#btn_search").click(function(){
+        $("#formAccount").submit();
+    })
+    $("#account_page").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formAccount").attr("action",path);
+        $("#formAccount").submit();
+        return false;
+    })
+</script>

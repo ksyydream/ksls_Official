@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>题库</title>
+    <meta name="keywords" content="题库" />
+    <meta name="description" content="题库" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on"><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                            {{if in_array(5,$login_position_id_array)}}
+                            <a href="/examination/enter_examination">上传试题</a><br />
+                            {{/if}}
+                            <a href="/examination/setup_examination" class="on">生成试卷</a><br />
+                            <a href="/examination/examination_list">我的试卷</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">在线考试</p>
+                <div class="examination-main clearfix">
+                    <form id="save_form" method="post" action="/examination/choose_items">
+                        <input type="hidden">
+                        <h2 class="examination-h2"><span>测评试卷名称</span></h2>
+                        <div class="tb1">
+                            <input type="text" name="title" class="examination-name">
+                        </div>
+                        <h2 class="examination-h2"><span>测评试卷信息</span></h2>
+                        <div class="tb1">
+                            <p class="questype">
+                                <label><input type="radio" name="style" value="1" checked /> 选择题</label>
+                                <label><input type="radio" name="style" value="3"> 陈述题</label>
+                            </p>
+                            <p class="p-num"><span class="span-bg">试题数量</span><input type="text" name="p_num" class="exam-num" /> 道</p>
+                            <p class="p-num"><span class="span-bg">试题分数</span><input type="text" name="p_score" class="exam-num" /> 分/道</p>
+                        </div>
+                        <div class="tb1">
+                            <p class="p-num"><span class="span-bg">开考时间</span>
+                                <input type="text" name="start_date" id="J_DepDate" value="" style="width:100px;text-align: left" class="exam-num" />
+                            </p>
+                            <p class="p-num"><span class="span-bg">截止时间</span>
+                                <input type="text" name="end_date" id="J_EndDate" value="" style="width:100px;text-align: left" class="exam-num" />
+                            </p>
+                        </div>
+                        <a href="javascript:void(0);" id="save_btn" class="begin-choose">开始选题</a>
+                    </form>
+
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+    <script type="text/javascript" src="/static/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script type="text/javascript">
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_DepDate', //第一个触节点
+            finalTriggerNode: '#J_EndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+   new Slide({
+        target: $('#slide01 .condiv' ),
+        control: $('#slide01_control li' ),
+        type:'click'
+
+    });
+
+    $("#save_btn").click(function () {
+        if($.trim($("[name='title']").eq(0).val()) == ""){
+            layer.msg('试卷名称必填');
+            return false;
+        }
+        if($.trim($("[name='p_num']").eq(0).val()) == ""){
+            layer.msg('试题数量必填');
+            return false;
+        }
+        if($.trim($("[name='p_score']").eq(0).val()) == ""){
+            layer.msg('试题分数必填');
+            return false;
+        }
+        if($.trim($("[name='start_date']").eq(0).val()) == ""){
+            layer.msg('开考日期必填');
+            return false;
+        }
+        if($.trim($("[name='end_date']").eq(0).val()) == ""){
+            layer.msg('过期日期必填');
+            return false;
+        }
+
+        $("#save_form").submit();
+    })
+
+</script>
+
+</body>
+</html> 

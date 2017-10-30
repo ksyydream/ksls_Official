@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线考试</title>
+    <meta name="keywords" content="在线考试" />
+    <meta name="description" content="在线考试" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                    </li>
+                    <li class="on"><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">试卷评分</p>
+                  <form method="post" action="/examination/save_score" id="save_form">
+                     <div class="examination-main clearfix">
+                         <input type="hidden" name="exam_id" value="{{$data.exam_main.id}}">
+                          <p class="mark-score-p1">{{$data.exam_main.title}}</p>
+                          {{foreach from=$data.exam_detail key=key item=item}}
+                          <p class="mark-score-p2">{{$key+1}}. {{$item.title}}({{$data.exam_model.p_score}}分)</p>
+                         <span class="mark-score-span">考生作答：</span>
+                         <p class="mark-score-p2">{{$item.answer}}</p>
+                         <p class="mark-score-p3"><span> 考题评分：<input type="text" name="score[]" class="setscore" value="{{$item.score|default:''}}" /> 分</span></p>
+                         <input type="hidden" name="self_exam_qus_id[]" value="{{$item.id}}">
+                         {{/foreach}}
+                         <p class="mark-score-p3 mark-score-p4"><span> 试题总分：<input type="text" value="{{$data.exam_main.score|default:''}}" readonly="readonly" name="allscore" id="allscore" class="setscore" /> 分</span></p>
+                         <p class="p-btn"><a href="javascript:void(0);" id="save_btn" class="confirm-btn" style="width:130px; height: 42px; line-height: 42px;">保存</a></p>
+                         <!--<a href="javascript:" class="savebtn">保存</a>-->
+                          <a href="/examination/mark_list" class="backbtn">返回列表</a>
+                      </div>
+                  </form>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+    $("#save_btn").click(function() {
+        layer.confirm('确定要保存分数吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+           $("#save_form").submit();
+        }, function(){
+        });
+    });
+
+    $("[name='score[]']").change(function(){
+//声明正则表达式
+        var re = /^[0-9]*[1-9][0-9]*$/;
+//验证
+        if (re.test($(this).val()) || $.trim($(this).val())=='0')
+        {
+            if(parseInt($(this).val()) > {{$data.exam_model.p_score}}){
+            layer.msg('分值不可大于满分');
+            $(this).val("");
+        }else{
+            var allscore = 0;
+            $("[name='score[]']").each(function(){
+                if($.trim($(this).val())==""){
+                    allscore += 0;
+                }else{
+                    allscore += parseInt($(this).val());
+                }
+            })
+            $("#allscore").val(allscore);
+        }
+        }else{
+            layer.msg('分值只能为正整数');
+            $(this).val("");
+        }
+
+
+    })
+</script>

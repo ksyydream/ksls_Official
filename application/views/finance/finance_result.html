@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                 <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                     {{if $permission_id > 3 && !in_array(12,$position_id)}}
+                     <li class="on"><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                     {{/if}}
+                     {{if $permission_id < 5 || in_array(12,$position_id)}}
+                     <li><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                     {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <div class="t-tit">金融服务申请 Financial services applications</div>
+            </div>
+             <div class="schedule-wrap">
+                <div class="f_result_div">
+                    <div class="f_result_tit"><em></em>申请详情</div>
+                    <div class="f_result_bd">
+                        <div class="s_div">
+                            {{if $data.status==1}}
+                            <span class="suc_icon wtj_icon"></span>
+                            <p class="s_p1"><span class="fz18">您的申请还未提交</span><br />
+                                请完善资料后进行提交,等待平台审核。</p>
+                            <p class="f_p_back">您可以 <a href="/finance/add_finance/{{$data.id}}">完善资料</a> 或 <a href="javascript:void(0);" onclick="window.history.go(-1)">返回列表</a></p>
+                            {{/if}}
+                            {{if $data.status==2}}
+                            <span class="suc_icon sb_success_icon"></span>
+                            <p class="s_p1"><span class="fz18">您的申请提交成功</span><br />
+                                等待平台审核，我们会在三个工作日内给您回复。</p>
+                            <p class="f_p_back">您可以 <a href="/finance/view_finance/{{$data.id}}">查看申请详情</a> 或 <a href="javascript:void(0);" onclick="window.history.go(-1)">返回列表</a></p>
+                            {{/if}}
+                            {{if $data.status==3}}
+                            <span class="suc_icon"></span>
+                            <p class="s_p1"><span class="fz18">喜您，您的审核已通过</span><br />以下为平台为您推荐的贷款方案，平台客服人员将在近期联系您进行后续签约解答。<br />
+                                请您保持手机接听通畅。</p>
+                            <div class="clear"></div>
+                            <div class="f_result_txt">
+                                {{if $data.result}}
+                                {{if $data.type1flag.num > 0}}
+                                <span class="s_f_r_tit">信用贷款</span>
+                                {{foreach from=$data.result item=item key=myId}}
+
+                                {{if $item.type == 1}}
+                                <ul class="f_result_ul">
+                                    <li class="li1"><em class="em1">{{$item.ed|default:'-'}}万</em><br />额度</li>
+                                    <li class="li2"><em>年化{{$item.nh|default:'-'}}</em><br />利息</li>
+                                    <li class="li1"><em>{{$item.minzq|default:''}}-{{$item.maxzq|default:''}}期</em><br />周期</li>
+                                </ul>
+                                {{/if}}
+                                {{/foreach}}
+                                {{/if}}
+                                {{if $data.type2flag.num > 0}}
+                                <span class="s_f_r_tit">抵押贷款</span>
+                                {{foreach from=$data.result item=item key=myId}}
+
+                                {{if $item.type == 2}}
+                                <ul class="f_result_ul">
+                                    <li class="li1"><em class="em1">{{$item.ed|default:'-'}}万</em><br />额度</li>
+                                    <li class="li2"><em>年化{{$item.nh|default:'-'}}</em><br />利息</li>
+                                    <li class="li1"><em>{{$item.minzq|default:''}}-{{$item.maxzq|default:''}}期</em><br />周期</li>
+                                </ul>
+                                {{/if}}
+                                {{/foreach}}
+                                {{/if}}
+
+                                {{/if}}
+
+                            </div>
+                                <p class="f_p_back">您可以 <a href="/finance/view_finance/{{$data.id}}">查看申请详情</a> 或 <a href="javascript:void(0);" onclick="window.history.go(-1)">返回列表</a></p>
+
+                            {{/if}}
+                            {{if $data.status==4}}
+                            <span class="suc_icon jiean_icon wls_icon"></span>
+                            <p class="s_p1"><span class="fz18">您的金融服务已结案,感谢您对我们工作的信任和支持.</span><br /></p>
+                            <p class="f_p_back">您可以<a href="/finance/finance_list">返回列表</a></p>
+                            {{/if}}
+                            {{if $data.status==5}}
+                            <span class="suc_icon wls_icon"></span>
+                            <p class="s_p1"><span class="fz18">抱歉，您的审核未被平台受理</span><br />
+                                原因如下：{{$data.meno_text}}</p>
+                            <p class="f_p_back">您可以 <a href="/finance/add_finance/{{$data.id}}">完善资料</a> 或 <a href="javascript:void(0);" onclick="window.history.go(-1)">返回列表</a></p>
+                            {{/if}}
+                            {{if $data.status==-1}}
+                            <span class="suc_icon close_icon wls_icon"></span>
+                            <p class="s_p1"><span class="fz18">抱歉，您的申请已被平台关闭</span><br />
+                                原因如下：{{$data.meno_text}}</p>
+                            <p class="f_p_back">您可以 <a href="javascript:void(0);" onclick="window.history.go(-1)">返回列表</a></p>
+                            {{/if}}
+                            <!-- 成功 -->
+                           <!--  <span class="suc_icon"></span>
+                            <p class="s_p1"><span class="fz18">喜您，您的审核已通过</span><br />以下为平台为您推荐的贷款方案，平台客服人员将在近期联系您进行后续签约解答。<br />
+    请您保持手机接听通畅。</p> -->
+ <!-- 
+                        <div class="clear"></div>
+                            <div class="f_result_txt">
+                                 <span class="s_f_r_tit">抵押贷款</span>
+                                 <ul class="f_result_ul">
+                                     <li class="li1"><em class="em1">50万</em><br />额度</li>
+                                     <li class="li2"><em>年化8%</em><br />利息</li>
+                                     <li class="li1"><em>12-36期</em><br />周期</li>
+                                 </ul>
+                                <ul class="f_result_ul borno">
+                                     <li class="li1"><em class="em1">50万</em><br />额度</li>
+                                     <li class="li2"><em>年化8%</em><br />利息</li>
+                                     <li class="li1"><em>12-36期</em><br />周期</li>
+                                 </ul>
+                                  <span class="s_f_r_tit">信用贷款</span>
+                                 <ul class="f_result_ul">
+                                     <li class="li1"><em class="em1">50万</em><br />额度</li>
+                                     <li class="li2"><em>年化8%</em><br />利息</li>
+                                     <li class="li1"><em>12-36期</em><br />周期</li>
+                                 </ul>
+                            </div> -->
+                            <!-- 未受理 -->
+                           <!--  <span class="suc_icon wls_icon"></span>
+                            <p class="s_p1"><span class="fz18">抱歉，您的审核未被平台受理</span><br />
+                                原因如下：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                xxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                            <p class="f_p_back">您可以 <a href="/finance_list.html">返回首页</a></p> -->
+                            <!-- 您的申请提交成功 -->
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+             </div>
+    </div>
+</div>
+    {{include file='footer.html'}}
+<script type="text/javascript">
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+    $("#btn_search").click(function() {
+        $('#formSearchActivity').submit();
+    });
+</script>
+</body>
+</html>

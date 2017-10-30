@@ -1,0 +1,161 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>填写资料信息</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">房产信息</strong> / <small>House Infromation</small>
+      </div>
+    </div>
+      <form id="financeForm" method="post" action="/finance_wx_user/save_finance_3" class="am-form am-form-horizontal am-form-wrap-finance">
+          <input type="hidden" name="id" value="{{$data.id|default:''}}">
+        <div class="am-form-group am-form-finance">
+          <label for="property_community" class="am-form-label">社区名</label>
+          <div class="am-sm-fin">
+            <input type="text" value="{{$data.property_community|default:''}}" id="property_community" name="property_community" class="am-form-field" placeholder="请输入社区名">
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="property_num" class="am-form-label">楼栋号</label>
+          <div class="am-sm-fin">
+            <input type="text" value="{{$data.property_num|default:''}}" id="property_num" name="property_num"  class="am-form-field" placeholder="请输入楼栋号">
+          </div>
+        </div>
+         
+         <div class="am-form-group am-form-finance">
+           <label for="property_estates" class="am-form-label">物业类型</label>
+          <div class="am-sm-fin">
+            <input type="text" value="{{$data.property_estates|default:''}}" id="property_estates" name="property_estates"  class="am-form-field" placeholder="请输入物业类型">
+          </div>
+         </div> 
+          <div class="am-form-group am-form-finance">
+          <label for="property_area" class="am-form-label">面积</label>
+            <div class="am-sm-fin">
+              <input type="text" value="{{$data.property_area|default:''}}"  id="property_area" name="property_area" class="yy_float_2 am-form-field" placeholder="请输入面积">
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+          <label for="property_price" class="am-form-label">购入总价</label>
+            <div class="am-sm-fin">
+              <input type="text" value="{{$data.property_price|default:''}}" id="property_price" name="property_price" class="yy_float_2 am-form-field" placeholder="请输入购入总价">
+            </div>
+           </div>
+            <div class="am-form-group am-form-finance">
+          <label for="property_owner" class="am-form-label">权利人</label>
+            <div class="am-sm-fin">
+              <input type="text" value="{{$data.property_owner|default:''}}" id="property_owner" name="property_owner"  class="am-form-field" placeholder="请输入权利人">
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="property_AJ" class="am-form-label">现余按揭</label>
+            <div class="am-sm-fin">
+              <input type="text" id="property_AJ"  value="{{$data.property_AJ|default:''}}"  name="property_AJ" class="yy_float_2  class="am-form-field" placeholder="请输入现余按揭">
+            </div>
+           </div>
+          <button id="save_btn" type="button" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">下一步</button>
+          <button id="edit_btn" type="button" class="am-btn am-btn-warning am-btn-block am-btn-xl am-round">上一步</button>
+          <!--<button id="end_btn" type="button" class="am-btn am-btn-default am-btn-block am-btn-xl am-round">返回首页</button>-->
+    </form>
+ </div>
+
+</div>
+    {{include file="finance/weixin/admin-menu.html"}}
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $("#edit_btn").click(function(){
+        $("#financeForm").attr("action","/finance_wx_user/go_finance/2");
+        $('#financeForm').submit();
+    })
+    $(".yy_float_2").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        yy_float_2($(this))
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        yy_float_2($(this))
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#save_btn").click(function() {
+        var regSalary = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
+        if($.trim($("#property_community").val()) == "") {
+            layer.msg('有房产时,请填写社区', {icon: 2});
+            return false;
+        }
+        if($.trim($("#property_num").val()) == "") {
+            layer.msg('有房产时,请填写楼栋号', {icon: 2});
+            return false;
+        }
+        if($.trim($("#property_area").val()) == "") {
+            layer.msg('有房产时,请填写面积', {icon: 2});
+            return false;
+        }else{
+            if (!regSalary.test($("#property_area").val())) {
+                layer.msg('面积输入不规范', {icon: 2});
+                return false;
+            }
+        }
+        if($.trim($("#property_price").val()) == "") {
+            layer.msg('有房产时,请填写购买总价', {icon: 2});
+            return false;
+        }else{
+            if (!regSalary.test($("#property_price").val())) {
+                layer.msg('总价输入不规范', {icon: 2});
+                return false;
+            }
+        }
+        if($.trim($("#property_owner").val()) == "") {
+            layer.msg('有房产时,请填写权利人', {icon: 2});
+            return false;
+        }
+
+        //这里开始处理 配偶信息
+        $("#financeForm").attr("action","/finance_wx_user/save_finance_3");
+        $('#financeForm').submit();
+    });
+    $("#end_btn").click(function() {
+        window.location.href="/finance_wx_user/index";
+    })
+</script>

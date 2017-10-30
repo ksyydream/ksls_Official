@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>会议室预约</title>
+    <meta name="keywords" content="会议室预约" />
+    <meta name="description" content="会议室预约" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/appointment/book_room"><em class="myagenda"></em>预约场地</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap"><div class="t-tit">中心会议室在线预约</div></div>
+            <div class="schedule-wrap book-wrap">
+                <table cellpadding="0" colspadding="0" border="0" class="book-table">
+                    <tbody>
+                    <tr>
+                        <th width="12.5%"></th>
+                        <th width="12.5%" class="today"><span>{{$date_0}}</span></th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_1}}</th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_2}}</th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_3}}</th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_4}}</th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_5}}</th>
+                        <th width="12.5%" {{if $week_1}}class="weekend"{{/if}}>{{$date_6}}</th>
+                    </tr>
+                    {{foreach from=$time_frame_list item=item}}
+                    <tr>
+                        <td>{{$item->name}}</td>
+                        {{foreach from=$dates key=key item=date}}
+                            {{if ($result[$item->id][$date] < 0)}}
+                                <td><a href="javascript:" class="unbook-btn">预约</a></td>
+                            {{else if ($result[$item->id][$date]==0)}}
+                                <td><em class="roomtips-book-pos"></em><a href="javascript:" class="unbook-btn">0</a></td>
+                            {{else}}
+                                <td><em class="roomtips-book-pos"></em><a href="javascript:" class="book-btn" x="{{$item->id}}" y="{{$date}}">{{$result[$item->id][$date]}}</a></td>
+                            {{/if}}
+                        {{/foreach}}
+                    </tr>
+                    {{/foreach}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<!-- 经纪人预定会议室 -->
+<div class="manage-showroom"></div>
+
+<script type="text/javascript" src="/static/js/jquery.poshytip.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.book-btn').click(function(e){
+            $('.roomtips-book-pos').poshytip('hide');
+            $(this).siblings('.roomtips-book-pos').poshytip('show');
+            e.stopPropagation();
+        });
+
+        $('.roomtips-book-pos').poshytip({
+            className: 'manage-showroom',
+            content:function(updateCallback) {
+                var x = $(this).parent().find(".book-btn").attr('x');
+                var y = $(this).parent().find(".book-btn").attr('y');
+                return $.ajax({
+                    url : '/appointment/show_room',
+                    data: { x: x, y: y },
+                    cache : false,
+                    async : false,
+                    type : "POST"
+                }).responseText;
+            },
+            showOn:'none',
+            alignTo:'target',
+            alignX:'center',
+            offsetY:5
+        });
+        $(document).click(function(){
+            $('.roomtips-book-pos').poshytip('hide');
+            $('.book-btn').removeClass('on');
+        });
+        $(".manage-showroom").click(function(e){
+            e.stopPropagation();
+        });
+    })
+</script>
+</body>
+</html>

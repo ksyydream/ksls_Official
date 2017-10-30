@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-金融-贷款申请" />
+    <meta name="description" content="房猫-金融-贷款申请" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if $permission_id > 3 && !in_array(12,$position_id)}}
+                    <li ><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                    {{/if}}
+                    <li class="on"><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+                <form id="formSearch" method="POST" action="/finance/finance_list_other">
+                    <div class="search-wrap" style="margin-left: 40px;">
+                        {{if $permission_id == 1 || in_array(12,$position_id)}}
+                        <select name="company" id="sel_company">
+                            <option value="">选择公司</option>
+                            {{foreach from=$company_list key=key item=item}}
+                            {{if $item.id == $company}}
+                            <option value="{{$item.id}}" selected>{{$item.name}}</option>
+                            {{else}}
+                            <option value="{{$item.id}}">{{$item.name}}</option>
+                            {{/if}}
+                            {{/foreach}}
+                        </select>
+                        {{/if}}
+                        {{if $permission_id <= 3 || in_array(12,$position_id)}}
+                        <select name="subsidiary" id="sel_subsidiary" style="width:150px">
+                            <option value="">选择分店</option>
+                            {{foreach from=$subsidiary_list key=key item=item}}
+                            {{if $item.id == $subsidiary}}
+                            <option value="{{$item.id}}" selected>{{$item.name}}</option>
+                            {{else}}
+                            <option value="{{$item.id}}">{{$item.name}}</option>
+                            {{/if}}
+                            {{/foreach}}
+                        </select>
+                        {{/if}}
+                        <select name="user" id="sel_user">
+                            <option value="">选择员工</option>
+                            {{foreach from=$user_list key=key item=item}}
+                            {{if $item.id == $user}}
+                            <option value="{{$item.id}}" selected>{{$item.rel_name}}</option>
+                            {{else}}
+                            <option value="{{$item.id}}">{{$item.rel_name}}</option>
+                            {{/if}}
+                            {{/foreach}}
+                        </select>
+
+
+
+                </div>
+                    <div class="search-wrap" style="margin-left: 40px;">
+                        <input type="text" name="borrower_name" value="{{$finance_list.borrower_name|default:''}}" placeholder="姓名" class="sel-begin-time areanumber"/>
+                        <input type="text" name="finance_num" value="{{$finance_list.finance_num|default:''}}" placeholder="编号" class="sel-begin-time areanumber" />
+                        <select name="status">
+                            <option value="">进程选择</option>
+                            <option {{if $finance_list.status == 1}}selected{{/if}} value="1">未提交</option>
+                            <option {{if $finance_list.status == 2}}selected{{/if}} value="2">待审批</option>
+                            <option {{if $finance_list.status == 3}}selected{{/if}} value="3">审批通过</option>
+                            <option {{if $finance_list.status == 4}}selected{{/if}} value="5">审批未通过</option>
+                            <option {{if $finance_list.status == 5}}selected{{/if}} value="4">结案</option>
+                            <option {{if $finance_list.status == -1}}selected{{/if}} value="-1">终止</option>
+                        </select>
+
+                        <input placeholder="创建时间" type="text" name="Cstart_date" id="J_CDepDate" value="{{$finance_list.Cstart_date|default:''}}" class="sel-begin-time" />
+                        <span class="time-break"> </span>
+                        <input placeholder="创建时间" type="text" name="Cend_date" id="J_CEndDate" value="{{$finance_list.Cend_date|default:''}}" class="sel-end-time" />
+                        <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                    </div>
+
+                </form>
+            <div class="schedule-wrap">
+                <ul class="schedule-ul dosth-ul">
+                    <li class="wid113">姓名</li>
+                    <li class="wid123">编号</li>
+                    <li class="wid123">创建日期</li>
+                    <li class="wid123">额度</li>
+                    <li class="wid123">联系方式</li>
+                    <li class="wid80">进程</li>
+                    <li class="wid80">结果</li>
+                    <li class="wid145">操作</li>
+                </ul>
+                {{foreach from=$finance_list.res_list item=item}}
+                <ul class="schedule-list dosth-list" style="margin-right:40px;">
+                    <li class="wid113">{{$item.borrower_name}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="time wid123">{{$item.finance_num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.borrowing_amount}}万</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.borrower_phone}}</li>
+                    <li class="bor-separate bor-separate-none"></li>
+
+                        {{if $item.status==1}}<li class="wid80 list-yellow">未提交</li>
+                        {{elseif $item.status==2}}<li class="wid80 score-reality">待审批</li>
+                        {{elseif $item.status==3}}<li class="wid80 list-green">审核通过</li>
+                        {{elseif $item.status==4}}<li class="wid80 list-gray">结案</li>
+                        {{elseif $item.status==5}}<li class="wid80 list-red">审批未通过</li>
+                        {{elseif $item.status==-1}} <li class="wid80 list-gray2">终止</li>
+                        {{else}}<li class="wid80 list-gray2">终止</li>{{/if}}
+
+                    <li class="wid80 finance-list-more"><a href="/finance/show_finance_result/{{$item.id}}">详情</a></li>
+                    <li class="wid130">
+                        <a href="/finance/view_finance/{{$item.id}}" class="operation-btn">查看</a>
+                        <!--<a href="javascript:void(0);" class="operation-btn">推送</a>-->
+                    </li>
+                </ul>
+
+                {{/foreach}}
+
+                <div id="pages_div" class="pages">
+                    {{$pager}}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript">
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_CDepDate', //第一个触节点
+            finalTriggerNode: '#J_CEndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+    $('#sel_company').change(function(){
+        var company_id = $(this).val();
+        $.get('/activity/get_subsidiary_list/' + $(this).val(), function(data) {
+            $("#sel_subsidiary").empty();
+            $("#sel_subsidiary").append('<option value="">选择分店</option>');
+            var data = JSON.parse(data);
+            for(var i in data) {
+                $("#sel_subsidiary").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+            }
+        });
+        $("#sel_user").empty();
+        $("#sel_user").append('<option value="">选择员工</option>');
+    });
+    $('#sel_subsidiary').change(function(){
+        var path = '/agenda/get_subsidiary_user_list/';
+        $.get(path + $(this).val(), function(data) {
+            $("#sel_user").empty();
+            $("#sel_user").append('<option value="">选择员工</option>');
+            var data = JSON.parse(data);
+            for(var i in data) {
+                $("#sel_user").append('<option value="'+data[i].id+'">'+data[i].rel_name+'</option>');
+            }
+        });
+    });
+ $(".history-list").height();
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+    $(".history-show").mouseover(function(){
+        $(this).children(".history-list").toggle();
+    }).mouseout(function(){ $(this).children(".history-list").hide();});
+    $("#btn_search").click(function() {
+        $('#formSearch').submit();
+    });
+    $("#pages_div").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearch").attr("action",path);
+        $("#formSearch").submit();
+        return false;
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+
+<div class="header-wrap">
+    <div class="header-in-wrap">
+        <div class="header-left">
+            <!--<p>昆山 5月03日 周二 11：16</p>-->
+            <span class="location">昆山</span>
+            <div class="weather" id="Jweather">
+                <ul class="ulWeather" id="JulWeather">
+                </ul>
+            </div>
+            <div class="h-bor">|</div>
+
+            <div class="currentTime">
+                <div id="Jtime"></div>
+                <div id='calendar'></div>
+            </div>
+        </div>
+        <div class="login-info">
+            {{if $login_user_id }}
+                <div class="login-in">
+                    <a href="javascript:" id="Jmoreoperation" class="moreoperation">
+                        <span class="logo-head-pic"><img src="/uploadfiles/profile/{{$login_user_pic|default:'user_photo.gif'}}" alt="" width="26" height="26" /> </span>
+                        {{$login_user_name}}<em class="up-icon"></em></a>
+                    <div class="more-operation" style="display:none;">
+                        <a href="javascript:" id="JperfectBtn"><em class="a-em1"></em>完善资料</a>
+                        <a href="javascript:" id="JreviseBtn"><em class="a-em2"></em>修改密码</a>
+                    </div>| <a href="/index/logout" class="outoperation">退出</a>
+                </div>
+            {{else}}
+                <a href="javascript:" class="login-out" id="Jloginout">登录</a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+<!--------修改密码------>
+<div class="revise-div" id="Jrevise-div" style="display: none; cursor: default">
+    <a href="javascript:" class="pop-close-btn" style="top:0;right:0;"></a>
+    <div class="pop-tit">修改密码</div>
+    <form action="/index/update_password" method="post" id="updatePWDForm">
+        <table  cellpadding="0" cellspacing="0" class="action-table">
+            <tr>
+                <th>当前登录密码：</th>
+                <td><input type="text" id="old_pass" name="oldpassword" class="input-txt"></td>
+                <td id="cur_pass_error"></td>
+            </tr>
+            <tr>
+                <th>新的登录密码：</th>
+                <td><input type="text" id="new_pass" name="password" class="input-txt"></td>
+                <td id="new_pass_error"></td>
+            </tr>
+            <tr>
+                <th>确认新的登录密码：</th>
+                <td><input type="text" id="re_new_pass" name="repassword" class="input-txt"></td>
+                <td id="re_new_pass_error"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><a href="javascript:void(0);" id="btnUpdatePSW" class="confirm-btn">确认</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!----完善资料----->
+<div class="revise-div" id="Jperfect-div" style="display: none; cursor: default">
+    <a href="javascript:" class="pop-close-btn" style="top:0;right:0;"></a>
+    <div class="pop-tit">完善资料</div>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <dl>
+            <dt class="dt-pic" id="headPic"><img src="/uploadfiles/profile/{{$login_user_pic|default:'user_photo.gif'}}" alt="" width="80" height="80" /></dt>
+            <dd>
+              <span class="s01">
+               修改头像：<br/>
+               <input type="text" value="" class="input-txt" id="txt_head_pic"></span>
+                <input type="file" name="userfile" style="display: none;" id="fileField" onchange="document.getElementById('txt_head_pic').value=this.value" />
+                <a href="javascript:void(0)" id="btnSelectPic" class="confirm-btn upload-btn">浏览</a>
+            </dd>
+            <dt></dt>
+            <dd>
+                <br/>
+                <input type="hidden" id="rel_name" name="rel_name" value="{{$login_user_name|default:''}}" class="input-txt">
+            </dd>
+            <dt></dt>
+            <dd>
+                <a href="javascript:void(0);" id="btnUpdateUser" class="confirm-btn">确认</a>
+            </dd>
+        </dl>
+    </form>
+</div>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src='/static/js/fullcalendar.js'></script>
+<script type="text/javascript" src="/static/js/jquery.blockUI.min.js"></script>
+<script type="text/javascript" src="/static/js/store.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="/static/js/jquery.iframe-transport.js"></script>
+<script>
+    //天气预报
+    $("#Jweather").mousemove(function(){
+        $("#JulWeather").show();
+    }).mouseleave(function(){
+        $("#JulWeather").hide();
+
+    })
+    var flag = false;
+    $(".currentTime").mousemove(function(){
+        if(!flag){
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: true,
+                dragOpacity: {
+                    agenda: .5,
+                    '':.6
+                },
+                selectable: true
+            });
+        }
+        flag =true;
+        $("#calendar").show();
+    }).mouseleave(function(){
+        $("#calendar").hide();
+
+    });
+
+
+
+    var d = new Date();
+    var date = d.getFullYear() + "年" +(d.getMonth() + 1) + "月" + d.getDate() + "日";
+   $("#Jtime").html(date);
+
+    var weatherStr=ulHtml='';
+    var storeWithExpiration = {
+        set: function(key, val, exp) {
+            store.set(key, { val:val, exp:exp, time:new Date().getTime() })
+        },
+        get: function(key) {
+            var info = store.get(key)
+            if (!info) { return null }
+            if (new Date().getTime() - info.time > info.exp) { return null }
+            return info.val
+        }
+    }
+    if(!storeWithExpiration.get('WeatherData')){
+        $.getJSON("http://api.k780.com:88/?app=weather.future&weaid=1100&appkey=19326&sign=0007c0408974a63e576c48c264636337&format=json&json&jsoncallback=?", function(data){
+            $.each(data.result, function(i,item){
+                (i==0)?weatherStr +='<span class="w-img"><img src="'+item.weather_icon+'" width="28" height="20" /></span>'+item.weather+' '+item.temperature:'';
+                ulHtml += '<li> <span>'+item.week+'</span><span><img src="'+item.weather_icon+'" alt="" width="28" height="20" ></span><span>'+item.weather+'</span><span>'+item.temperature+'</span><span>'+item.wind+'</span></li>';
+            });
+            $("#Jweather").append(weatherStr);
+            $("#JulWeather").append(ulHtml);
+            storeWithExpiration.set('WeatherData',data,43200000);
+        });
+    }
+    else{
+        $.each(storeWithExpiration.get('WeatherData').result, function(i,item){
+            (i==0)?weatherStr +='<span class="w-img"><img src="'+item.weather_icon+'" width="28" height="20" /></span>'+item.weather+' '+item.temperature:'';
+            ulHtml += '<li> <span>'+item.week+'</span><span><img src="'+item.weather_icon+'" alt="" width="28" height="20" ></span><span>'+item.weather+'</span><span>'+item.temperature+'</span><span>'+item.wind+'</span></li>';
+        });
+        $("#Jweather").append(weatherStr);
+        $("#JulWeather").append(ulHtml);
+
+    }
+
+    $("#Jloginout").click(function(){
+        $.blockUI({ message: $('#Jloginpop'), css:{ background: 'none',top:'100px', border: 'none',width:'410px', height:'410px'}, overlayCSS: {cursor:'default'}});
+    });
+
+    $("#Jmoreoperation").click(function(){
+        $(".more-operation").toggle();
+        $(this).parent().mouseleave(function(){$(".more-operation").hide()});
+    });
+
+    //修改密码
+    $("#JreviseBtn").click(function(){
+        $.blockUI({ message: $('#Jrevise-div'), css:{ background: 'none',top:'100px',left:'50%',marginLeft:'-420px', border: 'none',width:'840px', height:'425px'}, overlayCSS: {cursor:'default'}});
+    });
+    //完善资料
+    $("#JperfectBtn").click(function(){
+        $.blockUI({ message: $('#Jperfect-div'), css:{ background: 'none',top:'100px',left:'50%',marginLeft:'-420px', border: 'none',width:'840px', height:'425px'}, overlayCSS: {cursor:'default'}});
+    });
+    //关闭弹框
+    $(".pop-close-btn").click(function(){
+        $.unblockUI();
+    });
+
+    $("#btnUpdatePSW").click(function() {
+        var $old_pass = $("#old_pass").val();
+        if($.trim($old_pass) == "") {
+            $("#cur_pass_error").html('<p class="newpwdtips"><em></em>当前密码不能为空</p>');
+            return;
+        }
+        var check = checkCurrentPass($old_pass);
+        if(check < 1) {
+            $("#cur_pass_error").html('<p class="newpwdtips"><em></em>当前密码输入不正确</p>');
+            return;
+        }
+        $("#cur_pass_error").empty();
+        var new_pass = $("#new_pass").val();
+        if($.trim(new_pass) == "") {
+            $("#new_pass_error").html('<p class="newpwdtips"><em></em>新密码不能为空</p>');
+            return;
+        }
+        $("#new_pass_error").empty();
+        var re_new_pass = $("#re_new_pass").val();
+        if(new_pass != re_new_pass) {
+            $("#re_new_pass_error").html('<p class="newpwdtips"><em></em>两次输入的密码不一致</p>');
+            return;
+        }
+        $("#re_new_pass_error").empty();
+
+
+        $.post('/index/update_password', {password: new_pass}, function(data) {
+            $("#old_pass").val("");
+            $("#new_pass").val("");
+            $("#re_new_pass").val("");
+            $.unblockUI();
+        });
+        //$("#updatePWDForm").submit();
+    });
+
+    $("#btnUpdateUser").click(function() {
+        $.post('/index/update_user', {rel_name: $("#rel_name").val()}, function(data) {
+            $.unblockUI();
+            window.location.reload();
+        });
+    });
+
+    $("#btnSelectPic").click(function() {
+        $("#fileField").click();
+    });
+
+    function checkCurrentPass($old_pass) {
+        return $.ajax({
+            url: "/index/check_pass/" + $old_pass,
+            async: false
+        }).responseText;
+    }
+
+    $("#fileField").change(function(){
+        var objUrl = getObjectURL(this.files[0]);
+        if (objUrl) {
+            html = '<img height="80px" width="80px" src="'+objUrl+'" />';
+            $("#headPic").html(html) ;
+        }
+    }).fileupload({
+        url: '/index/upload_pic',
+        dataType: 'json',
+        done: function(e, data) {
+            //alert(data);
+        }
+    });
+
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+</script>

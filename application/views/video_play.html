@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线课程</title>
+    <meta name="keywords" content="会议室预约" />
+    <meta name="description" content="会议室预约" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/js/video/video-js.css" rel="stylesheet">
+    <script src="/static/js/video/video.js"></script>
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/video/list_video"><em class="onlineclass"></em>在线课程</a></li>
+                    <li><a href="/document/list_doc"><em class="documentdata"></em>文档资料</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+                 <!--
+                <form id="formSearchActivity" method="POST" action="/agenda/list_agenda">
+                    <input type="text" name="search" class="search-input" placeholder="你不懂的搜一搜" >
+                    <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                </form>
+                -->
+            </div>
+            <div class="schedule-wrap online-class-wrap">
+                <div class="main-inner" id="slide01">
+                      <div class="a-nav"><a href="/video/list_video">在线课程</a> &gt {{$video.type_name}}</div>
+                      <div class="div-bor">
+                      <p class="p-tit">{{$video.title}}</p>
+                          <div class="video-play">
+                              <video width="625" height="380" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
+                                  <source src="{{$video.url}}" type='{{$video.type}}'>
+                              </video>
+                          </div>
+                          <div class="video-info">
+                              <p class="video-tit">{{$video.title}}</p>
+                              <p class="p-opration">
+                                  <i id="btnCollect" onclick="clickCollect({{$video.id}}, '{{$video.collectCount}}')"><em id="emCollect" class="collect{{if $video.collectCount}} on{{/if}}"></em>收藏课程</i>
+                                  <i id="btnLike" onclick="clickLike({{$video.id}}, '{{$video.likeCount}}')"><em id="emLike" class="zan{{if $video.likeCount}} on{{/if}}"></em>{{$video.likes|default:"0"}}</i>
+                              </p>
+                              <p class="information-txt">课程类型:  {{$video.type_name}}<br />
+                                  {{$video.content}}</p>
+                          </div>
+                      </div>
+                      <p class="relate-tit">相关课程</p>
+                      <div class="div-bor div-bor1">
+                      <ul class="ul-video ul-video1">
+                          {{foreach from=$related_video_list item=item}}
+                            <li>
+                                <a href="/video/view_video/{{$item.id}}">
+                                    <video width="185" height="110" class="video-js vjs-default-skin" preload="auto" data-setup="{}">
+                                        <source src="{{$item.url}}" type="{{$item.type}}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <em class="video-icon"></em>
+                                    <p>[{{$video.type_name}}]{{$item.title}}<br />
+                                        <i class="playnum">{{$item.played|default:0}}次播放</i><i class="zannum">{{$item.likes|default:0}}次点赞</i>
+                                    </p>                                
+                                </a>
+                            </li>
+                          {{/foreach}}
+                      </ul>
+                      </div>
+                 </div>
+            </div>
+    </div>
+
+     </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var detectFun = function() {
+            $('.vjs-error-display').not(".vjs-hidden").each(function () {
+                $(this).parent().parent().parent().children(".video-tips").show();
+                $(this).hide();
+            });
+        }
+
+        var count = 5;
+        var handle = setInterval(function() {
+            count--;
+            if(count > 0) {
+                detectFun();
+            } else {
+                window.clearInterval(handle);
+            }
+        }, 500);
+    });
+
+    $('.ul-video li a').mouseover(function(){
+         $(this).children('.video-icon').show();
+    }).mouseout(function(){  $(this).children('.video-icon').hide(); })
+
+    function clickCollect(id, on) {
+        if($("#emCollect").hasClass('on')) {
+            $.get('/video/uncollect_video/' + id, function(data) {
+                //$("#emCollect").removeClass("on");
+                window.location.reload();
+            });
+        } else {
+            $.get('/video/collect_video/' + id, function(data) {
+                //$("#emCollect").addClass("on");
+                window.location.reload();
+            });
+        }
+    }
+
+    function clickLike(id, on) {
+        if($("#emLike").hasClass('on')) {
+            $.get('/video/unlike_video/' + id, function(data) {
+                //$("#emLike").removeClass("on");
+                window.location.reload();
+            });
+        } else {
+            $.get('/video/like_video/' + id, function(data) {
+                //$("#emLike").addClass("on");
+                window.location.reload();
+            });
+        }
+    }
+</script>
+</body>
+</html>

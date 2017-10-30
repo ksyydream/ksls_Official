@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的阅卷</title>
+    <meta name="keywords" content="我的阅卷" />
+    <meta name="description" content="我的阅卷" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li><a href="/examination/enter_examination"><em class="exmaitems"></em>题库</a></li>
+                    <li class="on"><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap" style="padding-left:20px;">
+                 <form id="formSearch" method="POST" action="/examination/mark_list">
+                     <select id="sel_exam" name="exam_id" style="width:210px;">
+                         <option value="">试卷选择</option>
+                         {{foreach from=$mark_list.exam_list item=item}}
+                         <option value="{{$item['id']}}">{{$item['title']}}</option>
+                         {{/foreach}}
+                     </select>
+                     <select id="sel_complete" name="complete">
+                         <option value="">全部</option>
+                         <option value="1">未评分</option>
+                         <option value="2">已评分</option>
+                     </select>
+                     <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                 </form>
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的阅卷</p>
+                <div class="examination-main clearfix">
+                    <table cellspadding="0" border="0" class="examination-list-table">
+                        <tr>
+
+                            <th width="150">姓名</th>
+                            <th width="200">考试名称</th>
+                            <th width="100">评阅</th>
+                            <th width="178">状态</th>
+                            <th>操作</th>
+                        </tr>
+                        {{foreach from=$mark_list.res_list key=key item=item}}
+                        <tr>
+
+                            <td>{{$item.rel_name}}</td>
+                            <td>{{$item.title}}</td>
+                            <td>
+                                {{if $item.complete==1}}--{{/if}}
+                                {{if $item.complete==2}}{{$item.score|default:0}}/{{$item.allscore|default:100}}{{/if}}
+                            </td>
+                            {{if $item.complete==1}}<td class="nomark">未评分</td>{{/if}}
+                            {{if $item.complete==2}}<td class="">已评分</td>{{/if}}
+                            <td>
+                                {{if $item.style==3}}
+                                <a href="/examination/mark_exam/{{$item.id}}">评分</a>
+                                {{else}}
+                                <a href="/examination/mark_exam2/{{$item.id}}">查看</a>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/foreach}}
+                    </table>
+                    <div id="activity_page" class="pages">
+                        {{$pager}}
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script>
+    $("#sel_complete").val("{{$mark_list['complete']}}");
+    $("#sel_exam").val("{{$mark_list['exam_id']}}");
+    $("#activity_page").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearch").attr("action",path);
+        $("#formSearch").submit();
+        return false;
+    })
+    $("#btn_search").click(function(){
+        $("#formSearch").submit();
+    })
+</script>

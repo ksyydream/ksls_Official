@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .yy_display{
+            display: none;
+        }
+        .yy_img{
+            width: 148px;
+            height: 88px;
+        }
+    </style>
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if $permission_id > 3 && !in_array(12,$position_id)}}
+                    <li class="on"><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 || in_array(12,$position_id)}}
+                    <li><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <div class="t-tit">金融服务申请 Financial services applications</div>
+            </div>
+             <div class="div-th" style="background-color:#df4b05;"><em></em>证件资料</div>
+             <div class="div-bd" style="border-color:#df4b05;">
+                 <form id="financeForm" method="post" action="/finance/save_finance_tj">
+                     <input type="hidden" name="id" value="{{$data.id|default:''}}" />
+                <table cellpadding="0" cellsapcing="0" class="add-data-table finance-add-data-table">
+                     <tr>
+                        <td>
+                            <dl class="dl-photo">
+                                <dt class="finance-tit finance-sfz"></dt>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div class="upload-photo">
+
+                                                <a href="javascript:void(0);" id="btnUploadImg_biSFZ1" class="button-upload">上传图片</a>
+                                                <p id="p1" class="photo-img {{if $data.borrower_img_SFZ1|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_biSFZ1" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ1}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_biSFZ1" name="borrower_img_SFZ1" value="{{$data.borrower_img_SFZ1|default:''}}" />
+                                                </p>
+
+                                            </div>
+                                            <span class="upload-photo-txt">申请人身份证正面</span>
+
+                                        </li>
+                                        <li>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_biSFZ2" class="button-upload">上传图片</a>
+                                                <p id="p2" class="photo-img {{if $data.borrower_img_SFZ2|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_biSFZ2" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ2}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_biSFZ2" name="borrower_img_SFZ2" value="{{$data.borrower_img_SFZ2|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">申请人身份证反面</span>
+
+                                        </li>
+
+                                        <li {{if $data.borrower_marriage != 1}} style="display: none"{{/if}}>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_spSFZ1" class="button-upload">上传图片</a>
+                                                <p id="p3" class="photo-img {{if $data.spouse_img_SFZ1|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_spSFZ1" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ1}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_spSFZ1" name="spouse_img_SFZ1" value="{{$data.spouse_img_SFZ1|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">配偶身份证正面</span>
+                                        </li>
+                                        <li {{if $data.borrower_marriage != 1}} style="display: none"{{/if}}>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_spSFZ2" class="button-upload">上传图片</a>
+                                                <p id="p4" class="photo-img {{if $data.spouse_img_SFZ2|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_spSFZ2" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ2}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_spSFZ2" name="spouse_img_SFZ2" value="{{$data.spouse_img_SFZ2|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">配偶身份证反面</span>
+                                        </li>
+
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+
+                            <dl class="dl-photo dl-photo-wid1" style="width:212px;">
+                                <dt class="finance-tit finance-bdc"></dt>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_img_BDC" class="button-upload">上传图片</a>
+                                                <p id="p7" class="photo-img {{if $data.img_BDC|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_img_BDC" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_BDC}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_img_BDC" name="img_BDC" value="{{$data.img_BDC|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">不动产证</span>
+                                        </li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                             <dl class="dl-photo dl-photo-wid1" style="width:212px;margin-left: 0;">
+                                <dt class="finance-tit finance-sbz"></dt>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_img_SBZ" class="button-upload">上传图片</a>
+                                                <p id="p8" class="photo-img {{if $data.img_SBZ|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_img_SBZ" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_SBZ}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_img_SBZ" name="img_SBZ" value="{{$data.img_SBZ|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">社保证</span>
+                                        </li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                                    <dl class="dl-photo dl-photo-wid1" style="width:425px;margin-left: 0;">
+                                        <dt class="{{if $data.borrower_marriage == 1}}finance-tit finance-jhz{{/if}}"></dt>
+                                        <dd>
+                                            <ul>
+
+                                                <li {{if $data.borrower_marriage != 1}} style="display: none"{{/if}}>
+                                                    <div class="upload-photo">
+                                                        <a href="javascript:void(0);" id="btnUploadImg_img_JHZ1" class="button-upload">上传图片</a>
+                                                        <p id="p5" class="photo-img {{if $data.img_JHZ1|strip == ''}}yy_display{{/if}}">
+                                                            <img class="yy_img" id="show_img_JHZ1" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ1}}" alt="">
+                                                            <span class="delete-this" onclick=""><i></i></span>
+                                                            <input type="hidden" id="hidImgName_img_JHZ1" name="img_JHZ1" value="{{$data.img_JHZ1|default:''}}" />
+                                                        </p>
+                                                    </div>
+                                                    <span class="upload-photo-txt">结婚证1</span>
+                                                </li>
+                                                <li {{if $data.borrower_marriage != 1}} style="display: none"{{/if}}>
+                                                    <div class="upload-photo">
+                                                        <a href="javascript:void(0);" id="btnUploadImg_img_JHZ2" class="button-upload">上传图片</a>
+                                                        <p id="p6" class="photo-img {{if $data.img_JHZ2|strip == ''}}yy_display{{/if}}">
+                                                            <img class="yy_img" id="show_img_JHZ2" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ2}}" alt="">
+                                                            <span class="delete-this" onclick=""><i></i></span>
+                                                            <input type="hidden" id="hidImgName_img_JHZ2" name="img_JHZ2" value="{{$data.img_JHZ2|default:''}}" />
+                                                        </p>
+                                                    </div>
+                                                    <span class="upload-photo-txt">结婚证2</span>
+                                                </li>
+
+                                            </ul>
+                                        </dd>
+                                    </dl>
+                                    </td>
+                                </tr>
+                               <tr>
+                                <td>
+                           
+                            <dl class="dl-photo dl-photo-wid1" style="width:212px;">
+                                <dt class="finance-tit finance-zx"></dt>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_img_ZXBG" class="button-upload">上传图片</a>
+                                                <p id="p9" class="photo-img {{if $data.img_ZXBG|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_img_ZXBG" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_ZXBG}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_img_ZXBG" name="img_ZXBG" value="{{$data.img_ZXBG|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">证信报告</span>
+                                        </li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                             <dl class="dl-photo dl-photo-wid1" style="width:212px;margin-left: 0;">
+                                <dt class="finance-tit finance-gz"></dt>
+                                <dd>
+                                    <ul>
+                                        <li>
+                                            <div class="upload-photo">
+                                                <a href="javascript:void(0);" id="btnUploadImg_img_YHLS" class="button-upload">上传图片</a>
+                                                <p id="p10" class="photo-img {{if $data.img_YHLS|strip == ''}}yy_display{{/if}}">
+                                                    <img class="yy_img" id="show_img_YHLS" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_YHLS}}" alt="">
+                                                    <span class="delete-this" onclick=""><i></i></span>
+                                                    <input type="hidden" id="hidImgName_img_YHLS" name="img_YHLS" value="{{$data.img_YHLS|default:''}}" />
+                                                </p>
+                                            </div>
+                                            <span class="upload-photo-txt">工资流水/企业流水</span>
+                                        </li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                            
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td><p class="upload-p1">温馨提醒：<br />
+1，文件类型：*.gif/*.jpg/*.png ，大小不超过2MB;<br />
+2，二代身份证需要同时提交证件的正反面内容，上传身份证需确保照片、文字信息都清晰可见。</p></td>
+                    </tr>
+                </table>
+                     </form>
+                </div>
+                 <p style="padding:0 20px 30px;">郑重提醒：<br />
+       客户承诺提交资料真实有效，平台根据客户提交资料给出相匹配之金融产品。并给出贷款额度。如因客户提供资料为伪造，或因后期资料不全导致无法顺利办理金融业务的。平台不承担客户任何经济及精神损失。</p>
+              <p class="p-btns" style="width:380px;">
+                 <a href="javascript:void(0);" id="save_btn" class="sub-btn" style="background-color:#e5e5e5; color:#333;">上一步</a>
+                  <a href="javascript:void(0);" id="save_end_btn" class="sub-btn" style="background-color:#34a1b7">保存不提交</a>
+                  <a href="javascript:void(0);" id="tj_btn" class="sub-btn" style="background-color:#35aa47">提交</a>
+              </p> 
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        init();  //初始化
+
+        $(".delete-this").click(function () {
+            var a_yy = $(this);
+            a_yy.parent().addClass("yy_display");
+            a_yy.next().val('');
+        })
+    }
+
+    //初始化
+    function init() {
+        //初始化图片上传
+        //申请人身份证正面
+        var btnImg1 = document.getElementById("btnUploadImg_biSFZ1");
+        var img1 = document.getElementById("show_biSFZ1");
+        var hidImgName1 = document.getElementById("hidImgName_biSFZ1");
+        var p1 = $("#p1");
+//		document.getElementById("btnDeleteImg").onclick = function() { DelImg(img, hidImgName); };
+        g_AjxUploadImg(btnImg1, img1, hidImgName1,p1);
+        //申请人身份证反面
+        var btnImg2 = document.getElementById("btnUploadImg_biSFZ2");
+        var img2 = document.getElementById("show_biSFZ2");
+        var hidImgName2 = document.getElementById("hidImgName_biSFZ2");
+        var p2 = $("#p2");
+        g_AjxUploadImg(btnImg2, img2, hidImgName2,p2);
+
+        var btnImg3 = document.getElementById("btnUploadImg_spSFZ1");
+        var img3 = document.getElementById("show_spSFZ1");
+        var hidImgName3 = document.getElementById("hidImgName_spSFZ1");
+        var p3 = $("#p3");
+        g_AjxUploadImg(btnImg3, img3, hidImgName3,p3);
+
+        var btnImg4 = document.getElementById("btnUploadImg_spSFZ2");
+        var img4 = document.getElementById("show_spSFZ2");
+        var hidImgName4 = document.getElementById("hidImgName_spSFZ2");
+        var p4 = $("#p4");
+        g_AjxUploadImg(btnImg4, img4, hidImgName4,p4);
+
+        var btnImg5 = document.getElementById("btnUploadImg_img_JHZ1");
+        var img5 = document.getElementById("show_img_JHZ1");
+        var hidImgName5 = document.getElementById("hidImgName_img_JHZ1");
+        var p5 = $("#p5");
+        g_AjxUploadImg(btnImg5, img5, hidImgName5,p5);
+
+        var btnImg6 = document.getElementById("btnUploadImg_img_JHZ2");
+        var img6 = document.getElementById("show_img_JHZ2");
+        var hidImgName6 = document.getElementById("hidImgName_img_JHZ2");
+        var p6 = $("#p6");
+        g_AjxUploadImg(btnImg6, img6, hidImgName6,p6);
+
+        var btnImg7 = document.getElementById("btnUploadImg_img_BDC");
+        var img7 = document.getElementById("show_img_BDC");
+        var hidImgName7 = document.getElementById("hidImgName_img_BDC");
+        var p7 = $("#p7");
+        g_AjxUploadImg(btnImg7, img7, hidImgName7,p7);
+
+        var btnImg8 = document.getElementById("btnUploadImg_img_SBZ");
+        var img8 = document.getElementById("show_img_SBZ");
+        var hidImgName8 = document.getElementById("hidImgName_img_SBZ");
+        var p8 = $("#p8");
+        g_AjxUploadImg(btnImg8, img8, hidImgName8,p8);
+
+        var btnImg9 = document.getElementById("btnUploadImg_img_ZXBG");
+        var img9 = document.getElementById("show_img_ZXBG");
+        var hidImgName9 = document.getElementById("hidImgName_img_ZXBG");
+        var p9 = $("#p9");
+        g_AjxUploadImg(btnImg9, img9, hidImgName9,p9);
+
+        var btnImg10 = document.getElementById("btnUploadImg_img_YHLS");
+        var img10 = document.getElementById("show_img_YHLS");
+        var hidImgName10 = document.getElementById("hidImgName_img_YHLS");
+        var p10 = $("#p10");
+        g_AjxUploadImg(btnImg10, img10, hidImgName10,p10);
+    }
+
+    var g_AjxTempDir = "/uploadfiles/finance/{{$data.finance_num}}/";
+
+    //图片上传
+    function g_AjxUploadImg(btn, img, hidPut,p_) {
+        var button = btn, interval;
+        new AjaxUpload(button, {
+            action: '/finance/upload_image/{{$data.finance_num}}/',
+            data: {},
+            name: 'userfile',
+            onSubmit: function(file, ext) {
+                if (!(ext && /^(jpg|JPG|png|PNG|gif|GIF)$/.test(ext))) {
+                    alert("您上传的图片格式不对，请重新选择！");
+                    return false;
+                }
+            },
+            onComplete: function(file, response) {
+                flagValue = response;
+                if (flagValue == "1") {
+                    alert("您上传的图片存在错误");
+                }
+                else {
+
+                    p_.removeClass("yy_display");
+                    //p_.classList.remove("yy_display");
+                    hidPut.value = response;
+                    img.src = g_AjxTempDir + response;
+
+                }
+            }
+        });
+    }
+
+    $("#tj_btn").click(function() {
+        if($.trim($("#hidImgName_biSFZ1").val()) == "") {
+            layer.msg('申请人身份证正面,必须上传', {icon: 2});
+            return false;
+        }
+        if($.trim($("#hidImgName_biSFZ2").val()) == "") {
+            layer.msg('申请人身份证反面,必须上传', {icon: 2});
+            return false;
+        }
+        $('#financeForm').submit();
+    })
+
+    $("#save_btn").click(function() {
+
+        $("#financeForm").attr("action","/finance/save_finance_3");
+        $('#financeForm').submit();
+    })
+    $("#save_end_btn").click(function() {
+
+        $("#financeForm").attr("action","/finance/save_finance_3/2");
+        $('#financeForm').submit();
+    })
+</script>
+</body>
+</html>

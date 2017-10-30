@@ -1,0 +1,31 @@
+{{foreach from=$data.res_list item=row}}
+<li>
+	<p class="data-list-1 fix"><span class="name">{{$row.borrower_name}}</span><span class="time">{{$row.cdate|date_format:"%Y-%m-%d"}}</span></p>
+	<p class="data-list-2">
+		<span class="span-list"><em class="am-icon-list-alt"></em> 编 号：<em class="txt">{{$row.finance_num}}</em></span>
+		<span class="span-list"><em class="am-icon-phone-square"></em> 联系方式：<em class="txt">{{$row.borrower_phone}}</em></span>
+		<span class="span-list"><em class="am-icon-money"></em> 可贷额度：<em class="txt">{{$row.borrowing_amount|default:''}}万</em></span>
+	</p>
+	<div class="fix"><div class="am-opration"><a href="/finance_wx_user/show_plan/{{$row.id}}" target="_blank" class="more">详情</a>
+		{{if $permission_id > 3 && !in_array(12,$position_id)}}
+		{{if $row.status==1 || $row.status == 5}}
+		{{if $row.user_id == $user_id}}
+		<a href="/finance_wx_user/edit_finance_detail/{{$row.id}}/1" target="_blank">修改</a>
+		{{/if}}
+		{{/if}}
+		{{/if}}
+		<a href="/finance_wx_user/show_finance_1/{{$row.id}}" target="_blank">查看</a>
+		{{if $permission_id > 3 && !in_array(12,$position_id)}}{{if $row.user_id == $user_id}}
+		<a href="/finance_wx_user/show_code/{{$row.id}}" class="yy_wx_ts" target="_blank">推送</a>
+		{{/if}}{{/if}}
+	</div>
+	</div>
+	<div class="am-status {{if $row.status==1}} am-status-wtj
+              {{elseif $row.status==2}} am-status-waiting
+              {{elseif $row.status==3}} am-status-success
+              {{elseif $row.status==4}} am-status-over
+              {{elseif $row.status==5}} am-status-fail
+              {{elseif $row.status==-1}} am-status-all
+              {{else}} am-status-all{{/if}}"></div>
+</li>
+{{/foreach}}

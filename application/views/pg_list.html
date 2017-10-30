@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>评估列表</title>
+    <meta name="keywords" content="评估列表" />
+    <meta name="description" content="评估列表" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style type="text/css">
+    .schedule-wrap-pg{overflow: hidden;zoom:1;}
+    .schedule-wrap-pg .leftW590{width:570px;float:left;margin-left:15px;}
+    .schedule-wrap-pg .bordiv-pg{border-right: 1px solid #8a8a8d;padding-bottom: 10px;}
+    .schedule-wrap-pg .tit1{display: block;margin: 30px 0;}
+    .schedule-wrap-pg .xqname{background: #ccc;color:#fff;border:none;padding:0 10px;width: 200px; height: 36px; line-height: 36px; float: left;}
+    .pgbtn{width:78px;height: 36px;border-radius: 3px; display: block; background: #5761a4; color: #fff;
+        font-size: 16px; line-height: 36px; text-align:center; float: left;margin-left: 15px; }.pgdiv{height: 36px;margin-bottom: 25px;}
+    .thead-pg{height: 34px;margin-bottom: 10px;}
+    .thead-pg span{float: left;margin-right: 14px; height: 34px; line-height: 34px; background: #bd6374; font-size: 16px; color: #fff; text-align: center;}
+    .thead-pg span .fz12{font-size: 12px;}
+    .thead-pg .sheadw172,.divtbody-pg .liw172{width:172px;}.thead-pg .sheadw122,.divtbody-pg .liw122{width:122px;}
+    .thead-pg .sheadw125,.divtbody-pg .liw125{width:125px;}.thead-pg .sheadw85,.divtbody-pg .liw85{width:85px;}
+    .divtbody-pg {margin-bottom: 5px; height: 30px;}
+    .divtbody-pg li{font-size:14px; margin-right: 14px;float: left;color:#8a8a8d; text-align: center; line-height: 30px; height: 30px; text-align: center; background: #fff;}
+    .checkmore-pg{width:85px; height: 30px; display:block; background: url(/static/images/btn1.png) no-repeat;}
+    .rightW390{width:380px; float: right;}
+    .schedule-wrap-pg .p-pg1{font-size: 12px; color: #121212;}
+    .form-pg .p-txt{margin:14px 0; background: #fff; height: 32px; line-height: 32px;padding:0 10px;width:168px;}
+    .form-pg .p-txt input{border:none;height: 32px; }
+    .form-pg .p-textarea{height: 140px; width: 345px;}
+    .form-pg .send-pg-p{margin-right: 15px; height: 32px;margin-bottom: 20px;}
+    .form-pg .send-pg-btn{width:80px;height: 32px;  font-size:14px; border-radius:3px;text-align: center; color: #fff; line-height: 32px; float: right; background: #bd6374;}
+    .schedule-wrap-pg .contact-p-pg .a-qq-btn{width:90px; height:90px; display: block; color: #131212; text-align: center;}
+
+</style>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/pg/pg_list"><em class="schedule"></em>评估列表</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+
+            </div>
+            <div class="schedule-wrap upload-document-wrap schedule-wrap-pg">
+                <div class="leftW590">
+                    <span class="tit1"><img src="/static/images/tit1.png" alt=""></span>
+                    <div class="bordiv-pg">
+                        <form id="formSearchHire" method="POST" action="/pg/pg_list">
+                        <div class="pgdiv"><input autocomplete="off" type="text" id="product_search" name="xiaoqu" class="xqname" placeholder="请输入小区名" value="{{$pg_list.xiaoqu|default:''}}">
+                            <a id="btn_search" href="" class="pgbtn">评估</a></div>
+                        </form>
+                        <div class="divtable-pg">
+
+                            <div class="thead-pg">
+                                <span class="sheadw172">小区名</span>
+                                <span class="sheadw122">类型</span>
+                                <span class="sheadw125">评估价<em class="fz12">（元）</em></span>
+                                <span class="sheadw85">操作</span>
+                            </div>
+                            {{foreach from=$pg_list.res_list key=key item=item}}
+                            <ul class="divtbody-pg">
+                                <li class="liw172">{{$item.xiaoqu|truncate:20:"...":true}}</li>
+                                <li class="liw122">{{$item.type_name}}</li>
+                                <li class="liw125">{{$item.pgj}}</li>
+                                <li class="liw85"><a href="/pg/pg_detail/{{$item.detail_id}}" class="checkmore-pg"></a></li>
+                            </ul>
+                            {{/foreach}}
+                            <div id="list_page" class="pages">
+                                {{$pager}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="rightW390">
+                    <div class="tit1"><img src="/static/images/tit2.png" alt="" /></div>
+                    <p class="p-pg1"><strong>1.</strong>您可以微信留言或者QQ联系我们</p>
+                    <form action="" class="form-pg">
+                        <p class="p-txt"><input id="username" type="text" placeholder="请输入姓名" ></p>
+                        <p class="p-txt"><input id="mobile" type="text" placeholder="请输入手机号码"></p>
+                        <p class="p-txt p-textarea"><input id="msg" type="text" placeholder="请输入您的留言" class="textarea"></p>
+                        <p class="send-pg-p"><a id="push_msg" href="javascript:void(0);" class="send-pg-btn">发送</a></p>
+                    </form>
+                    <p class="contact-p-pg"><strong>2.</strong>
+                        {{foreach from=$pg_list.qq_list key=key item=item}}
+                        <a target="_blank" class="a-qq-btn" href="http://wpa.qq.com/msgrd?v=3&uin={{$item.qq}}&site=qq&menu=yes"><img src="/static/images/qqicon.png" alt="{{$item.desc}}" title="{{$item.desc}}"/><br />{{$item.desc}}</a>
+                    {{/foreach}}
+                       <!-- <a href="" ><img src="/static/images/qqicon.png" alt="" /><br />联系QQ客服</a>-->
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+
+</div>
+</div>
+    {{include file='footer.html'}}
+</body>
+</html>
+<script async="async" src="/static/js/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-typeahead.js"></script>
+<script type="text/javascript" src="/static/js/underscore-min.js"></script>
+<script>
+    $(function () {
+        $.getJSON("{{site_url url='pg/get_xiaoqu'}}",function (data) {
+            var arrayObj = new Array();
+            $.each(data, function (inx, item) {
+                arrayObj.push(item.name)
+            })
+            var products = arrayObj;
+            $('#product_search').typeahead({source: products})
+        })
+
+        $("#mobile").keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).blur(function(){
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).bind("paste", function () {  //CTR+V事件处理
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+        $("#btn_search").click(function(){
+            $("#formSearchHire").submit();
+            return false;
+        })
+        $("#list_page").find('a').click(function(){
+            var path = $(this).attr('href');
+            $("#formSearchHire").attr("action",path);
+            $("#formSearchHire").submit();
+            return false;
+        })
+        $("#push_msg").click(function(){
+            var username = $.trim($("#username").val());
+            if(!username){
+                $("#username").val("");
+                layer.msg('必须填写姓名！', {icon: 2});
+                return false;
+            }
+            var demo = $.trim($("#msg").val());
+            if(!demo){
+                $("#msg").val("");
+                layer.msg('请编写留言！', {icon: 2});
+                return false;
+            }
+            var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            if(!myreg.test($("#mobile").val()))
+            {
+                layer.msg('请输入有效的手机号码！', {icon: 2});
+                return false;
+            }
+            var mobile = $("#mobile").val()
+
+            $.post('/pg/save_msg', {username: username, demo: demo,mobile:mobile}, function(data) {
+                if (data == 1) {
+                    $("#username").val("");
+                    $("#mobile").val("");
+                    $("#msg").val("");
+                    layer.alert('发送成功！留言信息已经记录,客服会尽快处理!', {
+                        skin: 'layui-layer-lan'
+                        ,closeBtn: 0
+                        ,shift: 4 //动画类型
+                    });
+                } else {
+                    layer.msg('发送失败！', {icon: 2});
+                }
+            })
+        })
+
+    })
+
+</script>

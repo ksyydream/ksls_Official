@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新闻列表</title>
+    <meta name="keywords" content="新闻列表" />
+    <meta name="description" content="新闻列表" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on">
+                        <a href="/news/news_list"><em class="onlineexam"></em>新闻列表</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+
+             </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">新闻列表<a href="/news/publish_news/" class="add-schedule-btn" style="margin-right:30px;">+新增新闻</a></p>
+                <div class="examination-main clearfix">
+                    <table cellspadding="0" border="0" class="examination-list-table">
+                        <tr>
+                            <th width="520">新闻标题</th>
+                            <th width="210">发布时间</th>
+                            <th width="200">操作</th>
+                        </tr>
+                        {{foreach from=$news_list.res_list item=item}}
+                        <tr>
+                            <td>{{$item.title}}</td>
+                            <td>{{$item.created}}</td>
+                            <td><a href="/news/publish_news/{{$item.id}}">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0);" onclick="delete_new('{{$item.id}}')">删除</a></td>
+                        </tr>
+                        {{/foreach}}
+                    </table>
+                    <div class="pages">
+                        {{$pager}}
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+   function delete_new(id){
+       layer.confirm('是否确认删除此新闻?', {
+           btn: ['确定','取消'] //按钮
+       }, function(){
+           window.location.href = '/news/delete_news/' + id
+       }, function(){
+       });
+   }
+</script>
+

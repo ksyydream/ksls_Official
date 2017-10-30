@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>文档</title>
+    <meta name="keywords" content="文档" />
+    <meta name="description" content="文档" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li><a href="/video/list_video"><em class="onlineclass"></em>在线课程</a></li>
+                    {{if $data['pass']==2}}
+                    <li>
+                        <a href="/document/list_doc"><em class="documentdata"></em>文档资料</a>
+                        <span class="document-nav-list">
+                            <a href="/document/list_doc" class="on">文档列表</a><br />
+                            <a href="/document/publish_doc">上传文档</a><br />
+                            <a href="/document/upload_data">上传资料</a>
+                        </span>
+                    </li>
+                    {{if in_array(4,$position_id)}}
+                    <li><a href="/document/list_doc_nopass"><em class="documentdata"></em>文档审核</a></li>
+                    {{/if}}
+                    {{else}}
+                    {{if in_array(4,$position_id)}}
+                    <li><a href="/document/list_doc"><em class="documentdata"></em>文档资料</a></li>
+                    <li class="on"><a href="/document/list_doc_nopass"><em class="documentdata"></em>文档审核</a></li>
+                    {{else}}
+                    <li>
+                        <a href="/document/list_doc"><em class="documentdata"></em>文档资料</a>
+                        <span class="document-nav-list">
+                            <a href="/document/list_doc" class="on">文档列表</a><br />
+                            <a href="/document/publish_doc">上传文档</a><br />
+                            <a href="/document/upload_data">上传资料</a>
+                        </span>
+                    </li>
+                    {{/if}}
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <div class="a-nav"><a href="{{site_url url='document/list_doc'}}">文档资料</a> &gt {{$data['type_name']}}</div>
+
+                <div class="publish-document-main">
+                    <p class="article-tit">{{$data['title']}}</p>
+                    <p class="article-author">
+                        <em class="em-lock">{{$data['cdate']}}</em><em class="em-glance">{{$data['look']}}</em>
+                        {{if in_array(4,$position_id) || $mydoc == 1}}
+                        <a href="javascript:void(0)" id="btnEdit" class="edit-btn">编辑</a>
+                        {{/if}}
+                    </p>
+                    <div class="article-content">
+                        {{$data['content']}}
+                        <div class="p-opration artical-opration">
+                            <a href="javascript:void(0);" id="likes_btn"><em class="num">+<likes>{{$data['likes']}}</likes></em><em class="zan {{$house_likes['likes']|default:''}}"></em>点赞</a>
+                            <a href="javascript:void(0);" id="house_btn"><em class="num">{{$data['house']}}</em><em class="collect {{$house_likes['house']|default:''}}"></em>收藏文章</a>
+                        </div>
+                        {{if in_array(4,$position_id) || $mydoc == 1}}
+                        <div class="delete-pass-btn">
+                            <a href="javascript:void(0)" id="btnDelete" class="delete-btn">删除</a>
+                            {{if in_array(4,$position_id) && $data['pass']==1}}
+                            <a href="javascript:void(0)" id="btnPass" class="pass-btn">审核通过</a>
+                            {{/if}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="relation-artical">
+                        <span class="rel-tit">相关推荐</span>
+                        <ul class="relation-list">
+                            {{if $recommend!=1}}
+                            {{foreach from=$recommend item=item}}
+                            <li><a href="{{site_url url='document/view_doc'}}/{{$item.id}}">[{{$item['type_name']}}] {{$item['title']}}</a></li>
+                            {{/foreach}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        {{include file='footer.html'}}
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+
+    new Slide({
+        target: $('#slide01 .condiv' ),
+        control: $('#slide01_control li' ),
+        type:'click',
+        onchange: function() {
+        }
+    });
+
+    $("#likes_btn").click(function(data){
+        var _em =$(this).find('em')
+        var likes = $(this).find('likes').eq(0);
+        var data_ = Date.parse(new Date());
+        $.getJSON("{{site_url url='document/likes_one_time'}}/{{$data['id']}}/" + Math.random(),function(data){
+            if(data==1){
+                var _likes = likes.html();
+                _likes = parseInt(_likes) + 1;
+                likes.html(_likes);
+                _em.eq(1).addClass("on");
+            }else{
+                var _likes = likes.html();
+                _likes = parseInt(_likes) - 1;
+                likes.html(_likes);
+                _em.eq(1).removeClass("on");
+            }
+        })
+
+    })
+
+    $("#house_btn").click(function(data){
+        var _em =$(this).find('em')
+        var data_ = Date.parse(new Date());
+        $.getJSON("{{site_url url='document/house_one_time'}}/{{$data['id']}}/" + Math.random(),function(data){
+            if(data==1){
+                var _house = _em.eq(0).html();
+                _house = parseInt(_house) + 1;
+                _em.eq(0).html(_house);
+                _em.eq(1).addClass("on");
+            }else{
+                var _house = _em.eq(0).html();
+                _house = parseInt(_house) - 1;
+                _em.eq(0).html(_house);
+                _em.eq(1).removeClass("on");
+            }
+        })
+    })
+    
+    $("#btnDelete").click(function () {
+        layer.confirm('确定要删除该文档吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href = "/document/del_doc/{{$data['id']}}";
+        }, function(){
+        });
+    });
+
+    $("#btnEdit").click(function () {
+        layer.confirm('确定要编辑该文档吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href = "/document/edit_doc/{{$data['id']}}";
+        }, function(){
+        });
+    });
+
+    $("#btnPass").click(function () {
+        layer.confirm('确定要通过该文档吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href = "/document/pass_doc/{{$data['id']}}";
+        }, function(){
+        });
+    });
+</script>
+</body>
+</html>

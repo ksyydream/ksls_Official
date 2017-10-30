@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线考试</title>
+    <meta name="keywords" content="在线考试" />
+    <meta name="description" content="在线考试" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+        {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on">
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                        <span class="document-nav-list">
+                            <a href="/examination/self_examination">自主测评</a><br />
+                            <a href="/examination/unit_examination" class="on">统一考试</a><br />
+                            <a href="/examination/examination_score">我的成绩</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4 || in_array(5,$login_position_id_array)}}
+                    <li><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a></li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">在线考试</p>
+                <div class="publish-document-main">
+                    <form id="save_form" method="post" action="/examination/do_examination/-1">
+                        <input type="hidden" id="exam_id" name="exam_id" value="">
+                    <div class="choose-exam-category">
+                        <div class="tit">统一考试</div>
+                        <ul class="ul-category">
+                            {{foreach from=$exam_list item=item}}
+                            <li>{{$item.title}}<input type="hidden" value="{{$item.id}}"></li>
+                            {{/foreach}}
+                        </ul>
+                        <a href="javascript:void(0);" id="save_btn" class="go-exam">开始考试</a>
+                    </div>
+                    </form>
+                   
+                </div>
+               
+            
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+    $(".ul-category li").click(function () {$(".ul-category li").removeClass("current");$(this).addClass("current");})
+    $("#save_btn").click(function(){
+        var type = $(".ul-category").find("[class='current']").eq(0).find("input").eq(0).val();
+        if(type){
+           $("#exam_id").val(type);
+            $("#save_form").submit();
+        }else{
+            layer.msg('请先选择试卷')
+        }
+    })
+
+</script>

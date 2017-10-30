@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>题库</title>
+    <meta name="keywords" content="题库" />
+    <meta name="description" content="题库" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on">  <a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                            <a href="/examination/enter_examination" class="on">上传试题</a><br />
+                            {{if $login_permission_id <= 4}}
+                            <a href="/examination/setup_examination">生成试卷</a><br />
+                            <a href="/examination/examination_list">我的试卷</a>
+                            {{/if}}
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">录入试题</p>
+                <div class="examination-main clearfix">
+                    <form id="save_form" method="post" action="/examination/save_question">
+                        <table cellspacing="0" class="entering-table">
+                            <tr>
+                                <th width="90">所属类别:</th>
+                                <td><select name="type_id">
+                                    {{if $type_list!=1}}
+                                    {{foreach from=$type_list item=item}}
+                                    <option value="{{$item.id}}">{{$item.name}}</option>
+                                    {{/foreach}}
+                                    {{/if}}
+                                </select></td>
+                            </tr>
+                             <tr>
+                                <th>该题类型:</th>
+                                <td><span class="question-type">
+                                    <label><input type="radio" name="style" value="1" /> 单选题</label>
+                                    <label><input type="radio" name="style" value="2" /> 多选题</label>
+                                    <label><input type="radio" name="style" value="3" /> 陈述题</label>
+                                </span>
+                                </td>
+                            </tr>
+                             <tr>
+                                <th>问题描述:</th>
+                                <td><input required="required" type="text" name="title" class="input-txt"></td>
+                            </tr>
+                             <tr class="itemoption">
+                                <th>选项A:</th>
+                                <td><input required="required" type="text" name="op1" class="input-txt"></td>
+                            </tr>
+                             <tr class="itemoption">
+                                <th>选项B:</th>
+                                <td><input required="required" type="text" name="op2" class="input-txt"></td>
+                            </tr>
+                             <tr class="itemoption">
+                                <th>选项C:</th>
+                                <td><input required="required" type="text" name="op3" class="input-txt"></td>
+                            </tr>
+                            <tr class="itemoption">
+                                <th>选项D:</th>
+                                <td><input required="required" type="text" name="op4" class="input-txt"></td>
+                            </tr>
+                             <tr id="refAnswers" style="display: none;">
+                                <th>参考答案:</th>
+                                <td class="correct">
+                                    <div id="single-selection" style="display: none;">
+                                        <label><input type="radio" name="as1" value="1" /> A</label>
+                                        <label><input type="radio" name="as2" value="1" /> B</label>
+                                        <label><input type="radio" name="as3" value="1" /> C</label>
+                                        <label><input type="radio" name="as4" value="1" /> D</label>
+                                    </div>
+                                   <div id="Multiselect" style="display: none;" >
+                                       <label><input type="checkbox" name="as11" value="1" /> A</label>
+                                       <label><input type="checkbox" name="as12" value="1" /> B</label>
+                                       <label><input type="checkbox" name="as13" value="1" /> C</label>
+                                       <label><input type="checkbox" name="as14" value="1" /> D</label>
+                                   </div>
+                            </tr>
+                        </table>
+                        <p class="p-btns"><a href="javascript:void(0);" id="save_btn" class="submitBtn">提交</a></p>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        {{if $information == 1}}alert('添加成功,可继续添加'){{/if}}
+        {{if $information == 2}}alert('添加失败,请重新添加'){{/if}}
+    })
+    $("[name='as1']").click(function(){
+        $("[name='as2']").attr("checked",false);
+        $("[name='as3']").attr("checked",false);
+        $("[name='as4']").attr("checked",false);
+    })
+    $("[name='as2']").click(function(){
+        $("[name='as1']").attr("checked",false);
+        $("[name='as3']").attr("checked",false);
+        $("[name='as4']").attr("checked",false);
+    })
+    $("[name='as3']").click(function(){
+        $("[name='as1']").attr("checked",false);
+        $("[name='as2']").attr("checked",false);
+        $("[name='as4']").attr("checked",false);
+    })
+    $("[name='as4']").click(function(){
+        $("[name='as2']").attr("checked",false);
+        $("[name='as3']").attr("checked",false);
+        $("[name='as1']").attr("checked",false);
+    })
+
+    //选择题型
+    $('.question-type label').click(function (e) {
+        $("#refAnswers").hide();$("#single-selection").hide();$("#Multiselect").hide();
+       switch($("[name='style']:checked").val()){
+           case '1':
+                $("#refAnswers").show();
+                $("#single-selection").show();
+                $(".itemoption").show();
+               break;
+           case '2':
+               $("#refAnswers").show();
+               $("#Multiselect").show();
+               $(".itemoption").show();
+               break;
+           case '3':
+              $(".itemoption").hide();
+               $("#refAnswers").hide();
+               break;
+
+        }
+    });
+    $("#save_btn").click(function(data){
+        var style = $("[name='style']:checked").val();
+        if(!style){
+            layer.msg('请先选择题目类型');
+            return false;
+        }
+        if($.trim($("[name='title']").val())==""){
+            layer.msg('请先填写题目标题');
+            return false;
+        }
+
+        if(style==1){
+            if($.trim($("[name='op1']").val())==""){
+                layer.msg('请完善A选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op2']").val())==""){
+                layer.msg('请完善B选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op3']").val())==""){
+                layer.msg('请完善C选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op4']").val())==""){
+                layer.msg('请完善D选项的内容');
+                return false;
+            }
+
+            var flag = 0;
+            if($("[name='as1']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as2']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as3']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as4']").is(":checked")){
+                flag +=1;
+            }
+            if(flag == 0){
+                layer.msg('请先选择正确答案后再提交');
+                return false;
+            }
+            if(flag >1){
+                layer.msg('单选题只可选择一个答案');
+                return false;
+            }
+
+        }
+        if(style==2){
+            if($.trim($("[name='op1']").val())==""){
+                layer.msg('请完善A选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op2']").val())==""){
+                layer.msg('请完善B选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op3']").val())==""){
+                layer.msg('请完善C选项的内容');
+                return false;
+            }
+            if($.trim($("[name='op4']").val())==""){
+                layer.msg('请完善D选项的内容');
+                return false;
+            }
+            var flag = 0;
+            if($("[name='as11']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as12']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as13']").is(":checked")){
+                flag +=1;
+            }
+            if($("[name='as14']").is(":checked")){
+                flag +=1;
+            }
+            if(flag == 0){
+                layer.msg('请先选择正确答案后再提交');
+                return false;
+            }
+            if(flag == 1){
+                layer.msg('多选题需要多个答案');
+                return false;
+            }
+        }
+        if(style==3){
+
+        }
+        $("#save_form").submit();
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线考试</title>
+    <meta name="keywords" content="在线考试" />
+    <meta name="description" content="在线考试" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on"><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                             {{if in_array(5,$login_position_id_array)}}
+                            <a href="/examination/enter_examination">上传试题</a><br />
+                            {{/if}}
+                            <a href="/examination/setup_examination" class="on">生成试卷</a><br />
+                            <a href="/examination/examination_list">我的试卷</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的试卷</p>
+                <div class="examination-main clearfix">
+                      <p class="exam-tit">{{$exam_data.exam_main.title}}</p>
+                      <p class="tips"><span class="fz18">注意事项：</span><br />
+                        本试卷共有{{$exam_data.exam_main.p_num}}道试题</p>
+                      <p class="exam-p1">第I卷
+                          {{if $exam_data.exam_main.style==3}}（陈述题）
+                          {{else}}（选择题）{{/if}}</p>
+                      <p class="exam-p2">一、选择题目（共{{$exam_data.exam_main.p_num}}小题）</p>
+                      <dl class="dl-exam1">
+                          {{foreach from=$exam_data.exam_list key=key item=item}}
+                          <dt>(
+                              {{if $item['style']==1}}单选题{{/if}}
+                              {{if $item['style']==2}}多选题{{/if}}
+                              {{if $item['style']==3}}陈述题{{/if}}
+                              )
+                              {{$key+1}}. {{$item['title']}}</dt>
+                          {{if $item['style']==3}}
+                          <br />
+                          {{else}}
+                          <dd>
+                              A {{$item['op1']}}<br />
+                              B {{$item['op2']}}<br />
+                              C {{$item['op3']}}<br />
+                              D {{$item['op4']}}
+                          </dd>
+                          {{/if}}
+
+
+                          {{/foreach}}  </dl>
+                    <a href="/examination/setup_examination" class="createpaper-btn">返回修改</a>
+                    <a href="javascript:void(0);" id="save_btn" class="createpaper-btn">确定生成试卷</a>
+
+
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+    $("#save_btn").click(function() {
+        layer.confirm('确定要生成试卷？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href="/examination/change_exam_flag";
+        }, function(){
+        });
+    });
+</script>

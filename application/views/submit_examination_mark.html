@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线考试</title>
+    <meta name="keywords" content="在线考试" />
+    <meta name="description" content="在线考试" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li><a href="/examination/enter_examination"><em class="questionbank"></em>题库</a></li>
+                    <li class="on"><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">在线考试</p>
+                <div class="examination-main clearfix">
+                   <div class="show-examination">
+                        <span class="tit">{{$exam_data['question_detail']['question_type']}}</span>
+                        <dl class="dl-exam">
+                            <dt>{{$num}}.
+                                (
+                                {{if $exam_data.question_detail.style==1}}单选题{{/if}}
+                                {{if $exam_data.question_detail.style==2}}多选题{{/if}}
+                                {{if $exam_data.question_detail.style==3}}论述题{{/if}}
+                                )
+                                {{$exam_data['question_detail']['title']}}({{$exam_data['question_detail']['p_score']}}分)
+                                {{if $exam_data['question_detail']['complete']==2}}
+                            <p style="color: red;float: right">
+                                {{if $exam_data.question_detail.style==3}}
+                                论述题得分:{{$exam_data['question_detail']['score']|default:0}}分
+                                {{else}}
+                                {{if $exam_data['question_detail']['as1']==$exam_data['question_detail']['true_as1'] && $exam_data['question_detail']['as2']==$exam_data['question_detail']['true_as2'] && $exam_data['question_detail']['as3']==$exam_data['question_detail']['true_as3'] && $exam_data['question_detail']['as4']==$exam_data['question_detail']['true_as4']}}
+                                正确
+                                {{else}}
+                                错误,正确答案:
+                                {{if $exam_data['question_detail']['true_as1']==1}}A{{/if}}
+                                {{if $exam_data['question_detail']['true_as2']==1}}B{{/if}}
+                                {{if $exam_data['question_detail']['true_as3']==1}}C{{/if}}
+                                {{if $exam_data['question_detail']['true_as4']==1}}D{{/if}}
+                                {{/if}}
+                                {{/if}}
+
+                            </p>
+                            {{/if}}
+                            </dt>
+                            {{if $exam_data.question_detail.style==1}}
+                            <dd><label><input disabled="disabled" type="radio" value="" name="radio1" {{if $exam_data['question_detail']['as1']==1}} checked="checked" {{/if}} /><span>A {{$exam_data['question_detail']['op1']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="radio" value="" name="radio1" {{if $exam_data['question_detail']['as2']==1}} checked="checked" {{/if}} /><span>B {{$exam_data['question_detail']['op2']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="radio" value="" name="radio1" {{if $exam_data['question_detail']['as3']==1}} checked="checked" {{/if}} /><span>C {{$exam_data['question_detail']['op3']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="radio" value="" name="radio1" {{if $exam_data['question_detail']['as4']==1}} checked="checked" {{/if}} /><span>D {{$exam_data['question_detail']['op4']}}</span></label></dd>
+                            {{elseif $exam_data.question_detail.style==2}}
+                            <dd><label><input disabled="disabled" type="checkbox" value="" name="radio1" {{if $exam_data['question_detail']['as1']==1}} checked="checked" {{/if}} /><span>A {{$exam_data['question_detail']['op1']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="checkbox" value="" name="radio1" {{if $exam_data['question_detail']['as2']==1}} checked="checked" {{/if}} /><span>B {{$exam_data['question_detail']['op2']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="checkbox" value="" name="radio1" {{if $exam_data['question_detail']['as3']==1}} checked="checked" {{/if}} /><span>C {{$exam_data['question_detail']['op3']}}</span></label></dd>
+                            <dd><label><input disabled="disabled" type="checkbox" value="" name="radio1" {{if $exam_data['question_detail']['as4']==1}} checked="checked" {{/if}} /><span>D {{$exam_data['question_detail']['op4']}}</span></label></dd>
+                            {{else}}
+                            <dd class="discuss-dd">
+                                <textarea id="answer" readonly="readonly" name="answer" rows="3" cols="4">{{$exam_data.question_detail.answer}}</textarea>
+                            </dd>
+                            {{/if}}
+                        </dl>
+                       <div class="exam-page">
+                             <p style="margin-top:30px;">
+                                 {{if $num == 1}}
+                                 <a href="javascript:void(0);" class="prev btn-off">上一题</a>
+                                 {{else}}
+                                 <a href="/examination/mark_exam2/{{$exam_id}}/{{$num-1}}" class="prev">上一题</a>
+                                 {{/if}}
+
+                                 {{if $num >= count($question_true)}}
+                                 <a href="" class="next btn-off">下一题</a>
+                                 {{else}}
+                                 <a href="/examination/mark_exam2/{{$exam_id}}/{{$num+1}}" class="next">下一题</a>
+                                 {{/if}}
+                                  </p>
+                    </div> 
+                   </div>
+                   <div class="examination-result">
+                        <p class="hassubmit">
+                            {{if $exam_data['question_detail']['complete']>=1}}
+                            已交卷!
+                            {{if $exam_data['question_detail']['complete']==2}}
+                            共得分:{{$exam_data['question_detail']['allscore']}}
+                            {{/if}}
+                            {{/if}}
+                        </p>
+                        <div class="examination-result-inner">
+                            <span class="exam-category">
+                                <i class="bor"></i>
+                                <em class="pos1">选择题</em><em class="pos2">论述题</em>
+                            </span>
+                            <div class="ques-number">
+                                {{foreach from=$question_true key=key item=item}}
+                                {{if $num==$key+1}}
+                                <a href="" class="current">{{$key+1}}</a>
+                                {{else}}
+                                {{if $item['self_as1']==$item['as1'] && $item['self_as2']==$item['as2'] && $item['self_as3']==$item['as3'] && $item['self_as4']==$item['as4']}}
+                                <a href="/examination/mark_exam2/{{$exam_id}}/{{$key+1}}" class="">{{$key+1}}</a>
+                                {{else}}
+                                <a href="/examination/mark_exam2/{{$exam_id}}/{{$key+1}}" class="error">{{$key+1}}</a>
+                                 <span class="answer" style="display:none">
+                                    正确答案：<i class="correct">
+                                     {{if $item['as1']==1}}A{{/if}}
+                                     {{if $item['as2']==1}}B{{/if}}
+                                     {{if $item['as3']==1}}C{{/if}}
+                                     {{if $item['as4']==1}}D{{/if}}
+                                 </i><br />
+                                    你的答案：<i class="actual">
+                                     {{if $item['self_as1']==1}}A{{/if}}
+                                     {{if $item['self_as2']==1}}B{{/if}}
+                                     {{if $item['self_as3']==1}}C{{/if}}
+                                     {{if $item['self_as4']==1}}D{{/if}}
+                                 </i>
+                                </span>
+                                {{/if}}
+                                {{/if}}
+                                {{/foreach}}
+                                <p class="tips"><span class="col2">&nbsp</span>当前题<span class="col4">7</span>答错题</p>
+
+                            </div>
+                        </div>
+                   </div>
+                   <div class="clear"></div>
+
+               
+            
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
+<script type="text/javascript">
+$(".ques-number .error").mouseover(function(e){
+    var divLeft =(e.pageX-40)+"px",divTop =(e.pageY+10)+"px";
+    var answer = $(this).next();
+    if(answer.hasClass('answer')){
+        answer.css({"left":divLeft,"top":divTop}).show().end();
+    }
+   //$(".ques-number .answer").css({"left":divLeft,"top":divTop}).show().end();
+}).mouseout(function(){$(".ques-number .answer").hide();});
+</script>
+
+</body>
+</html> 

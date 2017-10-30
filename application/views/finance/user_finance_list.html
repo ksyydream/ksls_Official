@@ -1,0 +1,130 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>金融服务</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta content="telephone=no" name="format-detection" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="/static/assets/css/app.css">
+</head>
+<body>
+<div class="am-g">
+    {{include file="finance/user_header.html"}}
+     <div class="app-tit">
+      <span class="mark">我的金融 总数量</span>
+      <span class="smark">共{{$main_data.my_fin_count}}个</span>
+    </div>
+    <section data-am-widget="accordion" class="am-accordion am-accordion-default"
+    data-am-accordion='{}'>
+    {{foreach from = $data.res_list item=item key=k}}
+      <dl class="am-accordion-item">
+        <dt class="am-accordion-title">
+          <div class="fl">
+              <span class="s-user-name"><i class="am-icon-user"></i>{{$item.borrower_name}}</span>
+              <span><i class="am-icon-calendar"></i>{{$item.finance_num}}</span>
+          </div>
+          <div class="fr">
+              {{if $item.status == '2'}}<span><i class="am-icon-check-circle"></i>待审核</span>{{/if}}
+              {{if $item.status == '1'}}<span><i class="am-icon-exclamation-circle"></i>未提交</span>{{/if}}
+              {{if $item.status == '3'}}<span><i class="am-icon-check-circle am-icon-check1-circle"></i>审核通过</span>{{/if}}
+              {{if $item.status == '5'}}<span><i class="am-icon-exclamation-circle am-icon-exclamation1-circle"></i>审核未通过</span>{{/if}}
+              {{if $item.status == '4'}}<span><i class="am-icon-check-circle am-icon-check2-circle"></i>结案</span>{{/if}}
+              {{if $item.status == '-1'}}<span class="overtime"><i class="am-icon-exclamation-circle am-icon-exclamation2-circle"></i>终止</span>{{/if}}
+              <span><i class="am-icon-angle-right"></i></span>
+          </div>
+        </dt>
+        <dd class="am-accordion-bd am-collapse">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+              <p><i class="am-icon-check-circle"></i>服务编号：{{$item.finance_num}}</p>
+             <p><i class="am-front-icon am-icon-clock-o"></i>创建时间：{{$item.cdate|date_format:"%Y-%m-%d"}}</p>
+              <p><i class="am-front-icon am-icon-edit"></i>联系方式：{{$item.borrower_phone}}</p>
+              <p><i class="am-front-icon am-icon-bolt"></i>额度：{{if $item.borrowing_amount==1}}50万{{/if}}
+                  {{if $item.borrowing_amount==2}}40万{{/if}}
+                  {{if $item.borrowing_amount==3}}30万{{/if}}</p>
+              <p><i class="am-front-icon am-icon-home"></i>进程：{{if $item.status==1}}未提交
+              {{elseif $item.status==2}}待审批
+              {{elseif $item.status==3}}审核通过
+              {{elseif $item.status==4}}结案
+              {{elseif $item.status==5}}审批未通过
+              {{elseif $item.status==-1}} 终止
+              {{else}}终止{{/if}}</p>
+              <a class="am-btn am-btn-secondary am-btn-block" href="{{site_url url='inspector/list_report4sup'}}/{{$item.id}}">查看详情</a>
+          </div>
+        </dd>
+      </dl>
+      {{/foreach}}
+    </section>
+    <div class="amz-toolbar" id="amz-toolbar">
+      <!-- 菜单 -->
+      <!-- 左侧侧滑菜单 -->
+        {{include file="finance/user_menu.html"}}
+      <!-- <a href="" class="am-icon-btn am-icon-list am-active"></a> -->
+      <!-- 搜索 -->
+      <a href="javascript:void(0)" class="am-icon-btn am-icon-search" data-am-modal="{target: '#my-actions-search'}"></a>
+    </div>
+    
+    <!-- 分页 -->
+    <div class="am-cf">{{$pager}}</div>
+	<!-- 分页 -->
+	
+    <!-- 搜索 -->
+     <div class="am-modal-actions" id="my-actions-search">
+      <div class="am-modal-actions-group">
+        <form action="{{site_url url='finance_wx_user/list_finance'}}" class="am-form search_form" method="post">
+          <fieldset>
+            <div class="am-modal-actions-group">
+                <ul class="am-list">
+                    <div class="am-form-group input_start_time">
+                        <input type="datetime" class="am-form-field" data-am-datepicker readonly name="Cstart_date" value="{{$data.Cstart_date|default:''}}" placeholder="创建时间起始">
+                    </div>
+                    <div class="am-form-group input_end_time">
+                        <input type="datetime" class="am-form-field" data-am-datepicker readonly name="Cend_date" value="{{$data.Cend_date|default:''}}" placeholder="创建时间结尾">
+                    </div>
+                </ul>
+            </div>
+              <div class="am-form-group">
+                  <input type="text" class="am-form-field" name="borrower_name" value="{{$data.borrower_name|default:''}}" placeholder="申请人">
+              </div>
+              <div class="am-form-group">
+                  <input type="text" class="am-form-field" name="finance_num" value="{{$data.finance_num|default:''}}" placeholder="申请编号">
+              </div>
+            <div class="am-form-group">
+              <select id="doc-select-2" name="status">
+                <option value="">——请选择服务状态——</option>
+                  <option {{if $data.status == 1}}selected{{/if}} value="1">未提交</option>
+                  <option {{if $data.status == 2}}selected{{/if}} value="2">待审批</option>
+                  <option {{if $data.status == 3}}selected{{/if}} value="3">审批通过</option>
+                  <option {{if $data.status == 4}}selected{{/if}} value="5">审批未通过</option>
+                  <option {{if $data.status == 5}}selected{{/if}} value="4">结案</option>
+                  <option {{if $data.status == -1}}selected{{/if}} value="-1">终止</option>
+              </select>
+            </div>
+            <button class="am-btn am-icon-search" type="submit">搜索</button>
+          </fieldset>
+       </form>       
+      </div>
+      <div class="am-modal-actions-group">
+        <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+      </div>
+    </div> 
+    
+    
+
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<script>
+    $(".am-pagination a").click(function(){
+            $('.search_form').attr('action',$(this).attr('href'));
+            $('.search_form').submit();
+            return false;
+    });
+</script>
+</body>
+</html>

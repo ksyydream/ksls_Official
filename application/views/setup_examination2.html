@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>题库</title>
+    <meta name="keywords" content="题库" />
+    <meta name="description" content="题库" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on"><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                           {{if in_array(5,$login_position_id_array)}}
+                            <a href="/examination/enter_examination">上传试题</a><br />
+                            {{/if}}
+                            <a href="/examination/setup_examination" class="on">生成试卷</a><br />
+                            <a href="/examination/examination_list">我的试卷</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">创建试卷</p>
+                <div class="examination-main clearfix">
+                      <ul class="control setup-paper-control" id ="slide01_control">
+                          {{if $type_list!=1}}
+                          {{foreach from=$type_list item=item}}
+                          <li><a href="{{site_url url='examination/choose_list'}}/1/{{$item.id}}" class="{{if $type==$item.id}}current{{/if}}">{{$item.name}}</a></li>
+                          {{/foreach}}
+                          {{/if}}
+                     </ul>
+                    <form id="save_form" method="post" action="/examination/choose_list/1/1">
+                    <input type="hidden" name="type" value="{{$type}}">
+                     <div class="main-inner" id="slide01">
+                        <div class="condiv">
+                            <div class="item-type">
+                                <i class="i-type">题型</i>
+                                {{if in_array($exam_data.exam_main.style,array(1,2))}}
+                                <span class="current">选择题</span>
+                                {{else}}
+                                <span class="current">陈述题</span>
+                                {{/if}}
+                            </div>
+                           <ul class="choose-list">
+                               <li>
+                                   {{foreach from=$question_data.res_list item=item}}
+                                   <dl>
+                                       <dt>
+                                           [
+                                           {{if $item['style']==1}}单选题{{/if}}
+                                           {{if $item['style']==2}}多选题{{/if}}
+                                           {{if $item['style']==3}}论述题{{/if}}
+                                           ]
+                                           {{$item['title']}}</dt>
+
+                                   </dl>
+                                   <span class="bg">
+                                       <a href="javascript:void(0);" name="add_question" class="join-paper {{if $item['eq_id']}}has-join{{/if}}">加入试卷</a>
+                                        <input type="hidden" name="question_id[]" value="{{$item['id']}}">
+                                   </span>
+                                     {{/foreach}}
+                                </li>
+                           </ul>
+                               <div class="pages">
+                                   {{$pager}}
+                               </div>
+                            <ul class="choose-list">
+                                <li class="hasjoinli">
+                                    {{foreach from=$exam_data.exam_list item=item}}
+                                    <dl>
+                                        <dt>
+                                            [
+                                            {{if $item['style']==1}}单选题{{/if}}
+                                            {{if $item['style']==2}}多选题{{/if}}
+                                            {{if $item['style']==3}}论述题{{/if}}
+                                            ]
+                                            {{$item['title']}}</dt>
+
+                                    </dl>
+                                    <span class="bg">
+                                        <a href="javascript:void(0);" name="delete_question" class="join-paper has-join">移除试题</a>
+                                        <input type="hidden" name="exam_question_id[]" value="{{$item['question_id']}}">
+                                    </span>
+                                    {{/foreach}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="condiv">
+                        </div>
+                        <div class="condiv">
+                        </div>
+                    </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+{{include file='footer.html'}}
+<div class="paperitemsnumber">
+    <p>选择题目(<i id="exam_num" class="red">{{$exam_data.exam_num}}</i>/{{$exam_data.exam_main.p_num}})</p>
+    <a href="javascript:void(0);" id="review_btn" class="okbtn">生成试卷</a>
+    <a href="javascript:void(0);" id="delete_btn" class="okbtn" style="bottom:42px;">放弃试卷</a>
+</div>
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+    <script type="text/javascript" src="/static/js/layer/layer.js"></script>
+
+</body>
+</html>
+<script>
+    $("#delete_btn").click(function(){
+        layer.confirm('是否确认放弃试卷,放弃后将会永久删除本试卷的数据!', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href="/examination/delete_exam";
+        }, function(){
+        });
+    })
+
+    $("#review_btn").click(function(){
+        var exam_num = $("#exam_num").html();
+        if(parseInt(exam_num) == {{$exam_data.exam_main.p_num}}){
+            window.location.href="/examination/review_examination";
+        }else{
+            layer.msg('题目数量未符合要求')
+        }
+    })
+
+    $("[class='pages']").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#save_form").attr("action",path);
+        $("#save_form").submit();
+        return false;
+    })
+
+    $("[name='add_question']").click(function(){
+        var select_a = $(this);
+        var eq_id = $(this).next().val();
+        var html = $(this).parent().prev().eq(0).html();
+        var data_ = Date.parse(new Date());
+        $.getJSON('/examination/add_question/'+eq_id+'/' + Math.random(),function(data){
+            if(data.text == -1){
+                layer.msg('加入失败');
+            }
+            if(data.text == -2){
+                layer.msg('已加入');
+            }
+            if(data.text == -4){
+                layer.msg('题目已满');
+            }
+            if(data.text == -3 || data.text >0){
+                var num = 0
+                if(data.text == -3){
+                    num = 0;
+                }else{
+                    num = data.text;
+                }
+
+                select_a.addClass('has-join');
+                html = '<dl>'+html+'</dl>'
+                html += ' <span class="bg"><a href="javascript:void(0);" name="delete_question" class="join-paper has-join">移除试题</a>'
+                html += '<input type="hidden" name="exam_question_id[]" value="'+eq_id+'"></span>'
+                $("[class='hasjoinli']").append(html);
+                $("#exam_num").html(num);
+                $("[name='delete_question']").off('click');
+                $("[name='delete_question']").click(function(){
+                    var select = $(this);
+                    var eq_id = $(this).next().val();
+                    var html = $(this).parent().prev().eq(0).html();
+                    var data_ = Date.parse(new Date());
+                    $.getJSON('/examination/delete_question/'+eq_id+'/' + Math.random(),function(data){
+                        if(data == -1){
+                            layer.msg('移除失败');
+                        }
+                        if(data==-3 || data >0){
+                            if(data == -3){
+                                data = 0;
+                            }
+                            select.parent().prev().remove();
+                            select.parent().remove();
+                            $("[name='question_id[]']").each(function(){
+                                if($(this).val()==eq_id){
+                                    $(this).prev().removeClass('has-join');
+                                }
+                            })
+                            $("#exam_num").html(data);
+                        }
+                    })
+
+                })
+
+
+                layer.msg('加入成功');
+
+
+            }
+        })
+
+    })
+
+    $("[name='delete_question']").click(function(){
+        var select_a = $(this);
+        var eq_id = $(this).next().val();
+        var html = $(this).parent().prev().eq(0).html();
+        var data_ = Date.parse(new Date());
+        $.getJSON('/examination/delete_question/'+eq_id+'/' + Math.random(),function(data){
+            if(data == -1){
+                layer.msg('移除失败');
+            }
+            if(data==-3 || data >0){
+                if(data == -3){
+                    data = 0;
+                }
+                select_a.parent().prev().remove();
+                select_a.parent().remove();
+                $("[name='question_id[]']").each(function(){
+                    if($(this).val()==eq_id){
+                        $(this).prev().removeClass('has-join');
+                    }
+                })
+                $("#exam_num").html(data);
+            }
+        })
+
+    })
+</script>

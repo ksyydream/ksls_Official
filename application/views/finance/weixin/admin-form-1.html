@@ -1,0 +1,150 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>填写资料信息</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">配偶信息</strong> / <small>Partner Infromation</small>
+      </div>
+    </div>
+    <form id="financeForm" method="post" action="/finance_wx_user/save_finance_2" class="am-form am-form-horizontal am-form-wrap-finance">
+        <input type="hidden" name="id" value="{{$data.id|default:''}}">
+        <div class="am-form-group am-form-finance">
+          <label for="spouse_name" class="am-form-label">姓名</label>
+          <div class="am-sm-fin">
+            <input type="text" maxlength="6" value="{{$data.spouse_name|default:''}}" id="spouse_name" name="spouse_name"  class="am-form-field" placeholder="请输入姓名">
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="spouse_age" class="am-form-label">年龄</label>
+          <div class="am-sm-fin">
+            <input type="text" id="spouse_age" value="{{$data.spouse_age|default:''}}"  maxlength="5" name="spouse_age" class="yy_num am-form-field" placeholder="请输入年龄">
+          </div>
+        </div>
+         <div class="am-form-group am-form-finance">
+           <label for="spouse_native" class="am-form-label">籍贯</label>
+          <div class="am-sm-fin">
+            <input type="text" maxlength="20" value="{{$data.spouse_native|default:''}}"  id="spouse_native" name="spouse_native" class="am-form-field" placeholder="请输入籍贯">
+          </div>
+         </div> 
+          <div class="am-form-group am-form-finance">
+            <label  class="am-form-label">学历</label>
+          <div class="am-sm-fin">
+              <select id="spouse_qualifications" name="spouse_qualifications" class="doc-select">
+                  <option {{if $data.spouse_qualifications|default:'' == '小学' }}selected="selected"{{/if}} value="小学">小学</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '初中' }}selected="selected"{{/if}} value="初中">初中</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '中专' }}selected="selected"{{/if}} value="中专">中专</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '高中' }}selected="selected"{{/if}} value="高中">高中</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '大专' }}selected="selected"{{/if}} value="大专">大专</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '本科' }}selected="selected"{{/if}} value="本科">本科</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '硕士' }}selected="selected"{{/if}} value="硕士">硕士</option>
+                  <option {{if $data.spouse_qualifications|default:'' == '博士' }}selected="selected"{{/if}} value="博士">博士</option>
+              </select>
+          </div>
+         </div>
+          <div class="am-form-group am-form-finance">
+          <label for="spouse_workADD" class="am-form-label am-form-adress">工作地址</label>
+            <div class="am-sm-fin">
+              <input type="text" id="spouse_workADD" maxlength="40"  value="{{$data.spouse_workADD|default:''}}" name="spouse_workADD" class="am-form-field" placeholder="请输入工作地址">
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+          <label for="spouse_position" class="am-form-label">职位</label>
+            <div class="am-sm-fin">
+              <input type="text" maxlength="10"  value="{{$data.spouse_position|default:''}}" id="spouse_position" name="spouse_position" class="am-form-field" placeholder="请输入职位">
+            </div>
+           </div>
+            <div class="am-form-group am-form-finance">
+          <label for="spouse_income" class="am-form-label am-form-adress">月收入</label>
+            <div class="am-sm-fin">
+              <input type="text" id="spouse_income" maxlength="10" value="{{$data.spouse_income|default:''}}" name="spouse_income" class="yy_num am-form-field" placeholder="请输入月收入">
+            </div>
+           </div>
+            <div class="am-form-group am-form-finance">
+          <label for="spouse_code" class="am-form-label am-form-identity">身份证号码</label>
+            <div class="am-sm-fin">
+              <input type="text" id="spouse_code" maxlength="10" value="{{$data.spouse_code|default:''}}" name="spouse_code" class="am-form-field" placeholder="请输入身份证号码">
+
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="spouse_SSY" class="am-form-label am-form-adress">社保年限</label>
+            <div class="am-sm-fin">
+              <input type="text" id="spouse_SSY" maxlength="20"  value="{{$data.spouse_SSY|default:''}}" name="spouse_SSY" class="am-form-field" placeholder="请输入社保年限">
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+            <label for="spouse_phone" class="am-form-label am-form-adress">联系方式</label>
+              <div class="am-sm-fin">
+                <input type="text" id="spouse_phone" maxlength="20"  value="{{$data.spouse_phone|default:''}}" name="spouse_phone" class="am-form-field" placeholder="请输入联系方式">
+              </div>
+           </div>
+
+        <button id="save_btn" type="button" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">下一步</button>
+        <button id="edit_btn" type="button" class="am-btn am-btn-warning am-btn-block am-btn-xl am-round">上一步</button>
+        <!--<button id="end_btn" type="button" class="am-btn am-btn-default am-btn-block am-btn-xl am-round">返回首页</button> -->
+    </form>
+ </div>
+
+</div>
+<!-- content end -->
+    {{include file="finance/weixin/admin-menu.html"}}
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    //是否结婚
+
+    $("#edit_btn").click(function(){
+        $("#financeForm").attr("action","/finance_wx_user/go_finance/1");
+        $('#financeForm').submit();
+    })
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#save_btn").click(function() {
+
+
+        //这里开始处理 配偶信息
+        $("#financeForm").attr("action","/finance_wx_user/save_finance_2");
+        $('#financeForm').submit();
+    });
+    $("#end_btn").click(function() {
+        window.location.href="/finance_wx_user/index";
+    })
+</script>

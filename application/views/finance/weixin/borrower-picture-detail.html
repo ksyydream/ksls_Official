@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>金融服务</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">申请人图片信息</strong> / <small>Applicant Infromation</small>
+      </div>
+    </div>
+    <div class="am-form am-form-horizontal am-form-wrap-finance no-margin">
+      <div class="photo-wrap">
+        <div class="photo-inner-wrap">
+          <div class="photo-div"><img class="yy_img_" src="{{if $data.borrower_img_SFZ1}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ1}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+          <span class="am-tit am-tit1">申请人身份证正面</span>
+        </div>
+         <div class="photo-inner-wrap">
+          <div class="photo-div"><img class="yy_img_" src="{{if $data.borrower_img_SFZ2}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ2}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+          <span class="am-tit am-tit1">申请人身份证正面</span>
+        </div>
+      </div>
+        {{if $data.borrower_marriage|default:0 == 1 }}
+        <div class="photo-wrap">
+          <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.spouse_img_SFZ1}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ1}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">配偶身份证正面</span>
+          </div>
+           <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.spouse_img_SFZ2}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ2}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">配偶身份证反面</span>
+          </div>
+        </div>
+
+        <div class="photo-wrap">
+          <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_JHZ1}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ1}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">结婚证1</span>
+          </div>
+           <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_JHZ2}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ2}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">结婚证2</span>
+          </div>
+        </div>
+        {{/if}}
+        <div class="photo-wrap">
+          <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_BDC}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_BDC}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">不动产证</span>
+          </div>
+           <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_SBZ}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_SBZ}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">社保证</span>
+          </div>
+        </div>
+         <div class="photo-wrap">
+          <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_ZXBG}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_ZXBG}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">证信报告</span>
+          </div>
+           <div class="photo-inner-wrap">
+            <div class="photo-div"><img class="yy_img_" src="{{if $data.img_YHLS}}/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_YHLS}}{{else}}http://temp.im/200x100/fff/000{{/if}}" alt=""></div>
+            <span class="am-tit am-tit1">工资流水/企业流水</span>
+          </div>
+        </div>
+    </div>
+
+<!--         <p class="finance-btn-p"><a href="" class="finance-btn">下一页</a></p> -->
+      <a href="/finance_wx_borrower/detail" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">上一页</a>
+      <a href="/finance_wx_borrower/index" class="am-btn am-btn-default am-btn-block am-btn-xl am-round">返回结果</a>
+     </div>
+  </div>
+
+ </div>
+
+
+
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/layer/layer.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    $(function(){
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{$wxappId}}', // 必填，公众号的唯一标识
+            timestamp: {{$wxtimestamp}}, // 必填，生成签名的时间戳
+        nonceStr: '{{$wxnonceStr}}', // 必填，生成签名的随机串
+                signature: '{{$wxsignature}}',// 必填，签名，见附录1
+                jsApiList: ['previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+        wx.checkJsApi({
+            jsApiList: [
+                'chooseImage','onMenuShareAppMessage'
+            ],
+            success: function (res) {
+                alert(JSON.stringify(res));
+                // alert(JSON.stringify(res.checkResult.getLocation));
+                if (res.checkResult.getLocation == false) {
+                    //alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+                    return;
+                }
+            }
+        });
+
+        wx.ready(function () {
+
+
+            $('.yy_img_').click(function(){
+
+                url = $(this).attr('src');
+                if(url=="http://temp.im/200x100/fff/000"){
+                    return false;
+                }
+                url = "http://www.funmall.com.cn" + url;
+                wx.previewImage({
+                    current:url,
+                    urls:[url]
+                });
+
+            })
+        })
+
+    })
+
+</script>

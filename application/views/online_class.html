@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线课程</title>
+    <meta name="keywords" content="会议室预约" />
+    <meta name="description" content="会议室预约" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/js/video/video-js.css" rel="stylesheet">
+    <script src="/static/js/video/video.js"></script>
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/video/list_video"><em class="onlineclass"></em>在线课程</a></li>
+                    <li><a href="/document/list_doc"><em class="documentdata"></em>文档资料</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+                <form id="formSearchVideo" method="POST" action="/video/list_video">
+                    <input type="text" name="title" value="{{$title|default:''}}" class="search-input" placeholder="你不懂的搜一搜" >
+                    <input type="hidden" name="type" value="{{$video_type_id|default:''}}">
+                    <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                </form>
+            </div>
+            <div class="schedule-wrap online-class-wrap" style="padding-right:0;">
+                 <ul class="control online-class-control" id ="slide01_control">
+                     <li><a href="{{site_url url='video/list_video'}}/1" {{if empty($video_type_id)}}class="current"{{/if}}>全部</a></li>
+                     {{foreach from=$video_type_list item=item}}
+                        <li><a href="{{site_url url='video/list_video'}}/1/{{$item.id}}" {{if $video_type_id == $item.id}}class="current"{{/if}}>{{$item.name}}</a></li>
+                     {{/foreach}}
+                     <li><a href="{{site_url url='video/list_video'}}/1/-1" {{if $video_type_id == -1}}class="current"{{/if}}>我的收藏</a></li>
+                </ul>
+                <div class="main-inner" id="slide01">
+                    <div class="condiv" id="rank_0">
+                        <div class="tab-tit">
+                            {{if $video_type_id == -1}}
+                            我的收藏
+                            {{elseif $video_type_id >= 1}}
+                            {{foreach from=$video_type_list item=item}}
+                            {{if $video_type_id == $item.id}}
+                            {{$item.name}}
+                            {{/if}}
+                            {{/foreach}}
+                            {{else}}
+                            全部课程
+                            {{/if}}
+                        </div>
+                        {{if empty($video_type_id)}}
+                            <ul class="ul-video">
+                                {{foreach from=$top_video_list item=item}}
+                                <li>
+                                    <a href="/video/view_video/{{$item.id}}" name="getvideoUrl" rel="{{$item.url}}">
+                                        <video width="315" height="234" class="video-js vjs-default-skin" preload="auto" data-setup="{}">
+                                            <source src="{{$item.url}}" type="{{$item.type}}">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <p class="video-txt">
+                                            <i class="fz16">[{{$item.type_name}}]{{$item.title|truncate:15:"...":true}}</i><br />
+                                            <i class="fz12">{{$item.played}}次播放</i><br />
+                                            <i href="javascript:void(0)" class="play-btn">立即播放</i>
+                                        </p>
+                                    </a>
+                                    <p class="video-tips" style="display: none;">此视频播放需要flash player,<a href="https://get.adobe.com/cn/flashplayer/" target="_blank">立即安装</a></p>
+                                </li>
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                        <ul class="ul-video ul-video1">
+                            {{foreach from=$video_list.res_list item=item}}
+                            <li>
+                                <a href="/video/view_video/{{$item.id}}" name="getvideoUrl" rel="{{$item.url}}">
+                                    <video width="185" height="110" class="video-js vjs-default-skin" preload="auto" data-setup="{}">
+                                        <source src="{{$item.url}}" type="{{$item.type}}">
+                                        Your browser does not support thEe video tag.
+                                    </video>
+                                    <em class="video-icon"></em>
+                                    <p class="video-txt1">[{{$item.type_name}}]{{$item.title}}<br />
+                                        <i class="playnum">{{$item.played|default:0}}次播放</i><i class="zannum">{{$item.likes|default:0}}次点赞</i>
+                                    </p>                                
+                                </a>
+                                <p class="video-tips" style="display: none;">此视频播放需要flash player,<br /><a href="https://get.adobe.com/cn/flashplayer/" target="_blank">立即安装</a></p>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                        <div id="video_page" class="pages" style="margin-right: 30px;">
+                            {{$pager}}
+                        </div>
+                    </div>
+                    <!--
+                    <div class="condiv" id="rank_1"> <div class="tab-tit">微课程</div></div>
+                    <div class="condiv" id="rank_2"> <div class="tab-tit">公开课</div></div>
+                    <div class="condiv" id="rank_3"> <div class="tab-tit">行业视角</div></div>
+                    <div class="condiv" id="rank_4"> <div class="tab-tit">新人培训</div></div>
+                    <div class="condiv" id="rank_5"> <div class="tab-tit">销售技巧</div></div>
+                    -->
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script src="http://www.featureblend.com/flash_detect_1-0-4/flash_detect.js"></script>
+<script type="text/javascript">
+    $(function() {
+//        $("[name='getvideoUrl']").each(function () {
+//          if( $(this).attr('rel').replace(/.+\./,"")=='flv'||$(this).attr('rel').replace(/.+\./,"")=='swf'){
+//              alert(!FlashDetect.installed);
+//              if(!FlashDetect.installed) {
+//                  $(this).parent().children(".video-tips").show();
+//              }
+//          }
+//        })
+//      //判断浏览器是否安装flash player
+//        function flashChecker() {
+//            var hasFlash = 0;　　　　 //是否安装了flash
+//            var flashVersion = 0;　　 //flash版本
+//            if(document.all) {
+//                var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+//                if(swf) {
+//                    hasFlash = 1;
+//                    VSwf = swf.GetVariable("$version");
+//                    flashVersion = parseInt(VSwf.split(" ")[1].split(",")[0]);
+//                }
+//            } else {
+//                if(navigator.plugins && navigator.plugins.length > 0) {
+//                    var swf = navigator.plugins["Shockwave Flash"];
+//                    if(swf) {
+//                        hasFlash = 1;
+//                        var words = swf.description.split(" ");
+//                        for(var i = 0; i < words.length; ++i) {
+//                            if(isNaN(parseInt(words[i]))) continue;
+//                            flashVersion = parseInt(words[i]);
+//                        }
+//                    }
+//                }
+//            }
+//            return {
+//                f: hasFlash,
+//                v: flashVersion
+//            };
+//        }
+
+        var detectFun = function() {
+            $('.vjs-error-display').not(".vjs-hidden").each(function () {
+                $(this).parent().parent().parent().children(".video-tips").show();
+                $(this).hide();
+            });
+        }
+
+        var count = 5;
+        var handle = setInterval(function() {
+            count--;
+            if(count > 0) {
+                detectFun();
+            } else {
+                window.clearInterval(handle);
+            }
+        }, 500);
+
+        $('.ul-video li a').mouseover(function(){
+            $(this).children('.video-txt').show();
+            if($(this).children('.video-icon')){
+                 $(this).children('.video-icon').show();
+            }
+        }).mouseout(function(){ $(this).children('.video-txt').hide();
+            if($(this).children('.video-icon')){
+                 $(this).children('.video-icon').hide();
+            }
+        });
+        $("#video_page").find('a').click(function(){
+            var path = $(this).attr('href');
+            $("#formSearchVideo").attr("action",path);
+            $("#formSearchVideo").submit();
+            return false;
+        })
+        $("#btn_search").click(function(){
+            $("#formSearchVideo").submit();
+        })
+    });
+
+</script>
+</body>
+</html>

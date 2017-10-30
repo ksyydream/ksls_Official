@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable = no' name='viewport'/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>大成莲创 -房猫经纪人触屏版</title>
+</head>
+<style>html, body {
+background-color: #eee;
+color: #333;
+font-size: 14px;
+-webkit-text-size-adjust: none;
+}</style>
+<body>
+<div id="tbh5v0" class="login">
+    <header class="c-nav">
+            <div class="c-nav-w">
+              <div class="c-nav-s">
+              </div>
+              <div class="c-nav-c">
+                <span class="omit">信息登记</span>
+              </div>
+              <div class="c-nav-e">
+                
+              </div>
+            </div>
+        </header>
+     
+<section class="innercontent">
+
+            <form method="post" class="c-form login-form" id="J_Register" action="/dclc/save_info">
+
+                <input type="hidden" id="label" name="label" value=""/>
+                <fieldset>
+                    <div class="field username">
+                        <div class="c-form-search st">
+                            <input type="text" id="mobile" placeholder="手机" value="" class="c-f-text" name="mobile"/><span></span></button>
+                        </div>
+                        <div class="tips"></div>
+                    </div>
+                    <div class="field username">
+                        <div class="ptxt st">
+                            <input id="username" type="text"  name="username" value="" placeholder="姓名" class="c-f-text"/>
+                        </div>
+                         <div class="tips"></div>
+                    </div>
+
+                    <div class="field identifyCode">
+                        <div class="ptxt st">
+                            <div class="am-form-group" style="height: 100px;">
+                                <textarea maxlength="100" placeholder="你的要求,必是我的使命" id="demo" name='demo'  style="height: 100px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="tips"></div>
+                    </div>
+
+                    <div class="field submit-btn">
+                        <input id="save_btn" onclick="get_data()" type="button" class="c-btn-orange" value="保存"/>
+                        </div>
+                        
+<div class="field login-option">
+                        <span class="reg-find-pwd">
+           
+                                                        <!--<a href="forget_password.html" class="forget-pwd" target="_top" data-spm-anchor-id="0.0.0.0">修改密码</a>
+                                                    --></span>
+                    </div>
+
+                </fieldset>
+            </form>
+</section>
+    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=249499109&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:249499109:53" alt="房猫客服" title="房猫客服"/></a>
+    <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY="><img border="0"  src="http://wpa.qq.com/imgd?IDKEY=&pic=52" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>
+    <a target="_blank" href="tencent://message/?uin=2210957625&Site=www.funmall.com.cn&Menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2::52" alt="房猫服务中心" title="房猫服务中心"/></a>
+<div id="J_um_mob" class="none">
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        var data_ = Date.parse(new Date());
+        $('#label').val(data_);
+
+        function get_data(){
+            mobile = $('#mobile').val()
+            username = $('#username').val()
+            demo = $('#demo').val()
+            $.post("{{site_url url='dclc/save_info'}}/"+window.page,{mobile:mobile,username:username,demo:demo},function(data){
+                if(data==1){
+                   $("#save_btn").css('display','none');
+                    $("#mobile").attr('readonly','readonly');
+                    $("#username").attr('readonly','readonly');
+                    $("#demo").attr('readonly','readonly');
+                }else{
+                    if(data==-2){
+                        alert('你已提交申请!')
+                    }else{
+                        alert('信息填写不符合要求!')
+                    }
+                }
+
+            });
+        }
+</script>
+
+
+    </div>
+
+</body>
+</html>

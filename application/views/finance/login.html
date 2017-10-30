@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>房猫宅急递</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/assets/js/amazeui.js"></script>
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+    .yy_p_{
+      margin: 0px;
+    }
+  </style>
+  <script>
+
+</script>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h2>房猫宅急递</h2>
+    <h4>金融服务</h4>
+  </div>
+  <hr />
+</div>
+<div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>登录方式选择</h3>
+    <div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
+      <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li class="am-active"><a href="javascript: void(0)">猫扫登陆</a></li>
+        <li><a href="javascript: void(0)">公司登陆</a></li>
+      </ul>
+
+      <div class="am-tabs-bd">
+        <div class="am-tab-panel am-active">
+          <form method="post" class="am-form" id="scan_form" action="{{site_url url='finance_wx/code_login'}}">
+            <label>服务绑定编号:</label>
+            <input type="hidden" id="finance_wx_num" name="finance_wx_num" value="">
+            {{if $flag == '-3'}}
+            <a class="am-badge am-badge-danger am-radius">编号不存在,绑定失败！</a>
+            {{/if}}
+            {{if $flag == '-4'}}
+            <a class="am-badge am-badge-danger am-radius">二维码不规范！</a>
+            {{/if}}
+            {{if $flag == '-5'}}
+            <a class="am-badge am-badge-danger am-radius">二维码过期！</a>
+            {{/if}}
+            {{if $flag == '-6'}}
+            <a class="am-badge am-badge-danger am-radius">扫码获取失败！</a>
+            {{/if}}
+            <br>
+            <br>
+
+            <div class="am-cf">
+              <input type="button" id="saoma"  value="扫 码" class="am-btn am-btn-primary am-btn-sm am-fl">
+            </div>
+
+          </form>
+        </div>
+        <!--<div class="am-tab-panel am-active">
+          <form method="post" class="am-form" action="{{site_url url='finance_wx/save_openid'}}">
+            <label>服务绑定编号:</label>
+            <input type="text" name="finance_wx_num" value="" required>
+            {{if $flag == '-2'}}
+            <a class="am-badge am-badge-danger am-radius">服务绑定编号异常！</a>
+            {{/if}}
+            <br>
+            <br>
+
+            <div class="am-cf">
+              <input type="submit"  value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+            </div>
+
+          </form>
+        </div>-->
+        <div class="am-tab-panel">
+          <form method="post" class="am-form" action="{{site_url url='finance_wx/user_login'}}">
+            <label>用户名:</label>
+            <input type="text" name="username" value="" required>
+            <br>
+            <label>密码:</label>
+            <input type="password" name="password" value="" required>
+            {{if $flag == '-1'}}
+            <a class="am-badge am-badge-danger am-radius">用户名密码错误或者账号已被停用！</a>
+            {{/if}}
+            <div class="am-cf">
+              <input type="submit"  value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <p class="am-serif yy_p_">@苏州曼纳吉信息科技有限公司所有</p>
+    <p class="am-serif yy_p_">地址：昆山市玉山镇萧林中路2191号</p>
+    <p class="am-serif yy_p_">电话：0512-36699066</p>
+    <hr>
+  </div>
+</div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  $(function() {
+   pushHistory()
+    $('#doc-tab-demo-1').tabs('open',{{$tabs|default:0}});
+    window.addEventListener("popstate", function(e) {
+      $.post("{{site_url url='cj/check'}}",{},function(data){
+        if(data == 1){
+          window.location.href='/finance_wx_user/index';
+        }
+        if(data == 2){
+          window.location.href='/finance_wx_borrower/index';
+        }
+        if(data == -1){
+          pushHistory()
+          return false;
+        }
+
+      });
+    }, false);
+
+    function pushHistory() {
+      var state = {
+        title: "房猫金服",
+        url: "/finance_wx/login"
+      };
+      window.history.pushState(state, "房猫金服", null);
+    }
+
+  })
+
+  wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{{$wxappId}}', // 必填，公众号的唯一标识
+    timestamp:{{$wxtimestamp}}, // 必填，生成签名的时间戳
+  nonceStr: '{{$wxnonceStr}}', // 必填，生成签名的随机串
+          signature: '{{$wxsignature}}',// 必填，签名，见附录1
+          jsApiList: ['previewImage','scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+  });
+  $("#saoma").click(function(){
+    wx.scanQRCode({
+      needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+      scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+      success: function (res) {
+        var num = res.resultStr.split("/"); // 当needResult 为 1 时，扫码返回的结果
+        //alert(res);
+        var code =  num[5]
+        //alert(code);
+       $("#finance_wx_num").val(code);
+        $("#scan_form").submit();
+
+      }
+    });
+  });
+</script>
+</body>
+</html>

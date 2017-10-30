@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-金融-贷款申请" />
+    <meta name="description" content="房猫-金融-贷款申请" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/lightbox.min.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                    {{if $permission_id < 5 || in_array(12,$position_id)}}
+                    <li><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+                <form id="formSearch" method="POST" action="/finance/finance_list">
+                    <div class="search-wrap" style="margin-left: 40px;">
+                    <input type="text" name="borrower_name" value="{{$finance_list.borrower_name|default:''}}" placeholder="姓名" class="sel-begin-time areanumber"/>
+                    <input type="text" name="finance_num" value="{{$finance_list.finance_num|default:''}}" placeholder="编号" class="sel-begin-time areanumber" />
+                    <select name="status">
+                        <option value="">进程选择</option>
+                        <option {{if $finance_list.status == 1}}selected{{/if}} value="1">未提交</option>
+                        <option {{if $finance_list.status == 2}}selected{{/if}} value="2">待审批</option>
+                        <option {{if $finance_list.status == 3}}selected{{/if}} value="3">审批通过</option>
+                        <option {{if $finance_list.status == 4}}selected{{/if}} value="5">审批未通过</option>
+                        <option {{if $finance_list.status == 5}}selected{{/if}} value="4">结案</option>
+                        <option {{if $finance_list.status == -1}}selected{{/if}} value="-1">终止</option>
+                    </select>
+                        <input placeholder="创建时间" type="text" name="Cstart_date" id="J_CDepDate" value="{{$finance_list.Cstart_date|default:''}}" class="sel-begin-time" />
+                        <span class="time-break"> </span>
+                        <input placeholder="创建时间" type="text" name="Cend_date" id="J_CEndDate" value="{{$finance_list.Cend_date|default:''}}" class="sel-end-time" />
+                        <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                        <a href="/finance/add_finance" class="add-schedule-btn">+贷款申请</a>
+
+                </div>
+
+
+                </form>
+            <div class="schedule-wrap">
+                <ul class="schedule-ul dosth-ul">
+                    <li class="wid113">姓名</li>
+                    <li class="wid123">编号</li>
+                    <li class="wid123">创建日期</li>
+                    <li class="wid123">额度</li>
+                    <li class="wid123">联系方式</li>
+                    <li class="wid80">进程</li>
+                    <li class="wid80">结果</li>
+                    <li class="wid145">操作</li>
+                </ul>
+                {{foreach from=$finance_list.res_list item=item}}
+                <ul class="schedule-list dosth-list" style="margin-right:40px;">
+                    <li class="wid113">{{$item.borrower_name}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="time wid123">{{$item.finance_num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.borrowing_amount}}万</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid123">{{$item.borrower_phone}}</li>
+                    <li class="bor-separate bor-separate-none"></li>
+
+                        {{if $item.status==1}}<li class="wid80 list-yellow">未提交</li>
+                        {{elseif $item.status==2}}<li class="wid80 score-reality">待审批</li>
+                        {{elseif $item.status==3}}<li class="wid80 list-green">审核通过</li>
+                        {{elseif $item.status==4}}<li class="wid80 list-gray">结案</li>
+                        {{elseif $item.status==5}}<li class="wid80 list-red">审批未通过</li>
+                        {{elseif $item.status==-1}} <li class="wid80 list-gray2">终止</li>
+                        {{else}}<li class="wid80 list-gray2">终止</li>{{/if}}
+
+                    <li class="wid80 finance-list-more"><a href="/finance/show_finance_result/{{$item.id}}">详情</a></li>
+                    <li class="wid130">
+                        {{if $item.status==1 || $item.status == 5}}<a href="/finance/add_finance/{{$item.id}}" class="operation-btn">修改</a>{{/if}}
+                        <em class="roomtips-book-pos"></em><a href="/finance/view_finance/{{$item.id}}" class="operation-btn">查看</a>
+                        <a href="javascript:void(0);" finance_id="{{$item.id}}" class="operation-btn ts_btn_yy">推送</a>
+                    </li>
+                </ul>
+
+                {{/foreach}}
+
+                <div id="pages_div" class="pages">
+                    {{$pager}}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<div class="choose-bookroom"></div>
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.poshytip.min.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+
+<script type="text/javascript">
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_CDepDate', //第一个触节点
+            finalTriggerNode: '#J_CEndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+
+ $(".history-list").height();
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+    $(".history-show").mouseover(function(){
+        $(this).children(".history-list").toggle();
+    }).mouseout(function(){ $(this).children(".history-list").hide();});
+    $("#btn_search").click(function() {
+        $('#formSearch').submit();
+    });
+    $("#pages_div").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearch").attr("action",path);
+        $("#formSearch").submit();
+        return false;
+    })
+
+    $('.ts_btn_yy').click(function(e){
+        $('.roomtips-book-pos').poshytip('hide');
+        $(this).siblings('.roomtips-book-pos').poshytip('show');
+        e.stopPropagation();
+    });
+
+    $('.roomtips-book-pos').poshytip({
+        className: 'choose-bookroom',
+        content:function(updateCallback) {
+            var finance_id = $(this).parent().find(".ts_btn_yy").attr('finance_id');;
+            var result = $.ajax({
+                url : '/finance/show_code',
+                data: { finance_id: finance_id},
+                cache : false,
+                async : false,
+                type : "POST"
+            }).responseText;
+            if(result == -1){
+                layer.msg("没有操作权限", {icon: 2});
+                return false;
+            } else if(result == -2) {
+                layer.msg("异常", {icon: 2});
+                return false;
+            } else {
+                return result;
+            }
+        },
+        showOn:'none',
+        alignTo:'target',
+        alignX:'center',offsetY:5
+    });
+    $(document).click(function(){
+        $('.roomtips-book-pos').poshytip('hide');
+        //$('.book-btn').removeClass('on');
+    });
+    $(".choose-bookroom").click(function(e){
+        e.stopPropagation();
+    });
+</script>
+</body>
+</html>

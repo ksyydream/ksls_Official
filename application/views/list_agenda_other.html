@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if !in_array(2,$position_id) && $permission_id > 2 && !in_array(8,$position_id) && !in_array(9,$position_id)}}
+                    <li><a href="/agenda/list_agenda"><em class="myagenda"></em>我的代办</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 || in_array(2,$position_id) || in_array(8,$position_id) || in_array(9,$position_id)}}
+                    <li class="on"><a href="/agenda/list_agenda_other"><em class="allagenda"></em>代办事项</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+
+                <form id="formSearchActivity" method="POST" action="/agenda/list_agenda_other">
+                    <div class="search-wrap" style=" margin-left: 40px;">
+                    {{if $permission_id == 1 || in_array(2,$position_id) || in_array(8,$position_id) || in_array(9,$position_id)}}
+                    <select name="company" id="sel_company">
+                        <option value="">选择公司</option>
+                        {{foreach from=$company_list key=key item=item}}
+                        {{if $item.id == $company}}
+                        <option value="{{$item.id}}" selected>{{$item.name}}</option>
+                        {{else}}
+                        <option value="{{$item.id}}">{{$item.name}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    {{/if}}
+                    {{if $permission_id <= 3 || in_array(2,$position_id)}}
+                    <select name="subsidiary" id="sel_subsidiary" style="width:150px">
+                        <option value="">选择分店</option>
+                        {{foreach from=$subsidiary_list key=key item=item}}
+                        {{if $item.id == $subsidiary}}
+                        <option value="{{$item.id}}" selected>{{$item.name}}</option>
+                        {{else}}
+                        <option value="{{$item.id}}">{{$item.name}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    {{/if}}
+                    <select name="user" id="sel_user">
+                        <option value="">选择员工</option>
+                        {{foreach from=$user_list key=key item=item}}
+                        {{if $item.id == $user}}
+                        <option value="{{$item.id}}" selected>{{$item.rel_name}}</option>
+                        {{else}}
+                        <option value="{{$item.id}}">{{$item.rel_name}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    <select name="course" id="sel_course">
+                        <option value="">进程选择</option>
+                        {{foreach from=$course_list item=doo}}
+                        {{if $doo['id']==$course}}
+                        <option value="{{$doo['id']}}" selected>{{$doo['name']}}</option>
+                        {{else}}
+                        <option value="{{$doo['id']}}">{{$doo['name']}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    <select name="status" id="sel_status">
+                        <option value="">选择状态</option>
+                        <option value="1">正常</option>
+                        <option value="2">异常</option>
+                        <option value="3">服务完成</option>
+                    </select>
+                    </div> <div class="search-wrap" style="margin-left: 40px;">
+                    <input type="text" name="num" value="{{$agenda_list.num|default:''}}" placeholder="编号" class="sel-begin-time areanumber"/>
+                    <input type="text" name="xq_name" value="{{$agenda_list.xq_name|default:''}}" placeholder="小区" class="sel-begin-time areanumber" />
+                    <select name="dbgh_id" id="dbgh_id">
+                        <option value="">权证过户</option>
+                        {{foreach from=$agenda_list.gh_list item=doo}}
+                        {{if $doo['id']==$agenda_list.dbgh_id}}
+                        <option value="{{$doo['id']}}" selected>{{$doo['rel_name']}}</option>
+                        {{else}}
+                        <option value="{{$doo['id']}}">{{$doo['rel_name']}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    <select name="dbyh_id" id="dbyh_id">
+                        <option value="">权证银行</option>
+                        {{foreach from=$agenda_list.yh_list item=doo}}
+                        {{if $doo['id']==$agenda_list.dbyh_id}}
+                        <option value="{{$doo['id']}}" selected>{{$doo['rel_name']}}</option>
+                        {{else}}
+                        <option value="{{$doo['id']}}">{{$doo['rel_name']}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+
+                    </div>
+                    <div class="search-wrap" style="margin-left: 40px;">
+                        <input placeholder="申请时间" type="text" name="Cstart_date" id="J_CDepDate" value="{{$agenda_list.Cstart_date|default:''}}" class="sel-begin-time" />
+                        <span class="time-break"> </span>
+                        <input placeholder="申请时间" type="text" name="Cend_date" id="J_CEndDate" value="{{$agenda_list.Cend_date|default:''}}" class="sel-end-time" />
+                        <input placeholder="服务完成时间" type="text" name="Estart_date" id="J_EDepDate" value="{{$agenda_list.Estart_date|default:''}}" class="sel-begin-time" />
+                        <span class="time-break"> </span>
+                        <input placeholder="服务完成时间" type="text" name="Eend_date" id="J_EEndDate" value="{{$agenda_list.Eend_date|default:''}}" class="sel-end-time" />
+                        <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                    </div>
+                </form>
+  <span class="vSearch-result">
+                          共搜索到 <em>{{$agenda_list.countPage}}</em> 条记录
+                        </span>
+            <div class="schedule-wrap">
+
+                <ul class="schedule-ul dosth-ul">
+                   <li class="wid92">业务员姓名</li>
+                    <li class="wid103">编号</li>
+                    <li class="wid103">房屋地址</li>
+                    <li class="wid103">权证过户</li>
+                    <li class="wid103">权证银行</li>
+                    <li class="wid80">申请时间</li>
+                    <li class="wid80">服务完成时间</li>
+                    <li class="wid80">进程</li>
+                    <li class="wid80">状态</li>
+                    <li class="wid103">操作</li>
+                </ul>
+                {{foreach from=$agenda_list.res_list item=item}}
+                {{if $item.status==3}}
+
+                <ul class="schedule-list dosth-list dosth-successful">
+                    <li class="time wid92 liname">{{$item.rel_name}}<br />{{$item.user_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="time wid103">{{$item.num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.xq_name|strip_tags|strip|default:$item.title|truncate:7:"..":true}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.gh_name}}<br />{{$item.gh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.yh_name}}<br />{{$item.yh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid80">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid80">{{$item.edate|default:'--'}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="wid80 score-reality bgno">
+                        {{$item.course_name}}
+                    </li>
+                    <li class="bor-separate"></li>
+                    <li class="wid80 score-plan bgno">正常</li>
+                    <li class="bor-separate"></li>
+                    <li class="wid103">
+                        <a href="/agenda/view_agenda/{{$item.id}}/2" class="operation-btn operation-btn1">查看</a>
+                    </li>
+                </ul>
+                {{else}}
+                <ul class="schedule-list dosth-list ">
+                    <li class="time wid92 liname">{{$item.rel_name}}<br />{{$item.user_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="time wid103">{{$item.num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.xq_name|strip_tags|strip|default:$item.title|truncate:7:"..":true}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.gh_name}}<br />{{$item.gh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.yh_name}}<br />{{$item.yh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid80">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid80">{{$item.edate|default:'--'}}</li>
+                    <li class="bor-separate bor-separate-none"></li>
+                    <li class="wid82 score-reality history-show">
+                        {{$item.course_name}}
+                        <div class="history-list">
+                            <em class="triangle"></em>
+                            <div class="history-list-inner">
+                                <p class="history-list-tit">历史进程</p>
+
+                                {{if $agenda_list.detail!=1}}
+                                <p class="new">
+                                    {{foreach from=$agenda_list.detail item=foo}}
+                                    {{if $foo['a_id']==$item.id}}
+                                    <span class="his-item-icon">·</span>
+                                    <span class="his-item-txt">{{$foo['name']}}<br />{{$foo['created']}}</span></p><p>
+                                {{/if}}
+                                {{/foreach}}
+                            </p>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="bor-separate bor-separate-none"></li>
+                    {{if $item.status==1}}
+                    <li class="wid80 score-plan"><em class="tips-ok"></em>正常</li>
+                    {{/if}}
+                    {{if $item.status==2}}
+                    <li class="wid80 score-plan ing-error">
+                        <em class="tips-ok tips-error"></em>异常<div class="error-explain">
+                        <em class="triangle"></em>
+                        <div class="error-explain-inner"><p>{{$item.errtext}}</p>
+                           </div></div>
+                    </li>
+                    {{/if}}
+                    <li class="wid103">
+
+                        <a href="/agenda/view_agenda/{{$item.id}}/2" class="operation-btn operation-btn1">查看</a>
+                    </li>
+                </ul>
+                {{/if}}
+                {{/foreach}}
+
+                <div id="agenda_pages" class="pages">
+                    {{$pager}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript">
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_CDepDate', //第一个触节点
+            finalTriggerNode: '#J_CEndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_EDepDate', //第一个触节点
+            finalTriggerNode: '#J_EEndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+    $(function(){
+        $(".ing-error").mouseover(function(){
+            $(this).children(".error-explain").toggle();
+        }).mouseout(function(){ $(this).children(".error-explain").hide();});
+        $(".history-show").mouseover(function(){
+            $(this).children(".history-list").toggle();
+        }).mouseout(function(){ $(this).children(".history-list").hide();});
+        $("#btn_search").click(function() {
+            $('#formSearchActivity').submit();
+        });
+        $("#sel_status").val("{{$status|default:''}}");
+    })
+    $('#sel_company').change(function(){
+        var company_id = $(this).val();
+        $.get('/activity/get_subsidiary_list/' + $(this).val(), function(data) {
+            $("#sel_subsidiary").empty();
+            $("#sel_subsidiary").append('<option value="">选择分店</option>');
+            var data = JSON.parse(data);
+            for(var i in data) {
+                $("#sel_subsidiary").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+            }
+        });
+        $("#sel_user").empty();
+        $("#sel_user").append('<option value="">选择员工</option>');
+    });
+    $('#sel_subsidiary').change(function(){
+        var path = '/agenda/get_subsidiary_user_list/';
+        {{if in_array(2,$position_id)}}
+        path = '/agenda/get_subsidiary_user_list_7/';
+        {{/if}}
+        $.get(path + $(this).val(), function(data) {
+            $("#sel_user").empty();
+            $("#sel_user").append('<option value="">选择员工</option>');
+            var data = JSON.parse(data);
+            for(var i in data) {
+                $("#sel_user").append('<option value="'+data[i].id+'">'+data[i].rel_name+'</option>');
+            }
+        });
+    });
+    $("#agenda_pages").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearchActivity").attr("action",path);
+        $("#formSearchActivity").submit();
+        return false;
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if $permission_id >= 5 }}
+                    <li class="on"><a href="/activity/list_activity"><em class="schedule"></em>我的行程</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 }}
+                        <li><a href="/activity/list_review/1/1"><em class="verify"></em>我的审核</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 }}
+                    <li><a href="/activity/list_noplan/1/1"><em class="verify"></em>未计划</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <form id="formSearchActivity" method="POST" action="/activity/list_activity">
+                    <input type="text" name="start_date" id="J_DepDate" value="{{$start_date|default:''}}" class="sel-begin-time" />
+                    <span class="time-break"> </span>
+                    <input type="text" name="end_date" id="J_EndDate" value="{{$end_date|default:''}}" class="sel-end-time" />
+                    <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                    <a href="/activity/add_activity" class="add-schedule-btn">+新增行程</a>
+                </form>
+            </div>
+            <div class="schedule-wrap">
+                <ul class="schedule-ul">
+                    <li class="wid92">时间/行程</li>
+                    <li class="wid103">9:00-10:30<span class="time-bor"></span>
+                        <em class="fz14">事件</em>&nbsp&nbsp<em class="fz14">工作量</em>
+                    </li>
+                    <li class="wid103">10:30-13:00<span class="time-bor"></span>
+                        <em class="fz14">事件</em>&nbsp&nbsp<em class="fz14">工作量</em>
+                    </li>
+                    <li class="wid103">13:00-15:00<span class="time-bor"></span>
+                        <em class="fz14">事件</em>&nbsp&nbsp<em class="fz14">工作量</em>
+                    </li>
+                    <li class="wid103">15:00-16:30<span class="time-bor"></span>
+                        <em class="fz14">事件</em>&nbsp&nbsp<em class="fz14">工作量</em>
+                    </li>
+                    <li class="wid103">16:30-18:00<span class="time-bor"></span>
+                        <em class="fz14">事件</em>&nbsp&nbsp<em class="fz14">工作量</em>
+                    </li>
+                    <li class="wid60">计划</li>
+                    <li class="wid60">自评</li>
+                    <li class="wid60">审核</li>
+                    <li class="wid138">操作</li>
+                </ul>
+
+                {{foreach from=$activity_list.res_list item=item}}
+                    <ul class="schedule-list">
+                        <li class="time wid92">{{$item->date}}</li>
+                        <li class="bor-separate"></li>
+                        <li class="items wid103">
+                            <ul>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t1c|default:0}}-plan" title="{{$item->t1n}}"></span>
+                                    <span class="span-num-text i-plan">{{$item->a1n|default:'--'}}{{$item->t1u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t6c|default:0}}-reality" title="{{$item->t6n}}">{{if $item->status < 2}}--{{/if}}</span>
+                                    <span class="span-num-text i-reality">{{$item->b1n|default:'--'}}{{$item->t6u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t11c|default:0}}-review" title="{{$item->t11n}}">{{if $item->status < 3}}--{{/if}}</span>
+                                    <span class="span-num-text i-review">{{$item->c1n|default:'--'}}{{$item->t11u}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bor-separate bor-separate1"></li>
+                        <li class="items wid103">
+                            <ul>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t2c|default:0}}-plan" title="{{$item->t2n}}"></span>
+                                    <span class="span-num-text i-plan">{{$item->a2n|default:'--'}}{{$item->t2u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t7c|default:0}}-reality" title="{{$item->t7n}}">{{if $item->status < 2}}--{{/if}}</span>
+                                    <span class="span-num-text i-reality">{{$item->b2n|default:'--'}}{{$item->t7u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t12c|default:0}}-review" title="{{$item->t12n}}">{{if $item->status < 3}}--{{/if}}</span>
+                                    <span class="span-num-text i-review">{{$item->c2n|default:'--'}}{{$item->t12u}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bor-separate bor-separate1"></li>
+                        <li class="items wid103">
+                            <ul>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t3c|default:0}}-plan" title="{{$item->t3n}}"></span>
+                                    <span class="span-num-text i-plan">{{$item->a3n|default:'--'}}{{$item->t3u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t8c|default:0}}-reality" title="{{$item->t8n}}">{{if $item->status < 2}}--{{/if}}</span>
+                                    <span class="span-num-text i-reality">{{$item->b3n|default:'--'}}{{$item->t8u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t13c|default:0}}-review" title="{{$item->t13n}}">{{if $item->status < 3}}--{{/if}}</span>
+                                    <span class="span-num-text i-review">{{$item->c3n|default:'--'}}{{$item->t13u}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bor-separate bor-separate1"></li>
+                        <li class="items wid103">
+                            <ul>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t4c|default:0}}-plan" title="{{$item->t4n}}"></span>
+                                    <span class="span-num-text i-plan">{{$item->a4n|default:'--'}}{{$item->t4u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t9c|default:0}}-reality" title="{{$item->t9n}}">{{if $item->status < 2}}--{{/if}}</span>
+                                    <span class="span-num-text i-reality">{{$item->b4n|default:'--'}}{{$item->t9u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t14c|default:0}}-review" title="{{$item->t14n}}">{{if $item->status < 3}}--{{/if}}</span>
+                                    <span class="span-num-text i-review">{{$item->c4n|default:'--'}}{{$item->t14u}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bor-separate bor-separate1"></li>
+                        <li class="items wid103">
+                            <ul>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t5c|default:0}}-plan" title="{{$item->t5n}}"></span>
+                                    <span class="span-num-text i-plan">{{$item->a5n|default:'--'}}{{$item->t5u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t10c|default:0}}-reality" title="{{$item->t10n}}">{{if $item->status < 2}}--{{/if}}</span>
+                                    <span class="span-num-text i-reality">{{$item->b5n|default:'--'}}{{$item->t10u}}</span>
+                                </li>
+                                <li>
+                                    <span class="item-icon item-icon-{{$item->t15c|default:0}}-review" title="{{$item->t15n}}">{{if $item->status < 3}}--{{/if}}</span>
+                                    <span class="span-num-text i-review">{{$item->c5n|default:'--'}}{{$item->t15u}}</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bor-separate bor-separate1 bor-separate-none"></li>
+                        <li class="wid64 score-plan">{{$item->a1t|default:'0.0'}}分</li>
+                        <li class="wid64 score-reality">{{$item->b1t|default:'0.0'}}分</li>
+                        <li class="wid64 score-review">{{$item->total|default:'0.0'}}分</li>
+                        <li class="wid138">
+                            {{if $item->status == 1 && $item->date2 == $tomorrow }}
+                                <a href="/activity/edit_activity/{{$item->id}}" class="operation-btn">修改</a>
+                            {{elseif $item->status == 1 && $item->date3 == $today}}
+                            <a href="/activity/edit_activity/{{$item->id}}" class="operation-btn">修改</a>
+                            {{else}}
+                                <a href="javascript:void(0);" class="operation-btn operation-btn-no">修改</a>
+                            {{/if}}
+                            {{if $item->status < 3 }}
+                                <a href="/activity/inspect_activity/{{$item->id}}" class="operation-btn">自评</a>
+                            {{else}}
+                                <a href="javascript:void(0);" class="operation-btn operation-btn-no">自评</a>
+                            {{/if}}
+                        </li>
+                    </ul>
+                {{/foreach}}
+                <div id="activity_page" class="pages">
+                    {{$pager}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.poshytip.min.js"></script>
+<script type="text/javascript">
+    $('.item-icon').poshytip();
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_DepDate', //第一个触节点
+            finalTriggerNode: '#J_EndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+    $("#btn_search").click(function() {
+        $('#formSearchActivity').submit();
+    });
+    $("#activity_page").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearchActivity").attr("action",path);
+        $("#formSearchActivity").submit();
+        return false;
+    })
+</script>
+</body>
+</html>

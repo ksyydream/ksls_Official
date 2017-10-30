@@ -1,0 +1,47 @@
+.t-tit{ text-align: center; font-size:20px;}
+.div-th{margin-left:10px;height: 36px; background: #60b282; color:#fff; font-size:18px; line-height:36px; }
+.div-th em{margin:10px 10px 0 15px;background: url(/res/images/logo_in.png) no-repeat -107px 0; width:13px;height:16px; float: left;}
+.div-th1{background: #4d8df8;}.div-th2{background: #df4a05;}
+.div-bd{margin-left:10px;margin-bottom:20px;border:1px solid #77e588; border-top:none; }
+.div-bd1{border:1px solid #4d8df8;}.div-bd2{padding:10px 15px;border:1px solid #df4a05; overflow: hidden;zoom:1;}
+.add-data-table{border-collapse: collapse;width:100%;}
+.add-data-table td{border:1px solid #efefef; width:50%; vertical-align: top; }
+.add-data-table .twodl dl{float:left;}
+.add-data-table dl{padding: 12px 33px;overflow: hidden;zoom:1;}
+.add-data-table dt{float:left; font-size:14px; color:#333;}
+.add-data-table .wid115{width:115px;}.add-data-table td .wid58{width:58px;}
+.add-data-table dd { position: relative; float: left;line-height: 26px; font-size:16px;}
+.add-data-table dd em{ position: absolute;right:10px; font-size: 14px; color: #999;}
+.add-data-table dd .add-txt{font-size:16px;border:1px solid #e5e5e5; background: #f9f9f9; padding:0 10px;width:150px; height: 26px; line-height: 26px;
+    font-family: "Microsoft YaHei";}
+.add-data-table dd .input-wid85{width:85px;}
+.add-data-table dd .radio-choose{margin:0 5px 0 10px; vertical-align:middle; }
+.add-data-table dd .sce-remarks{margin:0;padding:5px;width:820px; height:68px;border:1px solid #e5e5e5;font-family: "Microsoft YaHei"; background: none;}
+.add-data-table .td-tit{padding: 10px 0; text-align: center; font-size:16px; color:#333;}
+.add-data-table .p-tips{padding:10px 0 0 33px;}
+.add-data-table .p-tips em{color:#979595;font-size:12px;}
+.aClickUpload{width:55px; height:70px;border:1px solid #efefef; display: block; background: url(/res/images/yy_upload.png) no-repeat 20px 30px;
+}
+.uploadInformation  dt{width:65px;}
+.add-data-table1 td dl{padding:12px 25px;}
+.add-data-table1 td dd{width:370px;}
+.add-data-table1 td dd li{margin:0 3px 3px 0;border:1px solid #f1f1f1;padding:1px; width:85px;height:65px; float: left; position: relative;}
+.add-data-table1 td dd .delete-this{width:85px; height: 20px; background: #000;filter:alpha(opacity=60);opacity: 0.6; display: block;
+    top:0; position: absolute;}
+.add-data-table1 td dd .delete-this i{padding:0 5px;width:20px; height:20px; background: url(/res/images/yy_logo_in.png) no-repeat -123px 2px; display: block; float: right;margin-right:10px; cursor: pointer;}
+
+.p-btns{width:95px; margin: 0 auto 20px; height: 35px;}
+.p-btns a{width:95px; height:35px; display: block; text-align: center; float: left; line-height: 35px; font-size:14px; color: #fff;}
+.p-btns .sub-btn{ background: #ff6c60; margin-right: 10px;}
+.p-btns .reset-btn{background: #d8d8d8; color: #333;margin:0;}
+.history{padding:10px;width:190px; float: left;border-right:1px solid #efefef;}
+.his-tit{margin-bottom:10px; display: block; font-size:14px;}
+.ul-his{color:#bfbfbf;}
+.ul-his .date{width:75px; display: inline-block;}
+.ul-his .process{width:100px; display: inline-block;}
+.ul-his .current{color:#747474;}
+.ul-his .close-his{width:13px; height:15px; display:inline-block;background: url(/res/images/yy_logo_in.png) no-repeat -154px 0;}
+.editor-process{padding:10px 0; overflow: hidden;zoom:1; height: auto; width:308px; float: left; }
+.editor-process select{margin:0; color:#333;}.div-process{margin-left:35px; float: left;overflow: hidden;zoom:1;}
+.describe-process{width:360px; float: left;}
+.process-remarks{background: none;width:360px; height:80px;}

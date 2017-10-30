@@ -1,0 +1,27 @@
+<form method="post" action="/appointment/save_appointment" id="appointmentForm">
+<div class="r-tit">预约会议室<span class="s-bor"></span></div>
+{{foreach from=$appointments item=item}}
+    {{if !empty($item->user_id)}}
+        <p class="radio-p disabled-p"><label><input type="radio" value="{{$item->id}}" disabled /> {{$item->room_name}}</label></p>
+    {{else}}
+        <p class="radio-p"><label><input type="radio" name="room_id" value="{{$item->id}}" /> {{$item->room_name}}</label></p>
+    {{/if}}
+{{/foreach}}
+<p class="radio-tips">灰色表示已经有人预约</p>
+<a href="javascript:" class="book-submit-btn" id="btnSubmit">确定预约</a>
+<input type="hidden" name="time_frame_id" value="{{$time_frame_id}}">
+<input type="hidden" name="date" value="{{$date}}">
+<input type="hidden" name="user_id" value="{{$user_id}}">
+</form>
+<script>
+    setTimeout(function() {
+        $("#btnSubmit").click(function() {
+            var room_id = $("input[name='room_id']:checked").val();
+            if(room_id == undefined) {
+                layer.msg("请先选中一个会议室.", {icon: 2});
+            } else {
+                $("#appointmentForm").submit();
+            }
+        });
+    }, 100);
+</script>

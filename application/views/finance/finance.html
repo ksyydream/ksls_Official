@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .yy_width_{
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="doc">
+{{include file='header.html'}}
+</div>
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                 <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                     {{if $permission_id > 3 && !in_array(12,$position_id)}}
+                     <li class="on"><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                     {{/if}}
+                     {{if $permission_id < 5 || in_array(12,$position_id)}}
+                     <li><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                     {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <div class="t-tit">金融服务申请 Financial services applications</div>
+            </div>
+             <div class="div-th"><em></em>基本信息</div>
+             <div class="div-bd">
+                 <form id="financeForm" method="post" action="/finance/save_finance_1">
+                     <input type="hidden" name="finance_wx_num" value="{{$finance_wx_num|default:$data.finance_wx_num}}">
+                    <input type="hidden" name="id" value="{{$data.id|default:''}}" />
+                <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+                    <tr>
+                        <th colspan="3" align="center">
+                            申请人信息<span style="color: red">(必填)</span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <dl>
+                                <dt class="">姓  名：</dt>
+                                <dd><input type="text" id="borrower_name" name="borrower_name" value="{{$data.borrower_name|default:''}}" maxlength="6"  class="add-txt add-txt-wid170" /></dd>
+                            </dl>
+                        </td>
+                        <td width="30%"><dl><dt class="">年  龄：</dt>
+                            <dd><input type="text" id="borrower_age" name="borrower_age" value="{{$data.borrower_age|default:''}}" maxlength="3" class="yy_num add-txt add-txt-wid75" /><!-- <em>平方米</em> --></dd></dl></td>
+                        <td><dl><dt class="">性  别：</dt>
+                            <dd><label><input type="radio" id="borrower_sex_1" name="borrower_sex" {{if $data.borrower_sex|default:0 == 1 }}checked{{/if}} value="1" class="radio-choose" />男</label>
+                                <label><input type="radio" id="borrower_sex_2" name="borrower_sex" {{if $data.borrower_sex|default:0 == 2 }}checked{{/if}} value="2" class="radio-choose" />女</label></dd>
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="">籍      贯:</dt><dd><input type="text" maxlength="15" value="{{$data.borrower_native|default:''}}" id="borrower_native" name="borrower_native" class="add-txt add-txt-wid170" /></dd></dl></td>
+                        <td>
+                            <dl>
+                                <dt>学      历：</dt>
+                                <dd><select id="borrower_qualifications" name="borrower_qualifications" class="doc-select">
+                                    <option {{if $data.borrower_qualifications|default:'' == '小学' }}selected="selected"{{/if}} value="小学">小学</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '初中' }}selected="selected"{{/if}} value="初中">初中</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '中专' }}selected="selected"{{/if}} value="中专">中专</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '高中' }}selected="selected"{{/if}} value="高中">高中</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '大专' }}selected="selected"{{/if}} value="大专">大专</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '本科' }}selected="selected"{{/if}} value="本科">本科</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '硕士' }}selected="selected"{{/if}} value="硕士">硕士</option>
+                                    <option {{if $data.borrower_qualifications|default:'' == '博士' }}selected="selected"{{/if}} value="博士">博士</option>
+                                </select></dd></dl></dd>
+                            </dl>
+                        </td>
+                        <td>
+                            <dl>
+                                <dt>婚      姻：</dt>
+                                <dd><label><input type="radio" id="borrower_marriage_1" name="borrower_marriage" {{if $data.borrower_marriage|default:0 == 1 }}checked{{/if}} value="1" class="radio-choose" />已婚</label>
+                                    <label><input type="radio" id="borrower_marriage_2" name="borrower_marriage" {{if $data.borrower_marriage|default:0 == 2 }}checked{{/if}} value="2" class="radio-choose" />未婚</label></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <dl>
+                                <dt class="wid120"> 工作单位地址：</dt>
+                                <dd><input type="text" id="borrower_workADD" value="{{$data.borrower_workADD|default:''}}" maxlength="40" name="borrower_workADD" class="add-txt add-txt-wid520" /></dd>
+                            </dl>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="">职 位：</dt><dd><input type="text"  value="{{$data.borrower_position|default:''}}"  maxlength="10" id="borrower_position" name="borrower_position" class="add-txt" /></dd></dl></td>
+                        <td colspan="2">
+                            <dl>
+                                <dt>月收入：</dt>
+                                <dd><input type="text" id="borrower_income"  value="{{$data.borrower_income|default:''}}"  maxlength="10" name="borrower_income" class="yy_num add-txt input-wid85" /><em>元/月</em></dd></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt class="">社保年限：</dt>
+                                <dd><input type="text" id="borrower_SSY"  value="{{$data.borrower_SSY|default:''}}"  maxlength="10" name="borrower_SSY" class="add-txt" /><em>年</em></dd>
+                            </dl>
+                        </td>
+                         <td colspan="2">
+                            <dl>
+                                <dt class="wid120">身份证号码：</dt>
+                                <dd><input type="text" id="borrower_code"  value="{{$data.borrower_code|default:''}}"  maxlength="20" name="borrower_code" class="add-txt add-txt-wid200" /></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                     <tr>
+                       <td colspan="3">
+                           <dl>
+                                <dt>联系方式：</dt>
+                                <dd><input type="text" id="borrower_phone"  value="{{$data.borrower_phone|default:''}}" maxlength="20" name="borrower_phone" class="add-txt" /></dd>
+                            </dl>                            
+                        </td>
+                    </tr>
+                    </table>
+                     <div  id="partner" {{if $data.borrower_marriage|default:0 == 2}} style="display: none" {{/if}}>
+                     <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1" >
+                    <tr>
+                        <th colspan="3" align="center">
+                            配偶信息
+                        </th>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <dl>
+                                <dt class="">姓  名：</dt>
+                                <dd><input type="text" maxlength="6" value="{{$data.spouse_name|default:''}}" id="spouse_name" name="spouse_name" class="add-txt add-txt-wid170" /></dd>
+                            </dl>
+                        </td>
+                        <td width="30%"><dl><dt class="">年  龄：</dt>
+                            <dd><input type="text" id="spouse_age" value="{{$data.spouse_age|default:''}}"  maxlength="5" name="spouse_age" class="yy_num add-txt add-txt-wid75" /><!-- <em>平方米</em> --></dd></dl></td>
+                        <td><dl><dt class="">性  别：</dt>
+                            <dd><label><input type="radio" id="spouse_sex_1" name="spouse_sex" {{if $data.spouse_sex|default:0 == 1 }}checked{{/if}} value="1" class="radio-choose" />男</label>
+                                <label><input type="radio" id="spouse_sex_2" name="spouse_sex" {{if $data.spouse_sex|default:0 == 2 }}checked{{/if}} value="2" class="radio-choose" />女</label></dd></dl></td>
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="">籍      贯:</dt><dd><input type="text" maxlength="20" value="{{$data.spouse_native|default:''}}"  id="spouse_native" name="spouse_native" class="add-txt add-txt-wid170" /></dd></dl></td>
+                        <td>
+                            <dl>
+                                <dt>学      历：</dt>
+                                <dd> <select id="spouse_qualifications" name="spouse_qualifications" class="doc-select">
+                                    <option {{if $data.spouse_qualifications|default:'' == '小学' }}selected="selected"{{/if}} value="小学">小学</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '初中' }}selected="selected"{{/if}} value="初中">初中</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '中专' }}selected="selected"{{/if}} value="中专">中专</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '高中' }}selected="selected"{{/if}} value="高中">高中</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '大专' }}selected="selected"{{/if}} value="大专">大专</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '本科' }}selected="selected"{{/if}} value="本科">本科</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '硕士' }}selected="selected"{{/if}} value="硕士">硕士</option>
+                                    <option {{if $data.spouse_qualifications|default:'' == '博士' }}selected="selected"{{/if}} value="博士">博士</option>
+                                </select></dd></dl></dd>
+                            </dl>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <dl>
+                                <dt class="wid120"> 工作单位地址：</dt>
+                                <dd><input type="text" id="spouse_workADD" maxlength="40"  value="{{$data.spouse_workADD|default:''}}" name="spouse_workADD" class="add-txt add-txt-wid520" /></dd>
+                            </dl>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="">职 位：</dt><dd><input type="text" maxlength="10"  value="{{$data.spouse_position|default:''}}" id="spouse_position" name="spouse_position" class="add-txt" /></dd></dl></td>
+                        <td colspan="2">
+                            <dl>
+                                <dt>月收入：</dt>
+                                <dd><input type="text" id="spouse_income" maxlength="10" value="{{$data.spouse_income|default:''}}" name="spouse_income" class="yy_num add-txt input-wid85" /><em>元/月</em></dd></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt class="">社保年限：</dt>
+                                <dd><input type="text" id="spouse_SSY" maxlength="10" value="{{$data.spouse_SSY|default:''}}" name="spouse_SSY" class="add-txt" /><em>年</em></dd>
+                            </dl>
+                        </td>
+                         <td colspan="2">
+                            <dl>
+                                <dt class="wid120">身份证号码：</dt>
+                                <dd><input type="text" id="spouse_code" maxlength="20"  value="{{$data.spouse_code|default:''}}" name="spouse_code" class="add-txt add-txt-wid200" /></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                     <tr>
+                       <td colspan="3">
+                           <dl>
+                                <dt>联系方式：</dt>
+                                <dd><input type="text" id="spouse_phone" maxlength="20"  value="{{$data.spouse_phone|default:''}}" name="spouse_phone" class="add-txt" /></dd>
+                            </dl>                            
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                 </form>
+                </div>
+                <p style="padding:0 20px 30px;">郑重提醒：<br />
+       客户承诺提交资料真实有效，平台根据客户提交资料给出相匹配之金融产品。并给出贷款额度。如因客户提供资料为伪造，或因后期资料不全导致无法顺利办理金融业务的。平台不承担客户任何经济及精神损失。</p>
+              <p class="p-btns">
+                  <a href="javascript:void(0);" id="save_btn" class="sub-btn" style="background-color:#35aa47">下一步</a>
+              </p>  
+
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    //是否结婚
+
+    $('input[name="borrower_marriage"]').click(function () {
+
+        if($(this).val()=="1"){
+            $("#partner").show();
+        }
+        else if ($(this).val()=="2")
+        {
+            $("#partner").hide();
+        }
+    })
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#save_btn").click(function() {
+
+        if($.trim($("#borrower_name").val()) == "") {
+            layer.msg('请输入申请人姓名', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_age").val()) == "") {
+            layer.msg('请输入申请人年龄', {icon: 2});
+            return false;
+        }
+        if($("#borrower_sex_1").is(':checked') || $("#borrower_sex_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择申请人性别', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_native").val()) == "") {
+            layer.msg('请输入申请人籍贯', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_qualifications").val()) == "") {
+            layer.msg('请输入申请人学历', {icon: 2});
+            return false;
+        }
+        if($("#borrower_marriage_1").is(':checked') || $("#borrower_marriage_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择申请人婚姻状况', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_workADD").val()) == "") {
+            layer.msg('请输入申请人工作地址', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_position").val()) == "") {
+            layer.msg('请输入申请人职位', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_income").val()) == "") {
+            layer.msg('请输入申请人月收入', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_SSY").val()) == "") {
+            layer.msg('请输入申请人社保年限', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_code").val()) == "") {
+            layer.msg('请输入申请人身份证号码', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_phone").val()) == "") {
+            layer.msg('请输入申请人联系电话', {icon: 2});
+            return false;
+        }
+
+        //这里开始处理 配偶信息
+
+        $('#financeForm').submit();
+    });
+</script>
+</body>
+</html>

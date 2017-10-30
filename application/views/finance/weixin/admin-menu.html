@@ -1,0 +1,4 @@
+<div class="am-menu">
+    <span class="am-menu-span"><a href="/finance_wx_user/index"><em class="icon"></em><br />列表</a></span>
+    {{if $permission_id > 3 && !in_array(12,$position_id)}} <span class="am-menu-span"><a href="/finance_wx_user/add_finance"><em class="icon icon1"></em><br />新增</a></span>{{/if}}
+</div>

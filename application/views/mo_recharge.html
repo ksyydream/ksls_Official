@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li><a href="/account/recharge_list"><em class="rechargelist"></em>公司账户</a></li>
+                    <li class="on"><a href="/account/company_account/1/{{$company_id}}"><em class="cpaccount"></em>公司详情</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的房猫</p>
+                <form action="/account/save_sum" id="save_form" method="post">
+                    <div class="publish-document-main">
+                        <table cellspadding="0" colspadding="0" border="0" class="account-table">
+                            <tr>
+                                <th width="100">充值账号：</th>
+                                <td>{{if $company_info}}{{$company_info.name}}{{/if}}
+                                <input type="hidden" name="company_id" value="{{$company_id}}">
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th>充值F币：</th>
+                                <td><input type="text" name="qty"onblur="check(this)"  onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" class="account-txt account-txt-wid80">F币 （1F币 = 1元）</td>
+                            </tr>
+                            <tr>
+                                <th>操作：</th>
+                                <td>
+                                    <select name="style">
+                                        <option value="1">转入</option>
+                                        <option value="2">转出</option>
+                                    </select>
+                                </td>
+                            </tr>
+                           <!-- <tr>
+                                <th>充值F分：</th>
+                                <td><input type="text" name="" value="" class="account-txt account-txt-wid80">F分</td>
+                            </tr>-->
+                            <tr>
+                                <th></th>
+                                <td><a href="javascript:void(0);" id="save_btn" class="review-account">确认</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+
+               
+            
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/yui-min.js"></script>
+<script type="text/javascript" src="js/jquery.poshytip.min.js"></script>
+<script type="text/javascript">
+    $("#save_btn").click(function(){
+        $("#save_form").submit();
+    })
+    function check(e) {
+        var re = /^\d+(?=\.{0,1}\d+$|$)/
+        if (e.value != "") {
+            if (!re.test(e.value)) {
+                alert("请输入正确的数字");
+                e.value = "";
+                e.focus();
+            }
+        }
+    }
+</script>
+{{include file='footer.html'}}
+</body>
+</html>

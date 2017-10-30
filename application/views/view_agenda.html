@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/lightbox.min.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if !in_array(2,$position_id) && $permission_id > 2 && !in_array(8,$position_id) && !in_array(9,$position_id)}}
+                    <li {{if $style == 1}}class="on"{{/if}}><a href="/agenda/list_agenda"><em class="myagenda"></em>我的代办</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 || in_array(2,$position_id) || in_array(8,$position_id) || in_array(9,$position_id)}}
+                    <li {{if $style == 2}}class="on"{{/if}}><a href="/agenda/list_agenda_other"><em class="allagenda"></em>代办事项</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <div class="t-tit">代办买卖二手房服务Agent Housing Services</div>
+            </div>
+            <div class="div-th"><em></em>基本信息</div>
+            <div class="div-bd">
+                <table cellpadding="0" cellsapcing="0" class="add-data-table">
+                    <tr>
+                        <td colspan="2">
+                            <dl>
+                                <dd>
+                                    {{if $agenda->order_status|default:1 == 1}}
+                                    普通单
+                                    {{else}}
+                                    {{if $agenda->a1|default:2 == 1}} 过户加急{{/if}}
+                                    {{if $agenda->a2|default:2 == 1}} 不动产证加急{{/if}}
+                                    {{if $agenda->a3|default:2 == 1}} 抵押权证加急{{/if}}
+                                    {{/if}}
+                                </dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt class="wid115">房屋地址：</dt>
+                                <dd>{{$agenda->xq_name}}</dd>
+                            </dl>
+                        </td>
+                        <td><dl><dt class="wid115">房屋面积：</dt>
+                            <dd>{{$agenda->acreage}}平方米</dd></dl></td>
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="wid115">房东姓名：</dt><dd>{{$agenda->landlord_name}}</dd></dl></td>
+                        <td>
+                            <dl>
+                                <dt>产证是否满两年：</dt>
+                                <dd>{{if $agenda->two_year_flag == 1}}是{{else}}否{{/if}}</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt class="wid115">客户姓名：</dt>
+                                <dd>{{$agenda->customer_name}}</dd>
+                            </dl>
+                        </td>
+                        <td><dl><dt class="wid115">合同金额：</dt>
+                            <dd>{{$agenda->amount}}万</dd></dl></td>
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="wid115">房东剩余贷款：</dt><dd>{{$agenda->rest_load}}万</dd></dl></td>
+                        <td>
+                            <dl>
+                                <dt>客户付款方式：</dt>
+                                <dd>{{if $agenda->payment_method == 1}}全款{{else}}按揭{{/if}}</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt class="wid115">客户收入情况：</dt>
+                                <dd>{{$agenda->customer_income}}元/月</dd>
+                            </dl>
+                        </td>
+                        <td class="twodl"><dl><dt class="wid58">首付：</dt>
+                            <dd>{{$agenda->down_payment}}万</dd></dl>
+                            <dl>
+                                <dt class="wid58">按揭：</dt>
+                                <dd>{{$agenda->mortgage}}万</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt>购房性质：</dt>
+                                <dd>
+                                    {{if $agenda->style == 1}}
+                                        首套房
+                                    {{else if $agenda->style == 2}}
+                                        二套房
+                                    {{else}}
+                                        二套以上
+                                    {{/if}}
+                                </dd>
+                            </dl>
+                        </td>
+                        <td>
+                            <dl>
+                                <dt>收佣节点：</dt>
+                                <dd>{{if $agenda->payment_node == 1}}过户前{{else}}过户后{{/if}}</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <dl>
+                                <dt>备注：</dt>
+                                <dd>
+                                    {{$agenda->mark}}
+                                </dd>
+                            </dl>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="div-th div-th1"><em></em>上传资料</div>
+            <div class="div-bd div-bd1">
+                <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+            <tr>
+                <td class="td-tit">卖房相关证件</td>
+                <td class="td-tit">买房相关证件</td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="p-tips">身份证：<em>（请上传清晰的身份证正面和反面）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[1]) }}
+                                {{foreach from=$agenda_images[1]  item=item}}
+                                <li>
+                                    <a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-1" data-title="卖房身份证">
+                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                    </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <p class="p-tips">身份证：<em>（请上传清晰的身份证正面和反面）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[4]) }}
+                                {{foreach from=$agenda_images[4] item=item}}
+                                <li><a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-2" data-title="买房身份证">
+                                    <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="p-tips">户口本 | 房产证 | 土地证：<em>（请上传清晰的照片）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[2]) }}
+                                {{foreach from=$agenda_images[2] item=item}}
+                                <li>
+                                    <a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-set" data-title="卖房 户口本 | 房产证 | 土地证">
+                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                    </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <p class="p-tips">户口本：<em>（请上传清晰的照片）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[5]) }}
+                                {{foreach from=$agenda_images[5] item=item}}
+                                <li>
+                                    <a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-set" data-title="买房户口本"><img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                    </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="p-tips">婚姻证明：<em>（请上传清晰的照片）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[3]) }}
+                                {{foreach from=$agenda_images[3] item=item}}
+                                <li>
+                                    <a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-set" data-title="卖房婚姻证明">
+                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                    </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <p class="p-tips">婚姻证明：<em>（请上传清晰的照片）</em></p>
+                    <dl class="uploadInformation">
+                        <dt>
+                            <a href="javascript:" class="aClickUpload"></a>
+                        </dt>
+                        <dd>
+                            <ul>
+                                {{if !empty($agenda_images[6]) }}
+                                {{foreach from=$agenda_images[6] item=item}}
+                                <li>
+                                    <a class="example-image-link" href="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic}}" data-lightbox="example-set" data-title="买房婚姻证明">
+                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                    </a></li>
+                                {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            </table>
+        </div>
+            {{if $agenda->status == 3}}
+            {{if in_array(9,$position_id)||in_array(2,$position_id)}}
+            <div class="div-th div-th2"><em></em>权证信息</div>
+            <div class="div-bd div-bd2">
+                <div class="history">
+                    <div class="his-tit">历史进程</div>
+                    <ul class="ul-his">
+                        {{if !empty($agenda_course) }}
+                        {{foreach from=$agenda_course item=item}}
+                        <li><i class="date">{{$item->created|date_format:"%Y-%m-%d"}}</i><i class="process">{{$item->course_name}}</i></li>
+                        {{/foreach}}
+                        {{/if}}
+                    </ul>
+                </div>
+                <div class="editor-process search-wrap">
+                    <div class="div-process">
+                        <div class="his-tit">状态</div>
+                        <select name="status" disabled="disabled">
+                            <option value="1" {{if $agenda->status == 1}}selected{{/if}}>正常</option>
+                            <option value="2" {{if $agenda->status == 2}}selected{{/if}}>异常</option>
+                            <option value="3" {{if $agenda->status == 3}}selected{{/if}}>服务完成</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="describe-process">
+                    <div class="his-tit">异常状态描述</div>
+                    <span>{{$agenda->errtext}}</span>
+
+                </div>
+            </div>
+            <div class="div-bd div-bd2">
+                <div class="his-tit">
+                    <span>代办应收款:{{$agenda->pay_sum}}元</span>
+                </div>
+                <div class="his-tit">
+                    <span>实际收款:{{$agenda->sf_sum}}元</span>
+                </div>
+
+                <span >{{$agenda->pay_text}}</span>
+            </div>
+            {{/if}}
+            {{else}}
+            {{if in_array(9,$position_id)}}
+            <form id="agendaForm" method="post" action="/agenda/confirm_agenda">
+                <input type="hidden" name="id" value="{{$agenda->id}}">
+                <div class="div-th div-th2"><em></em>权证信息</div>
+                <div class="div-bd div-bd2">
+                    <div class="history">
+                        <div class="his-tit">历史进程</div>
+                        <ul class="ul-his" id="pHistory">
+                            {{if !empty($agenda_course) }}
+                            {{foreach from=$agenda_course item=item}}
+                            <li><i class="date">{{$item->created|date_format:"%Y-%m-%d"}}</i><i class="process">{{$item->course_name}}</i><a href="javascript:void(0)" class="close-his" onclick="removeLine(this)"></a></li>
+                            {{/foreach}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                    <div class="editor-process search-wrap">
+                        <div class="div-process">
+                            <div class="his-tit">进程审核</div>
+                            <select id="pSelect">
+                                <option value="">请选择进度</option>
+                                {{foreach from=$course_list item=item}}
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                {{/foreach}}
+                            </select>
+                        </div>
+                        <div class="div-process">
+                            <div class="his-tit">状态</div>
+                            <select id="status" name="status">
+                                <option value="1" {{if $agenda->status == 1}}selected{{/if}}>正常</option>
+                                <option value="2" {{if $agenda->status == 2}}selected{{/if}}>异常</option>
+                                <option value="3" {{if $agenda->status == 3}}selected{{/if}}>服务完成</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="describe-process">
+                        <div class="his-tit">异常状态描述</div>
+                        <textarea name="errtext" rows="2" cols="3" class="sce-remarks process-remarks" placeholder="如有其他情况请备注">{{$agenda->errtext}}</textarea>
+
+                    </div>
+                </div>
+                <div id="pay_div" style="display: none" class="div-bd div-bd2">
+                    <div class="his-tit">
+                        <span>代办应收款:{{$agenda->pay_sum}}元</span>
+                    </div>
+                    <div class="his-tit">
+                        <span>实际收款:</span><input id="sf_sum" type="text" name="sf_sum" class="add-txt number" value="{{$agenda->sf_sum|default:''}}" /><em>元</em>
+                    </div>
+
+                    <textarea name="pay_text" rows="2" cols="3" class="sce-remarks process-remarks" placeholder="如有其他情况请备注">{{$agenda->pay_text}}</textarea>
+                </div>
+            </form>
+            <p class="p-btns">
+                <a href="javascript:void(0);" class="sub-btn" id="btnSubmit">提交</a>
+                <!-- <a href="" class="sub-btn reset-btn">重置</a> -->
+            </p>
+            {{/if}}
+            {{if in_array(2,$position_id)}}
+            <form id="agendaForm2" method="post" action="/agenda/change_dbuser_agenda">
+                <input type="hidden" name="id" value="{{$agenda->id}}">
+                <div class="div-th div-th2"><em></em>代办人员</div>
+                <div class="div-bd div-bd2">
+                    <div class="editor-process search-wrap">
+                        <div class="div-process">
+                            <div class="his-tit">权证(过户)</div>
+                            <select id="dbgh" name="dbgh_id">
+                                {{foreach from=$dbgh_list item=doo}}
+                                {{if $doo['id']==$agenda->dbgh_id}}
+                                <option value="{{$doo['id']}}" selected>{{$doo['rel_name']}}</option>
+                                {{else}}
+                                <option value="{{$doo['id']}}">{{$doo['rel_name']}}</option>
+                                {{/if}}
+                                {{/foreach}}
+                            </select>
+                        </div>
+                        <div class="div-process">
+                            <div class="his-tit">权证(银行)</div>
+                            <select id="dbyh" name="dbyh_id">
+                                {{foreach from=$dbyh_list item=doo}}
+                                {{if $doo['id']==$agenda->dbyh_id}}
+                                <option value="{{$doo['id']}}" selected>{{$doo['rel_name']}}</option>
+                                {{else}}
+                                <option value="{{$doo['id']}}">{{$doo['rel_name']}}</option>
+                                {{/if}}
+                                {{/foreach}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <p class="p-btns">
+                <a href="javascript:void(0);" class="sub-btn" id="btnSubmit2">提交</a>
+                <!-- <a href="" class="sub-btn reset-btn">重置</a> -->
+            </p>
+            {{/if}}
+            {{/if}}
+
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/lightbox-plus-jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    var example_num =1;
+    $("[class='example-image-link']").each(function(){
+        $(this).attr('data-lightbox','example_num-' + example_num);
+        example_num+=1;
+    })
+
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){
+        $(this).children(".error-explain").hide();
+    });
+
+    $("#btn_search").click(function() {
+        $('#formSearchActivity').submit();
+    });
+
+    $("#pSelect").change(function() {
+        var val = $(this).val();
+        var text = $(this).find("option:selected").text();
+        if(val != "") {
+            var html = '<li class="current">';
+            html += '<i class="date">'+new Date().format('yyyy-MM-dd')+'</i>';
+            html += '<i class="process">'+text+'</i><a href="javascript:void(0)" class="close-his" onclick="removeLine(this)"></a>';
+            html += '<input type="hidden" name="course[]" value="'+val+'">';
+            html += '</li>';
+            $("#pHistory").append(html)
+        }
+    });
+
+    function removeLine(obj) {
+        $(obj).parent().remove()
+    }
+
+    Date.prototype.format = function(format) {
+        var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(), //day
+            "h+" : this.getHours(), //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+        if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+                (this.getFullYear()+"").substr(4- RegExp.$1.length));
+        for(var k in o)if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    };
+
+    $("#status").change(function(){
+        if($(this).val()==3){
+            $("#pay_div").show();
+        }else{
+            $("#pay_div").hide();
+        }
+    })
+
+    $("#btnSubmit").click(function() {
+        layer.confirm('确定要保存代办服务信息？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $("#agendaForm").submit();
+        }, function(){
+        });
+    });
+    $("#btnSubmit2").click(function() {
+        layer.confirm('确定要更改代办人员？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $("#agendaForm2").submit();
+        }, function(){
+        });
+    });
+    $(".number").keyup(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g,''));
+    }).bind("paste",function(){  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g,''));
+    }).css("ime-mode", "disabled");
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的代办" />
+    <meta name="description" content="房猫-行程管理-我的代办" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if !in_array(2,$position_id) && !in_array(8,$position_id) && !in_array(9,$position_id)}}
+                    <li class="on"><a href="/agenda/list_agenda"><em class="myagenda"></em>我的代办</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 || in_array(2,$position_id) || in_array(8,$position_id) || in_array(9,$position_id)}}
+                    <li><a href="/agenda/list_agenda_other"><em class="allagenda"></em>代办事项</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <form id="formSearchActivity" method="POST" action="/agenda/list_agenda">
+                    <select name="course" id="sel_course">
+                        <option value="">进程选择</option>
+                        {{foreach from=$course_list item=doo}}
+                        {{if $doo['id']==$course}}
+                        <option value="{{$doo['id']}}" selected>{{$doo['name']}}</option>
+                        {{else}}
+                        <option value="{{$doo['id']}}">{{$doo['name']}}</option>
+                        {{/if}}
+                        {{/foreach}}
+                    </select>
+                    <select name="status" id="sel_status">
+                        <option value="">选择状态</option>
+                        <option value="1">正常</option>
+                        <option value="2">异常</option>
+                        <option value="3">服务完成</option>
+                    </select>
+                    <input type="text" name="num" value="{{$agenda_list.num|default:''}}" placeholder="编号" class="sel-begin-time areanumber"/>
+                    <input type="text" name="xq_name" value="{{$agenda_list.xq_name|default:''}}" placeholder="小区" class="sel-begin-time areanumber" />
+                    <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                    <a href="/agenda/add_agenda" class="add-schedule-btn">+新增代办</a>
+                </form>
+            </div>
+            <div class="schedule-wrap">
+
+                <ul class="schedule-ul dosth-ul">
+                    <!--  <li class="wid92">业务员姓名</li> -->
+                    <li class="wid103">编号</li>
+                    <li class="wid103">房屋地址</li>
+                    <li class="wid103">权证过户</li>
+                    <li class="wid103">权证银行</li>
+                    <li class="wid103">申请时间</li>
+                    <li class="wid103">服务完成时间</li>
+                    <li class="wid80">进程</li>
+                    <li class="wid80">状态</li>
+                    <li class="wid103">操作</li>
+                </ul>
+                {{foreach from=$agenda_list.res_list item=item}}
+                {{if $item.status==3}}
+
+                <ul class="schedule-list dosth-list dosth-successful" style="margin-right: 65px;">
+                    <li class="time wid103">{{$item.num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.xq_name|strip_tags|strip|default:$item.title|truncate:7:"..":true}}</li>
+                    <li class="bor-separate"></li>
+                    <!--<li class="items wid103">{{$item.customer_name}}</li>-->
+                    <li class="items wid103 liname">{{$item.gh_name}}<br />{{$item.gh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.yh_name}}<br />{{$item.yh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.edate|default:'--'}}</li>
+                    <li class="bor-separate bor-separate-none"></li>
+                    <li class="wid80 score-reality bgno">
+                        {{$item.course_name}}
+                    </li>
+                    <li class="bor-separate"></li>
+                    <li class="wid80 score-plan bgno">正常</li>
+                    <li class="bor-separate"></li>
+                    <li class="wid103">
+                        完成
+                    </li>
+                </ul>
+                {{else}}
+                <ul class="schedule-list dosth-list " style="margin-right: 65px;">
+                    <li class="time wid103">{{$item.num}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.xq_name|strip_tags|strip|default:$item.title|truncate:7:"..":true}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.gh_name}}<br />{{$item.gh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103 liname">{{$item.yh_name}}<br />{{$item.yh_tel}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.cdate}}</li>
+                    <li class="bor-separate"></li>
+                    <li class="items wid103">{{$item.edate|default:'--'}}</li>
+                    <li class="bor-separate bor-separate-none"></li>
+                    <li class="wid82 score-reality history-show">
+                        {{$item.course_name}}
+                        <div class="history-list">
+                            <em class="triangle"></em>
+                            <div class="history-list-inner">
+                                <p class="history-list-tit">历史进程</p>
+                                {{if $agenda_list.detail!=1}}
+                                <p class="new">
+                                {{foreach from=$agenda_list.detail item=foo}}
+                                {{if $foo['a_id']==$item.id}}
+                                <span class="his-item-icon">·</span>
+                                <span class="his-item-txt">{{$foo['name']}}<br />{{$foo['created']}}</span></p><p>
+                                {{/if}}
+                                {{/foreach}}
+                                </p>
+                                {{/if}}
+                               <!-- <p class="new">
+                                    <span class="his-item-icon">·</span>
+                                    <span class="his-item-txt">按揭中<br />2016-05-23  23:18:15</span></p>
+                                <p><span class="his-item-icon">·</span>
+                                    <span class="his-item-txt">评估通过<br />2016-05-23  23:18:15</span></p>
+                                <p><span class="his-item-icon">·</span>
+                                    <span class="his-item-txt">按揭中<br />2016-05-23  23:18:15</span></p>
+                                <p><span class="his-item-icon">·</span>
+                                    <span class="his-item-txt">按揭中<br />2016-05-23  23:18:15</span></p>-->
+                            </div>
+                        </div>
+                    </li>
+                    {{if $item.status==1}}
+                    <li class="wid82 score-plan"><em class="tips-ok"></em>正常</li>
+                    {{/if}}
+                    {{if $item.status==2}}
+                    <li class="wid82 score-plan ing-error">
+                        <em class="tips-ok tips-error"></em>异常 <div class="error-explain">
+                        <em class="triangle"></em>
+                        <div class="error-explain-inner"><p>{{$item.errtext}}</p>
+                         </div>
+                    </div>
+                    </li>
+                    {{/if}}
+                    <li class="wid103">
+                        {{if $item.course==1}}
+                        <a href="/agenda/add_agenda/{{$item.id}}" class="operation-btn">修改</a>
+                        {{else}}
+                        <a href="javascript:void(0);" class="operation-btn operation-btn-no">修改</a>
+                        {{/if}}
+                        <a href="/agenda/view_agenda/{{$item.id}}/1" class="operation-btn">查看</a>
+
+                    </li>
+                </ul>
+                {{/if}}
+                {{/foreach}}
+                <div class="pages" id="agenda_pages">
+                    {{$pager}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript">
+    $(function(){
+        $(".ing-error").mouseover(function(){
+            $(this).children(".error-explain").toggle();
+        }).mouseout(function(){ $(this).children(".error-explain").hide();});
+        $(".history-show").mouseover(function(){
+            $(this).children(".history-list").toggle();
+        }).mouseout(function(){ $(this).children(".history-list").hide();});
+        $("#btn_search").click(function() {
+            $('#formSearchActivity').submit();
+        });
+        $("#sel_status").val("{{$status|default:''}}");
+
+        $("#agenda_pages").find('a').click(function(){
+            var path = $(this).attr('href');
+            $("#formSearchActivity").attr("action",path);
+            $("#formSearchActivity").submit();
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

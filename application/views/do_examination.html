@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>在线考试</title>
+    <meta name="keywords" content="在线考试" />
+    <meta name="description" content="在线考试" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on">
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                        <span class="document-nav-list">
+                            <a href="/examination/self_examination" {{if $exam_data['question_detail']['type_id']>0}} class="on" {{/if}}>自主测评</a><br />
+                            <a href="/examination/unit_examination" {{if $exam_data['question_detail']['type_id']<0}} class="on" {{/if}}>统一考试</a><br />
+                            <a href="/examination/examination_score">我的成绩</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4 || in_array(5,$login_position_id_array)}}
+                    <li><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a></li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">在线考试</p>
+                <div class="examination-main clearfix">
+                    <form action="/" method="post" id="examForm">
+                        <input type="hidden" name="eq_id" value="{{$exam_data.question_detail.eq_id}}">
+                        <input type="hidden" name="style" value="{{$exam_data.question_detail.style}}">
+                       <div class="show-examination">
+                            <span class="tit">{{$exam_data.question_detail.question_type}}</span>
+                            <dl class="dl-exam">
+                                <dt>{{$num|default:1}}.
+                                    (
+                                    {{if $exam_data.question_detail.style==1}}单选题{{/if}}
+                                    {{if $exam_data.question_detail.style==2}}多选题{{/if}}
+                                    {{if $exam_data.question_detail.style==3}}论述题{{/if}}
+                                    )
+                                    {{$exam_data.question_detail.title}}</dt>
+                                {{if $exam_data.question_detail.style==1}}
+                                <dd><label><input type="radio" value="A" name="option" {{if $exam_data.question_detail.as1==1}}checked{{/if}}/><span>A. {{$exam_data.question_detail.op1}}</span></label></dd>
+                                <dd><label><input type="radio" value="B" name="option" {{if $exam_data.question_detail.as2==1}}checked{{/if}}/><span>B. {{$exam_data.question_detail.op2}}</span></label></dd>
+                                <dd><label><input type="radio" value="C" name="option" {{if $exam_data.question_detail.as3==1}}checked{{/if}}/><span>C. {{$exam_data.question_detail.op3}}</span></label></dd>
+                                <dd><label><input type="radio" value="D" name="option" {{if $exam_data.question_detail.as4==1}}checked{{/if}}/><span>D. {{$exam_data.question_detail.op4}}</span></label></dd>
+                                {{/if}}
+                                {{if $exam_data.question_detail.style==2}}
+                                <dd><label><input type="checkbox" value="A" name="option" {{if $exam_data.question_detail.as1==1}}checked{{/if}}/><span>A. {{$exam_data.question_detail.op1}}</span></label></dd>
+                                <dd><label><input type="checkbox" value="B" name="option" {{if $exam_data.question_detail.as2==1}}checked{{/if}}/><span>B. {{$exam_data.question_detail.op2}}</span></label></dd>
+                                <dd><label><input type="checkbox" value="C" name="option" {{if $exam_data.question_detail.as3==1}}checked{{/if}}/><span>C. {{$exam_data.question_detail.op3}}</span></label></dd>
+                                <dd><label><input type="checkbox" value="D" name="option" {{if $exam_data.question_detail.as4==1}}checked{{/if}}/><span>D. {{$exam_data.question_detail.op4}}</span></label></dd>
+                                {{/if}}
+                                {{if $exam_data.question_detail.style==3}}
+                                <dd class="discuss-dd">
+                                    <textarea id="answer" name="answer" rows="3" cols="4">{{$exam_data.question_detail.answer}}</textarea>
+                                </dd>
+                                <div class="exam-page">
+                                    <p>
+                                        <a href="javascript:void(0);" onclick="save_answer()" class="save">保存答案</a>
+                                    </p>
+                                </div>
+                                {{/if}}
+                            </dl>
+
+                           <div class="exam-page" style="margin-top:30px;">
+                                 <p>
+                                     {{if $num == 1}}
+                                        <a href="javascript:void(0);" class="prev btn-off">上一题</a>
+                                     {{else}}
+                                        <a href="javascript:void(0);" class="prev" onclick="clickPrev()">上一题</a>
+                                     {{/if}}
+                                     {{if $num >= count($question_data)}}
+                                     <a href="javascript:void(0);" class="next btn-off">下一题</a>
+                                     {{else}}
+                                     <a href="javascript:void(0);" class="next" onclick="clickNext()">下一题</a>
+                                     {{/if}}
+
+                                 </p>
+                            </div>
+                       </div>
+                    </form>
+                   <div class="examination-result">
+                        <p class="hassubmit"></p>
+                        <div class="examination-result-inner">
+                            <span class="exam-category">
+                                <i class="bor"></i>
+                                {{if $exam_data.question_detail.style==3}}
+                                 <em class="pos1">选择题</em><em class="current pos2">论述题</em>
+                                {{else}}
+                                <em class="current pos1">选择题</em><em class="pos2">论述题</em>
+                                {{/if}}
+
+                            </span>
+                            <div class="ques-number">
+                                {{foreach from=$question_data key=key item=item}}
+                                    {{if $key+1 == $num}}
+                                        <a href="/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$key+1}}" class="current">{{$key+1}}</a>
+                                    {{else if $item.complete == 1}}
+                                        <a href="/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$key+1}}" class="done">{{$key+1}}</a>
+                                    {{else}}
+                                        <a href="/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$key+1}}" >{{$key+1}}</a>
+                                    {{/if}}
+                                {{/foreach}}
+                            </div>
+                            <p class="tips">
+                                <span class="col1">&nbsp</span>未答题
+                                <span class="col2">&nbsp</span>当前题
+                                <span class="col3">&nbsp</span>已答题
+                            </p>
+                        </div>
+                        <div class="exam-page">
+                           <p><a href="javascript:void(0);" id="submitExam">交卷</a></p>
+                        </div>
+                   </div>
+                   <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="application/javascript">
+    $(function() {
+        {{if $flag}}
+            layer.msg('保存成功');
+        {{/if}}
+        $(".dl-exam dd label").click(function(){ $(".dl-exam dd label").removeClass("choose");$(this).addClass("choose"); });
+        $("#submitExam").click(function() {
+            var msg = "确定要交卷吗？";
+            var data_ = Date.parse(new Date());
+            $.getJSON('/examination/check_complete/{{$exam_id}}/'+data_,function(data){
+                if(data==1){
+                    msg = "您还有未完成的试题,是否确定要交卷？";
+                    layer.confirm(msg, {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        $("#examForm").attr('action', '/examination/complete_examination/{{$exam_id}}');
+                        $("#examForm").submit();
+                    }, function(){
+                    });
+                }else{
+                    layer.confirm(msg, {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        $("#examForm").attr('action', '/examination/complete_examination/{{$exam_id}}');
+                        $("#examForm").submit();
+                    }, function(){
+                    });
+                }
+            })
+
+        });
+    });
+
+
+
+    function clickPrev() {
+        $("#examForm").attr('action', '/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$num-1}}');
+        $("#examForm").submit();
+    }
+
+    function save_answer() {
+        if($.trim($("#answer").val())==""){
+            layer.msg('请填写答案后保存');
+        }else{
+            $("#examForm").attr('action', '/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$num}}/1');
+            $("#examForm").submit();
+        }
+
+    }
+
+    function clickNext() {
+        {{if $num == count($question_data)}}
+            $("#examForm").attr('action', '/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$num}}');
+        {{else}}
+            $("#examForm").attr('action', '/examination/do_examination/{{$exam_data.question_detail.type_id}}/{{$exam_id}}/{{$num+1}}');
+        {{/if}}
+        $("#examForm").submit();
+    }
+
+    $("input[name='option']").change(function(){
+        var val = $(this).val();
+        var checked = 0
+        if ($(this).is(':checked')) {
+            checked = 1
+        }
+        var path = "{{site_url url='examination/chenge_option'}}/{{$exam_data.question_detail.eq_id}}/"+val+"/"+checked+"/{{$exam_data.question_detail.style}}/" + Math.random();
+        $.getJSON(path,function(data){
+
+        })
+    })
+</script>
+</body>
+</html> 

@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>金融服务</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="finance-result">
+        {{if $data.status==1}}<p class="p-icon"><img src="/static/images/wtj-res.png" alt=""></p>{{/if}}
+        {{if $data.status==2}}<p class="p-icon"><img src="/static/images/waiting-res.png" alt=""></p>{{/if}}
+        {{if $data.status==3}}<p class="p-icon"><img src="/static/images/success-res.png" alt=""></p>{{/if}}
+        {{if $data.status==4}}<p class="p-icon"><img src="/static/images/over-res.png" alt=""></p>{{/if}}
+        {{if $data.status==5}}<p class="p-icon"><img src="/static/images/fail-res.png" alt=""></p>{{/if}}
+        {{if $data.status==-1}} <p class="p-icon"><img src="/static/images/end-res.png" alt=""></p>{{/if}}
+
+<!--        <p class="p-icon"><img src="/static/assets/i/lose-res.png" alt=""></p>
+<p class="p-icon"><img src="/static/assets/i/over-res.png" alt=""></p>//结案
+      <p class="p-icon"><img src="/static/assets/i/success-res.png" alt=""></p>//成功
+      <p class="p-icon"><img src="/static/assets/i/wtj-res.png" alt=""></p>//未提交
+      <p class="p-icon"><img src="/static/assets/i/fail-res.png" alt=""></p>//未通过
+      <p class="p-icon"><img src="/static/assets/i/end-res.png" alt=""></p> //终止-->
+        {{if $data.status==1}}
+        <p class="p-res1">您的申请还未提交</p>
+        <p class="p-res2">请完善资料后进行提交,等待平台审核。</p>
+        {{/if}}
+        {{if $data.status==2}}
+        <p class="p-res1">您的申请提交成功</p>
+        <p class="p-res2">等待平台审核，我们会在三个工作日内给您回复。</p>
+        {{/if}}
+        {{if $data.status==3}}
+        <p class="p-res1">恭喜您，您的审核已通过</p>
+        <p class="p-res2">以下为平台为您推荐的贷款方案，平台客服人员将在近期联系您进行后续签约解答。
+            请您保持手机接听通畅。</p>
+        {{/if}}
+        {{if $data.status==4}}
+        <p class="p-res1">您的金融服务已结案</p>
+        <p class="p-res2">感谢您对我们工作的信任和支持.</p>
+        {{/if}}
+        {{if $data.status==5}}
+        <p class="p-res1">抱歉，您的审核未被平台受理</p>
+        <p class="p-res2">原因如下：{{$data.meno_text}}</p>
+        {{/if}}
+        {{if $data.status==-1}}
+        <p class="p-res1">抱歉，您的申请已被平台关闭</p>
+        <p class="p-res2">原因如下：{{$data.meno_text}}</p>
+        {{/if}}
+        <!--<p class="p-fail">sorry！<br />您的二维码已经过期</p>-->
+        <p class="p-res3"><a href="/finance_wx_user/show_finance_1/{{$data.id}}">查看申请详情</a></p>
+    </div>
+      {{if $data.status==3}}
+      <div class="finance-plan">
+          <ul class="f-r-tit">
+              {{if $data.result}}
+              {{if $data.type1flag.num > 0}}
+              <li class="li-tit">信用贷款</li>
+              {{foreach from=$data.result item=item key=myId}}
+
+              {{if $item.type == 1}}
+              <li>
+                  <div class="plan-list plan-list1"><span class="money">{{$item.ed|default:'-'}}万</span><span>额度</span></div>
+                  <div class="plan-list plan-list2"><span class="rates">年化{{$item.nh|default:'-'}}</span><span>利息</span></div>
+                  <div class="plan-list plan-list3"><span class="rates">{{$item.minzq|default:''}}-{{$item.maxzq|default:''}}期</span><span>周期</span></div>
+              </li>
+              {{/if}}
+              {{/foreach}}
+              {{/if}}
+              {{if $data.type2flag.num > 0}}
+              <li class="li-tit">抵押贷款</li>
+              {{foreach from=$data.result item=item key=myId}}
+
+              {{if $item.type == 2}}
+              <li>
+                  <div class="plan-list plan-list1"><span class="money">{{$item.ed|default:'-'}}万</span><span>额度</span></div>
+                  <div class="plan-list plan-list2"><span class="rates">年化{{$item.nh|default:'-'}}</span><span>利息</span></div>
+                  <div class="plan-list plan-list3"><span class="rates">{{$item.minzq|default:''}}-{{$item.maxzq|default:''}}期</span><span>周期</span></div>
+              </li>
+              {{/if}}
+              {{/foreach}}
+              {{/if}}
+
+              {{/if}}
+          </ul>
+      </div>
+      {{/if}}
+
+
+  </div>
+</div>
+    {{include file="finance/weixin/admin-menu.html"}}
+
+</div>
+
+
+
+</body>
+</html>

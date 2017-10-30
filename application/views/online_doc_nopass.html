@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>文档列表</title>
+    <meta name="keywords" content="文档列表" />
+    <meta name="description" content="文档列表" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li><a href="/video/list_video"><em class="onlineclass"></em>在线课程</a></li>
+                    <li><a href="/document/list_doc"><em class="documentdata"></em>文档资料</a></li>
+                    <li class="on"><a href="/document/list_doc_nopass"><em class="documentdata"></em>文档审核</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <form id="formSearchActivity" method="POST" action="/document/list_doc_nopass">
+                    <input type="text" name="title" value="{{$title|default:''}}" class="search-input" placeholder="你不懂的搜一搜" >
+                    <input type="hidden" name="type" value="{{$typeid|default:''}}">
+                    <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                </form>
+            </div>
+            <div class="schedule-wrap online-class-wrap">
+                <ul class="control online-class-control document-list-control" id ="slide01_control">
+                    <li><a href="{{site_url url='document/list_doc_nopass'}}" class="{{if $typeid==''}}current{{/if}}">全部</a> </li>
+                    {{if $type_list!=1}}
+                    {{foreach from=$type_list item=item}}
+                    <li><a href="{{site_url url='document/list_doc_nopass'}}/1/{{$item.id}}" class="{{if $typeid==$item.id}}current{{/if}}">{{$item.name}}</a></li>
+                    {{/foreach}}
+                    {{/if}}
+                </ul>
+                <div class="main-inner" id="slide01">
+                    <div class="condiv">
+                        <div class="tab-tit">{{$type_name|default:''}}</div>
+                        <ul class="document_list">
+                            {{foreach from=$list_doc.res_list item=item}}
+                            <li>
+                                <a href="{{site_url url='document/view_doc'}}/{{$item.id}}"><span class="document-tit">
+                                    {{if $item.type ==6}}<em class="download-icon"></em>{{else}}<em class="txt-icon"></em>{{/if}}{{$item.title}}</span>
+                                    <span class="operation-span"><em>浏览:{{$item.look}}次</em><em>收藏:{{$item.house}}次</em><em>点赞:{{$item.likes}}</em></span></a>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                        <div id="doc_page" class="pages">
+                           {{$pager}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script type="text/javascript">
+
+   /* new Slide({
+        target: $('#slide01 .condiv' ),
+        control: $('#slide01_control li' ),
+        type:'click',
+        onchange: function() {
+        }
+    });*/
+    $("#doc_page").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearchActivity").attr("action",path);
+        $("#formSearchActivity").submit();
+        return false;
+    })
+    $("#btn_search").click(function(){
+
+        $("#formSearchActivity").submit();
+
+    })
+</script>
+</body>
+</html>

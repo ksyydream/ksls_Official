@@ -1,0 +1,22 @@
+<form method="post" action="/finance/save_appointment" id="fin_codeForm">
+<div class="r-tit">推送二维码<span class="s-bor"></span></div>
+
+    <img alt="客户扫码绑定" src="{{site_url url='finance/show_img'}}/{{$result}}" style="width:110px;height:110px"/>
+
+<p class="radio-tips">二维码有效期一个小时</p>
+<!--<a href="javascript:" class="book-submit-btn" id="btnSubmit">下载</a>-->
+<input type="hidden" name="finance_id" value="{{$finance_id}}">
+</form>
+
+<script>
+    setTimeout(function() {
+        $("#btnSubmit").click(function() {
+            var room_id = $("input[name='room_id']:checked").val();
+            if(room_id == undefined) {
+                layer.msg("请先选中一个会议室.", {icon: 2});
+            } else {
+                $("#appointmentForm").submit();
+            }
+        });
+    }, 100);
+</script>

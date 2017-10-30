@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if in_array(7,$position_id)}}
+                    <li><a href="/account/recharge_list"><em class="rechargelist"></em>公司账户</a></li>
+                    <li class="on"><a href="/account/company_account/1/{{$company_account.company_id}}"><em class="cpaccount"></em>公司详情</a></li>
+                    {{else}}
+                    <li class="on"><a href="/account/company_account"><em class="cpaccount"></em>我的房猫</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的房猫</p>
+                <div class="publish-document-main company-account-main">
+                    <div class="company-info">
+                        {{if $company_account.company}}
+                        <div class="company-fl">
+                            <p>{{$company_account.company.name}}<br />
+                                <span class="tel">手机号码：{{$company_account.company.tel}}</span></p>
+
+                        </div>
+                        <div class="company-fr">
+                            <p>账户余额<br />
+                                <span class="balance"><em><i>{{$company_account.company.sum}}</i> 元</em>
+                                    {{if in_array(7,$position_id)}}
+                                    <a href="/account/mo_recharge/{{$company_account.company_id}}" class="recharge-btn">充值</a>
+                                    {{else}}
+                                    <a href="/account/alipay_recharge/{{$company_account.company_id}}" class="recharge-btn">充值</a>
+                                    {{/if}}
+                                </span>
+                                <!--<span class="integral"><em><i>1600</i> 积分</em></span></p> -->
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="account-info">
+                         <div class="search-wrap" id="yui_3_5_1_1_1470035798576_24">
+                        <form id="formSearchLog" method="POST" action="/account/company_account">
+                            <span style="float:left;font-size:16px;">起止时间：</span>
+                            <input type="hidden" value="{{$company_account.company_id}}" name="company_id">
+                            <div class="calendar-input-wrap"><span class="calendar-start-icon trigger-icon-yui_3_5_1_1_1470035798576_18"></span><input type="text" name="start_date" id="J_DepDate" value="{{$company_account.start_date|default:''}}" class="sel-begin-time trigger-node-yui_3_5_1_1_1470035798576_18"></div>
+                            <span class="time-break"> </span>
+                            <div class="calendar-input-wrap"><span class="calendar-end-icon trigger-icon-yui_3_5_1_1_1470035798576_18"></span><input type="text" name="end_date" id="J_EndDate" value="{{$company_account.end_date|default:''}}" class="sel-end-time trigger-node-yui_3_5_1_1_1470035798576_18"></div>
+                            <select name="style">
+                                <option value="">全部</option>
+                                <option value="1" {{if $company_account.style && $company_account.style ==1 }} selected{{/if}}>转入</option>
+                                <option value="2" {{if $company_account.style && $company_account.style ==2 }} selected{{/if}}>转出</option>
+                            </select>
+                            <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                        </form>
+
+                       </div>
+                        <span class="vSearch-result">
+                          共搜索到 <em>{{$company_account.countPage}}</em> 条记录
+                        </span>
+                       <table cellspadding="0" clospadding="0" class="recharge-table">
+                       <tr>
+                            <!--<th width="10%">编号</th>-->
+                            <th width="30%">操作事项</th>
+                            <th width="20%">转入</th>
+                            <th width="20%">转出</th>
+                            <th width="30%">时间</th>
+                       </tr>
+                           {{foreach from=$company_account.res_list item=item}}
+                           <tr>
+                               <!--<td>{{$item.id}}</td>-->
+                               <td>{{$item.demo}}</td>
+                               <td>{{if $item.style==1}}
+                                   {{$item.qty}}
+                                   {{/if}}
+                               </td>
+                               <td>{{if $item.style==2}}
+                                   {{$item.qty}}
+                                   {{/if}}</td>
+                               <td>
+                                   {{$item.created}}
+                               </td>
+                           </tr>
+                           {{/foreach}}
+                     </table>
+                        <div id="account_page" class="pages">
+                            {{$pager}}
+                        </div>
+                    </div>
+                </div>
+               
+            
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript">
+    //$('.item-icon').poshytip();
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            // minDate         : new Date,     //最小时间限制
+            triggerNode     : '#J_DepDate', //第一个触节点
+            finalTriggerNode: '#J_EndDate',  //最后一个触发节点
+            isHoliday:true,
+            isDateInfo:false,
+            count:1
+        });
+    });
+    $(function(){
+
+        $("#btn_search").click(function(){
+            $("#formSearchLog").submit();
+        })
+
+        $("#account_page").find('a').click(function(){
+            var path = $(this).attr('href');
+            $("#formSearchLog").attr("action",path);
+            $("#formSearchLog").submit();
+            return false;
+        })
+    })
+</script>
+{{include file='footer.html'}}
+</body>
+</html>

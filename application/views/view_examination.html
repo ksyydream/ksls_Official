@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>题库</title>
+    <meta name="keywords" content="题库" />
+    <meta name="description" content="题库" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on"><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                            <a href="/examination/enter_examination">上传试题</a><br />
+                            <a href="/examination/setup_examination" >生成试卷</a><br />
+                            <a href="/examination/examination_list" class="on">我的试卷</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的试卷</p>
+                <div class="examination-main clearfix">
+                    <p class="exam-tit">{{$exam_data.exam_main.title}}</p>
+                    <p class="tips"><span class="fz18">注意事项：</span><br />
+                        本试卷共有{{$exam_data.exam_main.p_num}}道试题</p>
+                    <p class="exam-p1">第I卷
+                        {{if $exam_data.exam_main.style==3}}（陈述题）
+                        {{else}}（选择题）{{/if}}
+                    </p>
+                    <p class="exam-p2">一、选择题目（共{{$exam_data.exam_main.p_num}}小题）</p>
+                    <dl class="dl-exam1">
+                        {{foreach from=$exam_data.exam_list key=key item=item}}
+                        <dt>(
+                            {{if $item['style']==1}}单选题{{/if}}
+                            {{if $item['style']==2}}多选题{{/if}}
+                            {{if $item['style']==3}}陈述题{{/if}}
+                            )
+                            {{$key+1}}. {{$item['title']}}</dt>
+                        {{if $item['style']==3}}
+                        <br />
+                        {{else}}
+                        <dd>
+                            A {{$item['op1']}}<br />
+                            B {{$item['op2']}}<br />
+                            C {{$item['op3']}}<br />
+                            D {{$item['op4']}}
+                        </dd>
+                        {{/if}}
+
+                        {{/foreach}}  </dl>
+                    {{if $exam_data.exam_main.start_time > $today}}
+                    <a href="javascript:void(0);" id="save_btn" class="createpaper-btn">退回修改</a>
+                    {{/if}}
+                    <a href="/examination/examination_list" class="createpaper-btn">返回试卷列表</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+$("#save_btn").click(function(){
+    layer.confirm('确定要修改试卷？', {
+        btn: ['确定','取消'] //按钮
+    }, function(){
+        var data_ = Date.parse(new Date());
+        $.getJSON('/examination/check_flag_date/{{$exam_data.exam_main.id}}/'+data_,function(data){
+            if(data==3){
+                layer.msg('"生成试卷"中有未完成的试卷,本试卷不能修改');
+                return false;
+            }
+            if(data==2){
+                layer.msg('试卷已开考,本试卷不能修改');
+                return false;
+            }
+            if(data==1){
+                window.location.href="/examination/change_flag_1/{{$exam_data.exam_main.id}}";
+            }
+        })
+    }, function(){
+    });
+
+})
+</script>

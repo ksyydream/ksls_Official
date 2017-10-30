@@ -1,0 +1,393 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>填写资料信息</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">申请人信息</strong> / <small>Applicant Infromation</small>
+      </div>
+    </div>
+    <form id="financeForm" method="post" action="/finance_wx_user/save_finance_1" class="am-form am-form-horizontal am-form-wrap-finance">
+        <input type="hidden" name="finance_wx_num" value="{{$finance_wx_num}}">
+        <input type="hidden" name="id" value="{{$data.id|default:''}}">
+        <div class="am-form-group am-form-finance">
+          <label for="borrower_name" class="am-form-label">姓名</label>
+          <div class="am-sm-fin">
+            <input type="text" id="borrower_name" name="borrower_name" value="{{$data.borrower_name|default:''}}" maxlength="6" class="am-form-field" placeholder="请输入姓名">
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="borrower_age" class="am-form-label">年龄</label>
+          <div class="am-sm-fin">
+            <input type="text"  id="borrower_age" name="borrower_age" value="{{$data.borrower_age|default:''}}" maxlength="3" class="yy_num am-form-field" placeholder="请输入年龄">
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label class="am-form-label">性别</label>
+          <div class="am-sm-fin">
+           <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_sex_1" name="borrower_sex" {{if $data.borrower_sex|default:0 == 1 }}checked{{/if}} value="1"> 男</label>
+                </div>
+                <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_sex_2" name="borrower_sex" {{if $data.borrower_sex|default:0 == 2 }}checked{{/if}} value="2"> 女<label>
+                </div>
+          </div>
+        </div>
+         <div class="am-form-group am-form-finance">
+          <label class="am-form-label">婚 姻</label>
+          <div class="am-sm-fin">
+           <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_marriage_1" name="borrower_marriage" {{if $data.borrower_marriage|default:0 == 1 }}checked{{/if}} value="1"> 已婚</label>
+                </div>
+                <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_marriage_2" name="borrower_marriage" {{if $data.borrower_marriage|default:0 == 2 }}checked{{/if}} value="2"> 未婚<label>
+                </div>
+          </div>
+        </div>
+              <div class="am-form-group am-form-finance">
+          <label class="am-form-label">房产</label>
+          <div class="am-sm-fin">
+           <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_hasP_1" {{if $data.borrower_hasP|default:0 == 1 }}checked{{/if}} name="borrower_hasP" value="1"> 有房产</label>
+                </div>
+                <div class="am-radio">
+                  <label>
+                    <input type="radio" id="borrower_hasP_2" {{if $data.borrower_hasP|default:0 == 2 }}checked{{/if}} name="borrower_hasP" value="2"> 无房产<label>
+                </div>
+          </div>
+        </div>
+         <div class="am-form-group am-form-finance">
+           <label for="borrower_native" class="am-form-label">籍贯</label>
+          <div class="am-sm-fin">
+            <input type="text" value="{{$data.borrower_native|default:''}}" id="borrower_native" name="borrower_native" class="am-form-field" placeholder="请输入籍贯">
+          </div>
+         </div> 
+          <div class="am-form-group am-form-finance">
+            <label  class="am-form-label">学历</label>
+          <div class="am-sm-fin">
+            <select id="borrower_qualifications" name="borrower_qualifications" class="doc-select">
+                  <option {{if $data.borrower_qualifications|default:'' == '小学' }}selected="selected"{{/if}} value="小学">小学</option>
+                  <option {{if $data.borrower_qualifications|default:'' == '初中' }}selected="selected"{{/if}} value="初中">初中</option>
+                <option {{if $data.borrower_qualifications|default:'' == '中专' }}selected="selected"{{/if}} value="中专">中专</option>
+                  <option {{if $data.borrower_qualifications|default:'' == '高中' }}selected="selected"{{/if}} value="高中">高中</option>
+                <option {{if $data.borrower_qualifications|default:'' == '大专' }}selected="selected"{{/if}} value="大专">大专</option>
+                  <option {{if $data.borrower_qualifications|default:'' == '本科' }}selected="selected"{{/if}} value="本科">本科</option>
+                <option {{if $data.borrower_qualifications|default:'' == '硕士' }}selected="selected"{{/if}} value="硕士">硕士</option>
+                <option {{if $data.borrower_qualifications|default:'' == '博士' }}selected="selected"{{/if}} value="博士">博士</option>
+            </select>
+          </div>
+         </div>
+          <div class="am-form-group am-form-finance">
+          <label for="borrower_workADD" class="am-form-label am-form-adress">工作地址</label>
+            <div class="am-sm-fin">
+              <input type="text" id="borrower_workADD" value="{{$data.borrower_workADD|default:''}}" maxlength="40" name="borrower_workADD"  class="am-form-field" placeholder="请输入工作地址">
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+          <label for="borrower_position" class="am-form-label">职位</label>
+            <div class="am-sm-fin">
+              <input type="text"  value="{{$data.borrower_position|default:''}}"  maxlength="10" id="borrower_position" name="borrower_position" class="am-form-field" placeholder="请输入职位">
+            </div>
+           </div>
+            <div class="am-form-group am-form-finance">
+          <label for="borrower_income" class="am-form-label am-form-adress">月收入</label>
+            <div class="am-sm-fin">
+              <input type="text" id="borrower_income"  value="{{$data.borrower_income|default:''}}"  maxlength="10" name="borrower_income" class="yy_num am-form-field" placeholder="请输入月收入">
+
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="borrower_code" class="am-form-label am-form-identity">身份证号码</label>
+            <div class="am-sm-fin">
+              <input type="text" id="borrower_code"  value="{{$data.borrower_code|default:''}}"  maxlength="20" name="borrower_code" class="am-form-field" placeholder="请输入身份证号码">
+
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="borrower_SSY" class="am-form-label am-form-adress">社保年限</label>
+            <div class="am-sm-fin">
+              <input type="text" id="borrower_SSY"  value="{{$data.borrower_SSY|default:''}}"  maxlength="10" name="borrower_SSY" class="am-form-field" placeholder="请输入社保年限">
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+            <label for="borrower_phone" class="am-form-label am-form-adress">联系方式</label>
+              <div class="am-sm-fin">
+                <input type="text" id="borrower_phone"  value="{{$data.borrower_phone|default:''}}" maxlength="20" name="borrower_phone" class="am-form-field" placeholder="请输入联系方式">
+              </div>
+           </div>
+        <div class="am-cf am-padding am-padding-left-0">
+            <div class="am-fl am-cf">
+                <strong class="am-text-primary am-text-lg">资金需求</strong> / <small>Fund Infromation</small>
+            </div>
+        </div>
+
+            <div class="am-form-group am-form-finance">
+                <label for="borrowing_amount" class="am-form-label">额度</label>
+                <div class="am-sm-fin">
+                    <input type="text" id="borrowing_amount"  value="{{$data.borrowing_amount|default:''}}" maxlength="20" name="borrowing_amount" class="yy_num am-form-field" placeholder="请输入额度">
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="repayment" class="am-form-label am-form-identity">还款周期</label>
+                <div class="am-sm-fin">
+                    <select id="repayment" name="repayment" class="doc-select">
+                        <option {{if $data.repayment|default:0 == 1 }}selected="selected"{{/if}} value="1">3个月</option>
+                        <option {{if $data.repayment|default:0 == 2 }}selected="selected"{{/if}} value="2">半年</option>
+                        <option {{if $data.repayment|default:0 == 3 }}selected="selected"{{/if}} value="3">一年</option>
+                        <option {{if $data.repayment|default:0 == 4 }}selected="selected"{{/if}} value="4">两年</option>
+                        <option {{if $data.repayment|default:0 == 5 }}selected="selected"{{/if}} value="5">三年</option>
+                        <option {{if $data.repayment|default:0 == 6 }}selected="selected"{{/if}} value="6">三年以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-finance">
+                <label for="repayment_methods" class="am-form-label am-form-identity">还款方式</label>
+                <div class="am-sm-fin">
+                    <select id="repayment_methods" name="repayment_methods" class="doc-select">
+                        <option {{if $data.repayment_methods|default:0 == 1 }}selected="selected"{{/if}} value="1">等额本息</option>
+                        <option {{if $data.repayment_methods|default:0 == 2 }}selected="selected"{{/if}} value="2">等额本金</option>
+                        <option {{if $data.repayment_methods|default:0 == 3 }}selected="selected"{{/if}} value="3">先息后本</option>
+                    </select>
+                </div>
+            </div>
+            <div class="am-cf am-padding am-padding-left-0">
+                <div class="am-fl am-cf">
+                    <strong class="am-text-primary am-text-lg">征信概要</strong> / <small>Applicant Infromation</small>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label  class="am-form-label am-form-identity">信用卡逾期</label>
+                <div class="am-sm-fin">
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_XYK_radio|default:0 == 1 }}checked{{/if}} id="xkyq-yes" value="1" name="explain_XYK_radio"> 有</label>
+                    </div>
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_XYK_radio|default:0 == 2 }}checked{{/if}} id="xkyq-no" value="2" name="explain_XYK_radio"> 无<label>
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label class="am-form-label am-form-identity">按揭逾期</label>
+                <div class="am-sm-fin">
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_AJ_radio|default:0 == 1 }}checked{{/if}} id="ajyq-yes" value="1" name="explain_AJ_radio"> 有</label>
+                    </div>
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_AJ_radio|default:0 == 2 }}checked{{/if}} id="ajyq-no" value="2" name="explain_AJ_radio"> 无<label>
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label class="am-form-label am-form-identity">房产第三方质押</label>
+                <div class="am-sm-fin am-sm-fin-two">
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_ZY_radio|default:0 == 1 }}checked{{/if}} id="sfzy-yes" value="1" name="explain_ZY_radio"> 有</label>
+                    </div>
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_ZY_radio|default:0 == 2 }}checked{{/if}} id="sfzy-no" value="2" name="explain_ZY_radio"> 无<label>
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label class="am-form-label am-form-identity">商业保险</label>
+                <div class="am-sm-fin">
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_SYBX_radio|default:0 == 1 }}checked{{/if}} id="sybx-yes" value="1" name="explain_SYBX_radio"> 有</label>
+                    </div>
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_SYBX_radio|default:0 == 2 }}checked{{/if}} id="sybx-no" value="2" name="explain_SYBX_radio"> 无<label>
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label class="am-form-label am-form-identity">司法裁决</label>
+                <div class="am-sm-fin">
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_SFZC_radio|default:0 == 1 }}checked{{/if}} id="sfcj-yes" value="1" name="explain_SFZC_radio"> 有</label>
+                    </div>
+                    <div class="am-radio">
+                        <label>
+                            <input type="radio" {{if $data.explain_SFZC_radio|default:0 == 2 }}checked{{/if}} id="sfcj-no" value="2" name="explain_SFZC_radio"> 无</label>
+                    </div>
+                </div>
+            </div>
+        <!--  <p class="finance-btn-p"><a id="save_btn" href="javascript:void(0);" class="finance-btn">下一步</a></p> -->
+         <button id="save_btn" type="button" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">下一步</button>
+       <!-- <button id="end_btn" type="button" class="am-btn am-btn-default am-btn-block am-btn-xl am-round">返回首页</button>-->
+     </form>
+  </div>
+
+ </div>
+ <!-- content end -->
+    {{include file="finance/weixin/admin-menu.html"}}
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    //是否结婚
+
+
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#save_btn").click(function() {
+
+        if($.trim($("#borrower_name").val()) == "") {
+            layer.msg('请输入申请人姓名', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_age").val()) == "") {
+            layer.msg('请输入申请人年龄', {icon: 2});
+            return false;
+        }
+        if($("#borrower_sex_1").is(':checked') || $("#borrower_sex_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择申请人性别', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_native").val()) == "") {
+            layer.msg('请输入申请人籍贯', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_qualifications").val()) == "") {
+            layer.msg('请输入申请人学历', {icon: 2});
+            return false;
+        }
+        if($("#borrower_marriage_1").is(':checked') || $("#borrower_marriage_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择申请人婚姻状况', {icon: 2});
+            return false;
+        }
+        if($("#borrower_hasP_1").is(':checked') || $("#borrower_hasP_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择有无房产', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_workADD").val()) == "") {
+            layer.msg('请输入申请人工作地址', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_position").val()) == "") {
+            layer.msg('请输入申请人职位', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_income").val()) == "") {
+            layer.msg('请输入申请人月收入', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_SSY").val()) == "") {
+            layer.msg('请输入申请人社保年限', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_code").val()) == "") {
+            layer.msg('请输入申请人身份证号码', {icon: 2});
+            return false;
+        }
+        if($.trim($("#borrower_phone").val()) == "") {
+            layer.msg('请输入申请人联系电话', {icon: 2});
+            return false;
+        }
+        if($("#borrowing_amount").val() == "") {
+            layer.msg('请输入额度', {icon: 2});
+            return false;
+        }
+        if($("#repayment_methods").val() == "") {
+            layer.msg('请选择还款方式', {icon: 2});
+            return false;
+        }
+        if($.trim($("#repayment").val()) == "" || $.trim($("#repayment").val()) == "0") {
+            layer.msg('请输入还款周期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_XYK_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无信用卡逾期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_AJ_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无按揭逾期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_ZY_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择房产有无第三方质押', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_SYBX_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无商业保险', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_SFZC_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无司法裁决', {icon: 2});
+            return false;
+        }
+        //这里开始处理 配偶信息
+
+        $('#financeForm').submit();
+    });
+    $("#end_btn").click(function() {
+        window.location.href="/finance_wx_user/index";
+    })
+</script>

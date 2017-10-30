@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    {{if !in_array(2,$position_id) && $permission_id > 2 && !in_array(8,$position_id) && !in_array(9,$position_id)}}
+                    <li class="on"><a href="/agenda/list_agenda"><em class="myagenda"></em>我的代办</a></li>
+                    {{/if}}
+                    {{if $permission_id < 5 || in_array(2,$position_id) || in_array(8,$position_id) || in_array(9,$position_id)}}
+                    <li><a href="/agenda/list_agenda_other"><em class="allagenda"></em>代办事项</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <form id="agendaForm" method="post" action="/agenda/save_agenda">
+                <input type="hidden" id="time_open" name="time_open">
+                <input type="hidden" id="agenda_id" name="id" value="{{$agenda->id|default:''}}">
+                <div class="search-wrap">
+                    <div class="t-tit">代办买卖二手房服务Agent Housing Services</div>
+                </div>
+                <div class="div-th"><em></em>基本信息</div>
+                <div class="div-bd">
+                    <table cellpadding="0" cellsapcing="0" class="add-data-table">
+                        <tr>
+                            <td colspan="2">
+                                <dl>
+                                    <dd>
+                                        <label><input id="R1" type="radio" {{if $agenda->order_status|default:1 == 1}} checked{{/if}} value="1" name="order_status"> 普通单</label>
+                                        <label><input id="R2" type="radio"   {{if $agenda->order_status|default:1 == 2}} checked{{/if}} value="2" name="order_status"> 加急单</label>
+                                        <label><input id="C1" type="checkbox"  {{if $agenda->order_status|default:1 == 1}} disabled {{else}}{{if $agenda->a1|default:2 == 1}} checked{{/if}}{{/if}} value="1" name="a1">过户加急</label>
+                                        <label><input id="C2" type="checkbox" {{if $agenda->order_status|default:1 == 1}} disabled {{else}}{{if $agenda->a2|default:2 == 1}} checked{{/if}}{{/if}}  value="1" name="a2">不动产证加急</label>
+                                        <label><input id="C3" type="checkbox" {{if $agenda->order_status|default:1 == 1}} disabled {{else}}{{if $agenda->a3|default:2 == 1}} checked{{/if}}{{/if}} value="1" name="a3">抵押权证加急</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">房屋地址：</dt>
+                                    <dd><input type="text" id="xq_name" name="xq_name" class="add-txt" value="{{$agenda->xq_name|default:''}}" /></dd>
+                                </dl>
+                            </td>
+                            <td><dl><dt class="wid115">房屋面积：</dt>
+                                <dd><input type="text" id="acreage" name="acreage" class="add-txt number" value="{{$agenda->acreage|default:''}}" /><em>平方米</em></dd></dl></td>
+                        </tr>
+                        <tr>
+                            <td><dl><dt class="wid115">房东姓名：</dt>
+                                <dd><input type="text" id="landlord_name" name="landlord_name" class="add-txt" value="{{$agenda->landlord_name|default:''}}" /></dd></dl></td>
+                            <td>
+                                <dl>
+                                    <dt>产证是否满两年：</dt>
+                                    <dd><label><input type="radio" name="two_year_flag" class="radio-choose" value="1" {{if $agenda->two_year_flag|default:1 == 1 }}checked{{/if}} />是 </label>
+                                        <label><input type="radio" name="two_year_flag" class="radio-choose" value="2" {{if $agenda->two_year_flag|default:1 == 2 }}checked{{/if}} />否</label></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">客户姓名：</dt>
+                                    <dd><input type="text" id="customer_name" name="customer_name" class="add-txt" value="{{$agenda->customer_name|default:''}}" /></dd>
+                                </dl>
+                            </td>
+                            <td><dl><dt class="wid115">合同金额：</dt>
+                                <dd><input id="contract_amount" type="text" name="amount" class="add-txt number" value="{{$agenda->amount|default:''}}" /><em>万</em></dd></dl></td>
+                        </tr>
+                        <tr>
+                            <td><dl><dt class="wid115">房东剩余贷款：</dt>
+                                <dd><input type="text" id="rest_load" name="rest_load" class="add-txt number" value="{{$agenda->rest_load|default:''}}" /><em>万</em></dd></dl></td>
+                            <td>
+                                <dl>
+                                    <dt>客户付款方式：</dt>
+                                    <dd>
+                                        <label><input type="radio" name="payment_method" class="radio-choose" value="1" {{if $agenda->payment_method|default:1 == 1 }}checked{{/if}} />全额</label>
+                                        <label><input type="radio" name="payment_method" class="radio-choose" value="2" {{if $agenda->payment_method|default:1 == 2 }}checked{{/if}} />按揭</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">客户收入情况：</dt>
+                                    <dd><input type="text" id="customer_income" name="customer_income" class="add-txt number" value="{{$agenda->acreage|default:''}}" /><em>元/月</em></dd>
+                                </dl>
+                            </td>
+                            <td class="twodl">
+                                <dl>
+                                    <dt class="wid58">首付：</dt>
+                                    <dd id="dd_down_payment_1">
+                                        <span id="span_down_payment">{{$agenda->down_payment|default:0}}</span>万
+                                    </dd>
+                                    <dd id="dd_down_payment_2" style="display: none">
+                                        <input id="down_payment" type="text" name="down_payment" class="add-txt input-wid85 number" value="{{$agenda->down_payment|default:''}}" /><em>万</em>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="wid58">按揭：</dt>
+                                    <dd id="dd_mortgage">
+                                        <input id="hid_mortgage" type="hidden" name="mortgage" value="{{$agenda->mortgage|default:0}}" />
+                                        <span id="span_mortgage">{{$agenda->mortgage|default:0}}</span>万
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>购房性质：</dt>
+                                    <dd>
+                                        <label><input type="radio" name="style" class="radio-choose" value="1" {{if $agenda->style|default:1 == 1 }}checked{{/if}} />首付房 </label>
+                                        <label><input type="radio" name="style" class="radio-choose" value="2" {{if $agenda->style|default:1 == 2 }}checked{{/if}} />二手房</label>
+                                        <label><input type="radio" name="style" class="radio-choose" value="3" {{if $agenda->style|default:1 == 3 }}checked{{/if}} />二套以上</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                            <td>
+                                <dl>
+                                    <dt>收佣节点：</dt>
+                                    <dd>
+                                        <label><input type="radio" name="payment_node" class="radio-choose" value="1" {{if $agenda->payment_node|default:1 == 1 }}checked{{/if}} />过户前 </label>
+                                        <label><input type="radio" name="payment_node" class="radio-choose" value="2" {{if $agenda->payment_node|default:1 == 2 }}checked{{/if}} />过户后</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <dl>
+                                    <dt>备注：</dt>
+                                    <dd>
+                                        <textarea name="mark" rows="2" cols="3" class="sce-remarks" placeholder="如有其他情况请备注">{{$agenda->mark|default:''}}</textarea>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="div-th div-th1"><em></em>上传资料</div>
+                <div class="div-bd div-bd1">
+                    <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+                        <tr>
+                            <td class="td-tit">卖房相关证件</td>
+                            <td class="td-tit">买房相关证件</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="p-tips">身份证：<em>（请上传清晰的身份证正面和反面）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(1)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_1">
+                                            {{if !empty($agenda_images[1]) }}
+                                                {{foreach from=$agenda_images[1] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '1');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_1[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_1[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                            <td>
+                                <p class="p-tips">身份证：<em>（请上传清晰的身份证正面和反面）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(4)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_4">
+                                            {{if !empty($agenda_images[4]) }}
+                                                {{foreach from=$agenda_images[4] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '4');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_4[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_4[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="p-tips">户口本 | 房产证 | 土地证：<em>（请上传清晰的照片）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(2)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_2">
+                                            {{if !empty($agenda_images[2]) }}
+                                                {{foreach from=$agenda_images[2] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '2');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_2[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_2[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                            <td>
+                                <p class="p-tips">户口本：<em>（请上传清晰的照片）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(5)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_5">
+                                            {{if !empty($agenda_images[5]) }}
+                                                {{foreach from=$agenda_images[5] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '5');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_5[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_5[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="p-tips">婚姻证明：<em>（请上传清晰的照片）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(3)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_3">
+                                            {{if !empty($agenda_images[3]) }}
+                                                {{foreach from=$agenda_images[3] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '3');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_3[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_3[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                            <td>
+                                <p class="p-tips">婚姻证明：<em>（请上传清晰的照片）</em></p>
+                                <dl class="uploadInformation">
+                                    <dt>
+                                        <a href="javascript:" class="aClickUpload" onclick="triggerFileUpload(6)"></a>
+                                    </dt>
+                                    <dd>
+                                        <ul id="uploadImgcontainer_6">
+                                            {{if !empty($agenda_images[6]) }}
+                                                {{foreach from=$agenda_images[6] item=item}}
+                                                    <li>
+                                                        <img src="{{$base_url}}uploadfiles/agenda/{{$item->folder}}/{{$item->style}}/{{$item->pic_short}}" alert="" width="85" height="65" />
+                                                        <span class="delete-this" onclick="del_pic(this, '6');"><i></i></span>
+                                                        <input type="hidden" name="pic_short_6[]" class="pic_short" value="{{$item->pic_short}}">
+                                                        <input type="hidden" name="folder_6[]" value="{{$item->folder}}">
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="billurgent">
+
+                </div>
+
+                <p class="p-btns">
+                    <a href="javascript:void(0);" class="sub-btn" id="btnSubmit">提交</a>
+                    <!-- <a href="javascript:void(0);" class="sub-btn reset-btn">重置</a> -->
+                </p>
+            </form>
+            <input type="hidden" name="folder" value="{{$time}}" id="folder">
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="{{$base_url}}static/js/jquery-1.9.0.js"></script>
+<link href="{{$base_url}}static/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<script src="{{$base_url}}static/js/jquery-ui/jquery-ui.min.js"></script>
+<!--plupload start--------------------------------------------------------------------------->
+<!-- Load plupload and all it's runtimes and finally the UI widget -->
+<link rel="stylesheet" href="{{$base_url}}plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css" type="text/css" />
+<!-- production -->
+<script type="text/javascript" src="{{$base_url}}plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="{{$base_url}}plupload/js/zh_CN.js"></script>
+<script type="text/javascript" src="{{$base_url}}plupload/js/jquery.ui.plupload/jquery.ui.plupload.js"></script>
+<!--plupload end---------------------------------------------------------------------------->
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var data_ = Date.parse(new Date());
+        $('#time_open').val(data_);
+      /*  {{if $agenda->order_status|default:1 == 1}}
+        $("#R1").checked=true;
+        $("#R2").checked=false;
+        $('#C1').attr("disabled",true);
+        $("#C2").attr("disabled",true);
+        $("#C3").attr("disabled",true);
+        {{/if}}
+        {{if $agenda->order_status|default:1 == 2}}
+        $("#R1").checked=false;
+        $("#R2").checked=true;
+        $('#C1').attr("disabled",false);
+        $("#C2").attr("disabled",false);
+        $("#C3").attr("disabled",false);
+        {{if $agenda->a1|default:2 ==1}}
+        $("#C1").checked=true;
+        {{/if}}
+        {{if $agenda->a2|default:2 ==1}}
+        $("#C2").checked=true;
+        {{/if}}
+        {{if $agenda->a3|default:2 ==1}}
+        $("#C3").checked=true;
+        {{/if}}
+        {{/if}}*/
+
+
+    })
+
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){
+        $(this).children(".error-explain").hide();
+    });
+
+    $("#btn_search").click(function() {
+        $('#formSearchActivity').submit();
+    });
+
+    $("#btnSubmit").click(function() {
+        if($("#R2").is(':checked')){
+            if($("#C1").is(':checked') || $("#C2").is(':checked') || $("#C3").is(':checked')){
+
+            }else{
+                layer.msg('请选择加急类型', {icon: 2});
+                return;
+            }
+        }
+
+        var xq_name = $("#xq_name").val();
+        if(xq_name == "") {
+            layer.msg('请输入房屋地址', {icon: 2});
+            return;
+        }
+
+
+        var acreage = $("#acreage").val();
+        if(acreage == "") {
+            layer.msg('请输入房屋面积', {icon: 2});
+            return;
+        }
+
+        var landlord_name = $("#landlord_name").val();
+        if(landlord_name == "") {
+            layer.msg('请输入房东姓名', {icon: 2});
+            return;
+        }
+
+        var customer_name = $("#customer_name").val();
+        if(customer_name == "") {
+            layer.msg('请输入客户姓名', {icon: 2});
+            return;
+        }
+
+        var contract_amount = $("#contract_amount").val();
+        if(contract_amount == "") {
+            layer.msg('请输入合同金额', {icon: 2});
+            return;
+        }
+
+        var rest_load = $("#rest_load").val();
+        if(rest_load == "") {
+            layer.msg('请输入房东剩余贷款', {icon: 2});
+            return;
+        }
+
+        var customer_income = $("#customer_income").val();
+        if(customer_income == "") {
+            layer.msg('请输入客户收入情况', {icon: 2});
+            return;
+        }
+        var result = $.ajax({
+            url : '/agenda/zysm',
+            cache : false,
+            async : false,
+            type : "POST"
+        }).responseText;
+        if(result == '-1'){
+            layer.alert('账户登陆超时或账号已在异地登陆,请退出后再登陆', {
+                skin: 'layui-layer-lan'
+                ,closeBtn: 0
+                ,shift: 4 //动画类型
+            });
+            return;
+        }
+
+        layer.confirm(result, {
+            btn: ['同意','不同意'], //按钮
+            area: ['1000px', 'auto']
+        }, function(){
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            var agenda_id = $("#agenda_id").val();
+            if(agenda_id !=""){
+                $("#agendaForm").submit();
+            }else{
+                var data_ = Date.parse(new Date());
+                if($("#R2").is(':checked')){
+                    var R2 = 1;
+                }else{
+                    var R2 = 2;
+                }
+                if($("#R1").is(':checked')){
+                    var R1 = 1;
+                }else{
+                    var R1 = 2;
+                }
+                if($("#C1").is(':checked')){
+                    var C1 = 1;
+                }else{
+                    var C1 = 2;
+                }
+                if($("#C2").is(':checked')){
+                    var C2 = 1;
+                }else{
+                    var C2 = 2;
+                }
+                if($("#C3").is(':checked')){
+                    var C3 = 1;
+                }else{
+                    var C3 = 2;
+                }
+                $.post('/agenda/check_sum/'+data_, {R1: R1, R2: R2, C2: C2,C1: C1, C3: C3}, function(data) {
+                    if(data == 1) {
+                        $("#agendaForm").submit();
+                    } else if(data == -2) {
+                        layer.alert('公司正在处理中的权证业务过多,账户余额不足!', {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                            ,shift: 4 //动画类型
+                        });
+                        layer.close(index);
+                        return;
+                    }else{
+                        layer.alert('账户登陆超时或账号已在异地登陆,请退出后再登陆', {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                            ,shift: 4 //动画类型
+                        });
+                        layer.close(index);
+                        return;
+                    }
+                })
+             /*   $.getJSON('/agenda/check_sum/'+data_,function (data) {
+
+                })*/
+            }
+
+        }, function(){
+        });
+    });
+
+    function triggerFileUpload(style) {
+        var data_ ="{{$f_user_id}}_{{$time}}_" + Date.parse(new Date());
+        $("#folder").val(data_);
+        var html = '<div id="uploader" style="width:550px;"><p>Your browser doesn\'t have Flash, Silverlight or HTML5 support.</p></div>';
+
+        var layerIndex = layer.confirm(html, {
+            offset: ['100px', (document.body.offsetWidth - 800) / 2],
+            maxWidth: 800,
+            btn: ['确定','取消'],
+            shade: false
+        }, function(){
+            uploadFile(style);
+            layer.close(layerIndex);
+        }, function(){
+        });
+
+        $("#uploader").plupload({
+            runtimes : 'html5,flash,silverlight',
+            url : "/agenda/save_pics/" + $("#folder").val() + "/" + style,
+            max_file_size : '50mb',
+            resize : { crop: true },
+            file_data_name: 'userfile',
+            filters : [],
+            filters: {
+                mime_types : [{
+                    title : "Image files",
+                    extensions : "jpg,gif,png,jpeg"
+                }],
+                max_file_size : '8024kb',
+                prevent_duplicates : true
+            },
+            rename: true,
+            sortable: true,
+            dragdrop: true,
+            views: {
+                list: true,
+                thumbs: true,
+                active: 'thumbs'
+            },
+            flash_swf_url : '{{$base_url}}plupload/js/Moxie.swf',
+            silverlight_xap_url : '{{$base_url}}plupload/js/Moxie.xap'
+        });
+    }
+
+    function uploadFile(style) {
+        if ($('#uploader').plupload('getFiles').length < 1) {
+            alert("图片未上传,请重新选择.");
+            return false;
+        } else {
+            $.getJSON("/agenda/get_pics/" + $("#folder").val() + "/" + style + "/?_=" + Math.random(), function(data){
+                var html = '';
+                var now_pic = [];
+                $('input[name="pic_short[]"]').each(function(index){
+                    now_pic[index] = $(this).val();
+                });
+                $.each(data.img,function(index,item){
+                    var path = "{{$base_url}}uploadfiles/agenda/" + data.time + "/" + data.style + "/" + item;
+                    if($.inArray(item, now_pic) < 0){
+                        html+='<li><img src="'+path+'" alert="" width="85" height="65" />';
+                        html+='<span class="delete-this" onclick="del_pic(this, '+style+');"><i></i></span>';
+                        html+='<input type="hidden" name="pic_short_' + style + '[]" class="pic_short" value="'+item+'">';
+                        html+='<input type="hidden" name="folder_' + style + '[]" value="'+ $("#folder").val() +'">';
+                        html+='</li>';
+                    }
+                });
+                $("#uploadImgcontainer_" + style).append(html);
+            });
+            return true;
+        }
+    }
+
+    function del_pic(obj, style) {
+        var current_pic = $(obj).parent().find('input[name="pic_short[]"]').val();
+        $.getJSON("/agenda/del_pic/" + $("#folder").val() + "/" + style + "/" + current_pic + "/", function(data){
+            if(data.flag == 1){
+                $(obj).parent().remove();
+            }else{
+                alert("删除图片失败，请清理图片缓存并刷新标签页");
+            }
+        });
+    }
+
+    $("#contract_amount").change(function() {
+        var amount = parseFloat($(this).val());
+        var payment_method = $("input[name='payment_method']:checked").val();
+        if(payment_method == 1) {
+            $("#down_payment").val(amount);
+            $("#span_down_payment").text(amount);
+            $("#hid_mortgage").val(0);
+            $("#span_mortgage").text(0);
+        } else {
+            var down_payment = parseFloat($("#down_payment").val());
+            if(down_payment > 0 && amount >= down_payment) {
+                $("#hid_mortgage").val(amount - down_payment);
+                $("#span_mortgage").text(amount - down_payment);
+            }
+        }
+    });
+
+    $("input[name='payment_method']").click(function() {
+        var payment_method = $(this).val();
+        if(payment_method == 1) {
+            $("#dd_down_payment_1").show();
+            $("#dd_down_payment_2").hide();
+            var amount = parseFloat($("#contract_amount").val());
+            if(amount > 0) {
+                $("#down_payment").val(amount);
+                $("#span_down_payment").text(amount);
+            }
+            $("#hid_mortgage").val(0);
+            $("#span_mortgage").text(0);
+        } else {
+            $("#dd_down_payment_1").hide();
+            $("#dd_down_payment_2").show();
+        }
+    });
+
+    $("#down_payment").change(function() {
+        var down_payment = parseFloat($(this).val());
+        var amount = parseFloat($("#contract_amount").val());
+
+        if(down_payment > amount) {
+            layer.msg('首付金额不能大于合同金额', {icon: 2});
+            return;
+        }
+        var payment_method = $("input[name='payment_method']:checked").val();
+        if(payment_method == 2 && amount > 0) {
+            $("#hid_mortgage").val(amount - down_payment);
+            $("#span_mortgage").text(amount - down_payment);
+        }
+    });
+
+    $(".number").keyup(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g,''));
+    }).bind("paste",function(){  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g,''));
+    }).css("ime-mode", "disabled");
+
+    $("#R1").click(function(){
+       // $("#R1").checked=true;
+        $("#R2").checked=false;
+        $('#C1').attr("disabled",true);
+        $("#C2").attr("disabled",true);
+        $("#C3").attr("disabled",true);
+    })
+
+    $("#R2").click(function(){
+       // $("#R2").checked=true;
+        $("#R1").checked=false;
+        $('#C1').attr("disabled",false);
+        $("#C2").attr("disabled",false);
+        $("#C3").attr("disabled",false);
+    })
+</script>
+</body>
+</html>

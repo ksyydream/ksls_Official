@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/activity/list_activity"><em class="schedule"></em>我的行程</a></li>
+                    {{if $permission_id < 5 }}
+                    <li><a href="/activity/list_review"><em class="verify"></em>我的审核</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <form id="activityForm" method="post" action="/activity/save_activity">
+                <div class="search-wrap search-wrap1">
+                    {{if empty($activity.id) }}
+                         <span class="user-name"><em class="user-pic-icon"></em> {{$login_user_name}}</span>
+                         <span class="span-date">
+                            <em class="em-lock"></em>
+                             <input type="text" name="date" id="J_DepDate" value="{{$tomorrow}}" class="sel-time" style="margin:0;"  />
+                         </span>
+                    {{else}}
+                        <span class="span-date"><em class="em-lock"></em> {{$activity.date|default:''}}</span>
+                        <input type="hidden" name="date" value="{{$activity.date|default:''}}">
+                    {{/if}}
+                    <span class="span-date">
+
+                    </span>
+                </div>
+                <div class="schedule-wrap">
+                    <input type="hidden" name="id" value="{{$activity.id|default:''}}">
+                    <div class="schedule-tit plan-tit"><em></em>计划行程</div>
+                    <ul class="add-schedule-ul">
+                        <li class="wid110">时间</li>
+                        <li class="wid135">行程</li>
+                        <li class="wid85">单项分</li>
+                        <li class="wid85">数量</li>
+                        <li class="wid135">评分</li>
+                        <li class="wid365">备注</li>
+                    </ul>
+                    <div class="outer-list-div">
+                        <ul class="add-schedule-list">
+                            <li class="wid110">9:00-10:30</li>
+                            <li class="wid135"></li>
+                            <li class="wid85 single-score">
+                                {{$activity.a1s|default:'--'}}
+                            </li>
+                            <li class="wid85">
+                                <input type="text" name="a1n" class="sc-num" value="{{$activity.a1n|default:0}}"/> <span class="item-unit">组</span>
+                            </li>
+                            <li class="wid135"><em class="fz14">{{$activity.a1t|default:0}}</em> 分</li>
+                            <li class="wid365">
+                                <input type="hidden" name="a1" class="sc_type" value="{{$activity.a1|default:''}}">
+                                <input type="hidden" name="a1s" class="sc_score" value="{{$activity.a1s|default:''}}">
+                                <textarea name="a1m" rows="2" cols="3" class="sce-remarks" placeholder="点击输入备注">{{$activity.a1m|default:''}}</textarea>
+                            </li>
+                        </ul>
+                        <!--选择行程事项-->
+                        <div class="add-select-items" style="position:absolute;top: 2px;;left:132px;"></div>
+                    </div>
+                    <div class="outer-list-div">
+                        <ul class="add-schedule-list">
+                            <li class="wid110">10:30-12:00</li>
+                            <li class="wid135"></li>
+                            <li class="wid85 single-score">
+                                {{$activity.a2s|default:'--'}}
+                            </li>
+                            <li class="wid85">
+                                <input type="text" name="a2n" class="sc-num" value="{{$activity.a2n|default:0}}"/> <span class="item-unit">组</span>
+                            </li>
+                            <li class="wid135"><em class="fz14">{{$activity.a2t|default:0}}</em> 分</li>
+                            <li class="wid365">
+                                <input type="hidden" name="a2" class="sc_type" value="{{$activity.a2|default:''}}">
+                                <input type="hidden" name="a2s" class="sc_score" value="{{$activity.a2s|default:''}}">
+                                <textarea name="a2m" rows="2" cols="3" class="sce-remarks" placeholder="点击输入备注">{{$activity.a2m|default:''}}</textarea>
+                            </li>
+                        </ul>
+                        <!--选择行程事项-->
+                        <div class="add-select-items" style="position:absolute;top: 2px;;left:132px;"></div>
+                    </div>
+                    <div class="outer-list-div">
+                        <ul class="add-schedule-list">
+                            <li class="wid110">13:30-15:00</li>
+                            <li class="wid135"></li>
+                            <li class="wid85 single-score">
+                                {{$activity.a3s|default:'--'}}
+                            </li>
+                            <li class="wid85">
+                                <input type="text" name="a3n" class="sc-num" value="{{$activity.a3n|default:0}}"/> <span class="item-unit">组</span>
+                            </li>
+                            <li class="wid135"><em class="fz14">{{$activity.a3t|default:0}}</em> 分</li>
+                            <li class="wid365">
+                                <input type="hidden" name="a3" class="sc_type" value="{{$activity.a3|default:''}}">
+                                <input type="hidden" name="a3s" class="sc_score" value="{{$activity.a3s|default:''}}">
+                                <textarea name="a3m" rows="2" cols="3" class="sce-remarks" placeholder="点击输入备注">{{$activity.a3m|default:''}}</textarea>
+                            </li>
+                        </ul>
+                        <!--选择行程事项-->
+                        <div class="add-select-items" style="position:absolute;top: 2px;;left:132px;"></div>
+                    </div>
+                    <div class="outer-list-div">
+                        <ul class="add-schedule-list">
+                            <li class="wid110">15:00-16:30</li>
+                            <li class="wid135"></li>
+                            <li class="wid85 single-score">
+                                {{$activity.a4s|default:'--'}}
+                            </li>
+                            <li class="wid85">
+                                <input type="text" name="a4n" class="sc-num" value="{{$activity.a4n|default:0}}"/> <span class="item-unit">组</span>
+                            </li>
+                            <li class="wid135"><em class="fz14">{{$activity.a4t|default:0}}</em> 分</li>
+                            <li class="wid365">
+                                <input type="hidden" name="a4" class="sc_type" value="{{$activity.a4|default:''}}">
+                                <input type="hidden" name="a4s" class="sc_score" value="{{$activity.a4s|default:''}}">
+                                <textarea name="a4m" rows="2" cols="3" class="sce-remarks" placeholder="点击输入备注">{{$activity.a4m|default:''}}</textarea>
+                            </li>
+                        </ul>
+                        <!--选择行程事项-->
+                        <div class="add-select-items" style="position:absolute;top: 2px;;left:132px;"></div>
+                    </div>
+                    <div class="outer-list-div">
+                        <ul class="add-schedule-list">
+                            <li class="wid110">16:30-18:00</li>
+                            <li class="wid135"></li>
+                            <li class="wid85 single-score">
+                                {{$activity.a5s|default:'--'}}
+                            </li>
+                            <li class="wid85">
+                                <input type="text" name="a5n" class="sc-num" value="{{$activity.a5n|default:0}}"/> <span class="item-unit">组</span>
+                            </li>
+                            <li class="wid135"><em class="fz14">{{$activity.a5t|default:0}}</em> 分</li>
+                            <li class="wid365">
+                                <input type="hidden" name="a5" class="sc_type" value="{{$activity.a5|default:''}}">
+                                <input type="hidden" name="a5s" class="sc_score" value="{{$activity.a5s|default:''}}">
+                                <textarea name="a5m" rows="2" cols="3" class="sce-remarks" placeholder="点击输入备注">{{$activity.a5m|default:''}}</textarea>
+                            </li>
+                        </ul>
+                        <!--选择行程事项-->
+                        <div class="add-select-items" style="position:absolute;top: 2px;;left:132px;"></div>
+                    </div>
+
+                    <div class="statistics-score">
+                        <ul>
+                            <li class="plan-score">计划总分：<span class="plan_score">{{$activity.att|default:0}}</span>分</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <p class="p-btn"><a href="javascript:" class="confirm-btn">确认</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript" src="/static/js/SelectSimu.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script>
+//日历控件
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            triggerNode     : '#J_DepDate', //第一个触节点
+            isHoliday:false,
+            isDateInfo:false,
+            count:1
+        });
+    });
+
+    var activity_type_list = JSON.parse('{{$activity_type_list}}');
+    activity_type_list.unshift({id:0, name:'选择行程事项',score:'--',unit:'组'});
+    var o1 = '{{$activity.a1|default:0}}';
+    var o2 = '{{$activity.a2|default:0}}';
+    var o3 = '{{$activity.a3|default:0}}';
+    var o4 = '{{$activity.a4|default:0}}';
+    var o5 = '{{$activity.a5|default:0}}';
+    $('.add-select-items').SelectSimu({
+        width : 135,
+        zIndex : 998,
+        listNum : 16,
+        defaultValue :[o1,o2,o3,o4,o5],
+        data: activity_type_list,
+        change: function(obj, type, score) {
+            obj.find('.sc_type').val(type);
+            obj.find('.sc_score').val(score);
+            var num = obj.find('.sc-num').val();
+            if(num > 0) {
+                obj.find('.fz14').text(parseFloat(score * num).toFixed(1));
+            } else {
+                obj.find('.fz14').text(0);
+            }
+            caculateTotal();
+        }
+    });
+
+    $(".sc-num").change(function() {
+        var num = $(this).val();
+        var score = $(this).parent().parent().find('.single-score').text();
+        if($.trim(score) == '--') score = 0;
+        $(this).parent().parent().find('.fz14').text(parseFloat(score * num).toFixed(1));
+
+        caculateTotal();
+    });
+
+    $(".confirm-btn").click(function() {
+        var score = $(".plan_score").text();
+        if(score < 100) {
+            layer.msg('你的计划行程不能少于100分!', {icon: 2});
+            return;
+        }
+        var date = $("#J_DepDate").val();
+        $.post('/activity/check_activity', {date:date}, function(data) {
+            if(data) {
+                layer.confirm('确定要保存计划行程信息？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    $("#activityForm").submit();
+                }, function(){
+                });
+            } else {
+                layer.msg('你已经设置过 ' + date + ' 的行程', {icon: 2});
+            }
+        });
+    });
+
+    function caculateTotal() {
+        var total = 0;
+        $("#activityForm").find('.fz14').each(function() {
+            total += parseFloat($(this).text());
+        });
+        total = total.toFixed(1)
+        $(".plan_score").text(total);
+    }
+
+</script>
+</body>

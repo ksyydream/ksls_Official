@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/hire/hire_list"><em class="schedule"></em>租房信息</a></li>
+                    <li><a href="/hire/hire_deadline_list"><em class="noplan"></em>提醒到期</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <form id="hireForm" method="post" action="/hire/save_hire">
+                <input type="hidden" name="id" value="{{$data.id|default:''}}">
+                <input type="hidden" name="page_flag" value="{{$pageflag|default:''}}">
+                <div class="search-wrap">
+                    <div class="t-tit">租房信息录入 Add Hire Information </div>
+                </div>
+                <div class="div-th"><em></em>基本信息</div>
+                <div class="div-bd">
+                    <table cellpadding="0" cellsapcing="0" class="add-data-table">
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">小区名称：</dt>
+                                    <dd><input type="text" id="xiaoqu" name="xiaoqu" class="add-txt" value="{{$data.xiaoqu|default:''}}" /></dd>
+                                </dl>
+                            </td>
+                            <td><dl><dt class="wid115">房号：</dt>
+                                <dd><input type="text" id="fanghao" name="fanghao" class="add-txt number" value="{{$data.fanghao|default:''}}" /><em></em></dd></dl></td>
+                        </tr>
+                        <tr>
+                            <td><dl><dt class="wid115">面积：</dt>
+                                <dd><input type="text" id="mianji" name="mianji" class="add-txt" value="{{$data.mianji|default:''}}" /></dd></dl></td>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">装修：</dt>
+                                    <dd><input type="text" id="zhuangxiu"  name="zhuangxiu" class="add-txt" value="{{$data.zhuangxiu|default:''}}" /></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt class="wid115">租金：</dt>
+                                    <dd><input type="text" id="zhujing" name="zhujing" class="add-txt" value="{{$data.zhujing|default:''}}" /><em></em></dd>
+                                </dl>
+                            </td>
+                            <td><dl><dt class="wid115">房东号码：</dt>
+                                <dd><input id="haoma" type="text" name="haoma" class="add-txt number" value="{{$data.haoma|default:''}}" /></dd></dl></td>
+                        </tr>
+                        <tr>
+                            <td><dl><dt class="wid115">提醒时间：</dt>
+                                 <dd>
+                                     <label class="hire-deadline"><input id="flag" type="checkbox" name="flag" {{if $data && $data['flag']==2}} checked="checked" {{/if}}> 不再提醒</label><br />
+                                     <input readonly="readonly" type="text" name="tixin_time" placeholder="选择提醒时间" id="J_DepDate" value="{{$data.tixin_time|default:''}}" class="sel-begin-time hire-time" />
+
+                                 </dd>
+                                </dl>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    {{if $data}}
+                    <a href="javascript:" id="delete_btn" class="confirm-btn" style="width:120px;margin-top:50px;">删除</a>
+                    {{/if}}
+                    <a href="javascript:" id="save_btn" class="confirm-btn" style="width:120px;margin-top:50px;">保存</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript" src="/static/js/yui-min.js"></script>
+<script type="text/javascript">
+    YUI({
+        modules: {
+            'trip-calendar': {
+                fullpath: '/static/js/calendar.js',
+                type    : 'js',
+                requires: ['trip-calendar-css']
+            },
+            'trip-calendar-css': {
+                fullpath: '/static/css/calendar.css',
+                type    : 'css'
+            }
+        }
+    }).use('trip-calendar', function(Y) {
+        new Y.TripCalendar({
+            triggerNode     : '#J_DepDate', //第一个触节点
+            finalTriggerNode: '#J_EndDate',  //最后一个触发节点
+            isHoliday:false,
+            isDateInfo:false,
+            count:1
+        });
+    });
+
+    $("#save_btn").click(function () {
+        if($.trim($("#xiaoqu").val())==""){
+            layer.msg('请填写小区信息');
+            return false;
+        }
+        if($("#J_DepDate").val()=="" && !$("#flag").is(":checked")){
+            layer.msg('请选择日期,或勾选"不再提醒"');
+            return false;
+        }
+        var today_ = new Date();
+        var tixin =  new Date(Date.parse($("#J_DepDate").val().replace(/-/g,"/")));
+        var msg_ = '确定保存吗?'
+        if(today_ > tixin && !$("#flag").is(":checked")){
+            {{if $data}}
+            msg_ = '所选提醒时间已过,点击[确定]后将继续在"提醒到期"页面中显示'
+            {{else}}
+            msg_ = '所选提醒时间已过,点击[确定]后将直接在"提醒到期"页面中显示'
+            {{/if}}
+
+        }
+        layer.confirm(msg_, {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $("#hireForm").submit();
+        }, function(){
+        });
+    })
+
+    $("#delete_btn").click(function(){
+        layer.confirm('确定要删除此信息吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            window.location.href="/hire/delete_hire/{{$data.id|default:''}}/{{$pageflag|default:''}}";
+        }, function(){
+        });
+    })
+ </script>
+</body>
+</html>

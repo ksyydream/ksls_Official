@@ -1,0 +1,43 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>登录</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="/static/assets/css/amazeui.switch.css">
+  <link rel="stylesheet" href="/static/assets/css/app.css">
+</head>
+<body>
+<div class="am-g" id="login">
+    <div class="login-div">
+        <span class="login-logo"></span>
+        <form method="post" class="am-form" action="{{site_url url='finance_wx/user_login'}}">
+            <div class="login-bd">
+                <div class="input-email input-div"><i class="am-input-icon am-icon-user"></i><input type="tel" name="username" id="email" value="" autoComplete="off" placeholder="请输入用户名" required></div>
+                <div class="input-div"><i class="am-input-icon am-icon-key"></i><input type="password" name="password" id="password" value="" autoComplete="off" placeholder="请输入密码" required></div>
+                {{if $flag == '-1'}}
+                <a class="am-badge am-badge-danger am-radius">用户名密码错误或者账号已被停用！</a>
+                {{/if}}
+            </div>
+            <input type="submit" value="登 录" class="am-btn">
+      </form>
+    </div>
+    <p class="copyright">© 2017 funmall.com.cn</p>
+</div>
+<script type="text/javascript">
+    var maxH=Math.max(document.documentElement.clientHeight,window.innerHeight);
+
+     function setHeight(){
+      var wrapper=document.getElementById('login');
+      wrapper.style.height=maxH+"px";
+    }
+    setHeight();
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>填写资料信息</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+  <script src="/static/assets/js/jquery.min.js"></script>
+  <script src="/static/assets/js/amazeui.min.js"></script>
+  <style type="text/css">
+    .yy_display{
+      display: none;
+    }
+    .yy_img{
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">上传身份证</strong> / <small>Identity Infromation</small>
+      </div>
+    </div>
+    <form id="financeForm" method="post" action="/finance_wx_user/tj_finance" class="am-form am-form-horizontal am-form-wrap-finance">
+      <input type="hidden" name="id" value="{{$data.id|default:''}}">
+      <p class="identity-p-center">申请人正面</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.borrower_img_SFZ1|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ1}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" id="borrower_img_SFZ1" name="borrower_img_SFZ1" value="{{$data.borrower_img_SFZ1|default:''}}">
+      <p class="identity-p-center">申请人反面</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.borrower_img_SFZ2|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.borrower_img_SFZ2}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" id="borrower_img_SFZ2" name="borrower_img_SFZ2" value="{{$data.borrower_img_SFZ2|default:''}}">
+      {{if $data.borrower_marriage == 1}}
+      <p class="identity-p-center">配偶正面</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.spouse_img_SFZ1|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ1}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="spouse_img_SFZ1" value="{{$data.spouse_img_SFZ1|default:''}}">
+       <p class="identity-p-center">配偶反面</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.spouse_img_SFZ2|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.spouse_img_SFZ2}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="spouse_img_SFZ2" value="{{$data.spouse_img_SFZ2|default:''}}">
+        <p class="identity-p-center">结婚证1</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.img_JHZ1|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ1}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_JHZ1" value="{{$data.img_JHZ1|default:''}}">
+       <p class="identity-p-center">结婚证2</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.img_JHZ2|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_JHZ2}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_JHZ2" value="{{$data.img_JHZ2|default:''}}">
+      {{/if}}
+      <p class="identity-p-center">征信报告</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.img_ZXBG|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_ZXBG}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_ZXBG" value="{{$data.img_ZXBG|default:''}}">
+      <p class="identity-p-center">工资流水/企业流水</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.img_YHLS|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_YHLS}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_YHLS" value="{{$data.img_YHLS|default:''}}">
+      <p class="identity-p-center">社保证</p>
+      <a href="" class="upload-pic">
+        {{if $data.img_SBZ|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_SBZ}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_SBZ" value="{{$data.img_SBZ|default:''}}">
+      <p class="identity-p-center">不动产证</p>
+      <a href="javascript:void(0);" class="upload-pic">
+        {{if $data.img_BDC|strip == ''}}
+        <em class="am-icon-plus"></em>
+        {{else}}
+        <img style="width: 14.8rem;height: 14.8rem" src="/uploadfiles/finance/{{$data.finance_num}}/{{$data.img_BDC}}" alt="" class="upload-has-pic">
+        <em onclick="del_pic(this);" class="am-f-close"></em>
+        {{/if}}
+      </a>
+      <input type="hidden" name="img_BDC" value="{{$data.img_BDC|default:''}}">
+      <!--  <div class="upload-btn"><a href=""class="upload-btn-a"></a></div> -->
+   <!--  <div class="upload-btn"><a href=""><img src="assets/i/photo-upload.png" alt=""></a></div>
+    -->
+
+      <button id="tj_btn" type="button" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">提交服务</button>
+      <button id="edit_btn" type="button" class="am-btn am-btn-warning am-btn-block am-btn-xl am-round">上一步</button>
+      <button id="save_btn" type="button" class="am-btn am-btn-danger am-btn-block am-btn-xl am-round">保存不提交</button>
+      <!--<button id="end_btn" type="button" class="am-btn am-btn-default am-btn-block am-btn-xl am-round">返回首页</button> -->
+    </form>
+ </div>
+
+</div>
+  {{include file="finance/weixin/admin-menu.html"}}
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/layer/layer.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+  $(function(){
+    $("#end_btn").click(function() {
+      window.location.href="/finance_wx_user/index";
+    })
+    $("#tj_btn").click(function() {
+      if($.trim($("#borrower_img_SFZ1").val()) == "") {
+        layer.msg('申请人身份证正面照片必须上传', {icon: 2});
+        return false;
+      }
+      if($.trim($("#borrower_img_SFZ2").val()) == "") {
+        layer.msg('申请人身份证反面照片必须上传', {icon: 2});
+        return false;
+      }
+      //这里开始处理 配偶信息
+      $("#financeForm").attr("action","/finance_wx_user/tj_finance");
+      $('#financeForm').submit();
+    });
+    $("#save_btn").click(function(){
+        $("#financeForm").attr("action","/finance_wx_user/save_finance_4");
+        $('#financeForm').submit();
+    })
+    $("#edit_btn").click(function(){
+      $("#financeForm").attr("action","/finance_wx_user/go_finance/3");
+      $('#financeForm').submit();
+    })
+      wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{$wxappId}}', // 必填，公众号的唯一标识
+        timestamp: {{$wxtimestamp}}, // 必填，生成签名的时间戳
+      nonceStr: '{{$wxnonceStr}}', // 必填，生成签名的随机串
+              signature: '{{$wxsignature}}',// 必填，签名，见附录1
+              jsApiList: ['chooseImage','uploadFile','checkJsApi','uploadImage','onMenuShareAppMessage','hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+      wx.checkJsApi({
+        jsApiList: [
+          'chooseImage','onMenuShareAppMessage'
+        ],
+        success: function (res) {
+          alert(JSON.stringify(res));
+          // alert(JSON.stringify(res.checkResult.getLocation));
+          if (res.checkResult.getLocation == false) {
+            //alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+            return;
+          }
+        }
+      });
+
+      wx.ready(function () {
+
+
+        $(".upload-pic").click(function(){
+          var my = $(this);
+          var input_h = $(this).next();
+          if(input_h.val()!=""){
+            return false;
+          }
+          wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function(res) {
+              var localIds = res.localIds;
+              syncUpload(localIds,my,input_h);
+            }
+          });
+        })
+        var syncUpload = function(localIds,my_,input_h_){
+          var localId = localIds.shift();
+          wx.uploadImage({
+            localId: localId,
+            isShowProgressTips: 1,
+            success: function (res) {
+              var serverId = res.serverId; // 返回图片的服务器端ID
+              html = "<img style='width: 14.8rem;height: 14.8rem' src='"+localId+"' alt='' class='upload-has-pic'>";
+              html +="<em onclick='del_pic(this);' class='am-f-close'></em>"
+              my_.html(html);
+              input_h_.val(serverId);
+            }
+          });
+        };
+      })
+
+  })
+  function del_pic(obj) {
+    layer.confirm('是否删除图片?', {
+      btn: ['删除','取消'], //按钮
+      area: ['200px', 'auto']
+    }, function(){
+      html = "<em class='am-icon-plus'></em>";
+      $(obj).parent().next().val('');
+      $(obj).parent().html(html);
+      layer.msg('删除成功,点击保存后生效', {icon: 1});
+    }, function(){
+    });
+  }
+</script>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-业绩排行" />
+    <meta name="description" content="房猫-行程管理-业绩排行" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/activity/list_ranking"><em class="performance"></em>绩效排行</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap search-wrap1 search-wrap2">
+                <form id="formSearchActivity" method="POST" action="">
+                    {{if $permission_id == 1}}
+                        <select name="company" id="sel_company" style="width:150px">
+                            <option value="0">选择公司</option>
+                            {{foreach from=$company_list key=key item=item}}
+                                <option value="{{$item.id}}">{{$item.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    {{/if}}
+                    {{if $permission_id < 4}}
+                        <select name="subsidiary" id="sel_subsidiary" style="width:150px">
+                            <option value="0">选择分店</option>
+                            {{foreach from=$subsidiary_list key=key item=item}}
+                                {{if $item.id == $subsidiary}}
+                                    <option value="{{$item.id}}" selected>{{$item.name}}</option>
+                                {{else}}
+                                    <option value="{{$item.id}}">{{$item.name}}</option>
+                                {{/if}}
+                            {{/foreach}}
+                        </select>
+                    {{/if}}
+                    <span>
+                        <select name="year" id="sel_year" style="width:80px">
+                            {{foreach from=$year_list item=item}}
+                                <option value="{{$item}}" {{if $item==$year}}selected{{/if}}>{{$item}}</option>
+                            {{/foreach}}
+                        </select>
+                        <i class="i-txt"> 年</i>
+                    </span>
+                    <span>
+                        <select name="month" id="sel_month" style="width:80px">
+                            <option value="1" {{if $month==1}}selected{{/if}}>1</option>
+                            <option value="2" {{if $month==2}}selected{{/if}}>2</option>
+                            <option value="3" {{if $month==3}}selected{{/if}}>3</option>
+                            <option value="4" {{if $month==4}}selected{{/if}}>4</option>
+                            <option value="5" {{if $month==5}}selected{{/if}}>5</option>
+                            <option value="6" {{if $month==6}}selected{{/if}}>6</option>
+                            <option value="7" {{if $month==7}}selected{{/if}}>7</option>
+                            <option value="8" {{if $month==8}}selected{{/if}}>8</option>
+                            <option value="9" {{if $month==9}}selected{{/if}}>9</option>
+                            <option value="10" {{if $month==10}}selected{{/if}}>10</option>
+                            <option value="11" {{if $month==11}}selected{{/if}}>11</option>
+                            <option value="12" {{if $month==12}}selected{{/if}}>12</option>
+                        </select>
+                        <i class="i-txt">月</i>
+                    </span>
+                </form>
+            </div>
+            <div class="schedule-wrap">
+                <div class="rank-img"><img src="/static/images/rank.jpg" alt=""></div>
+                <ul class="control" id ="slide01_control">
+                    <li><em class="item-icon item-icon-score"></em> 总分</li>
+                    <li><em class="item-icon item-icon-2"></em>带看</li>
+                    <li><em class="item-icon item-icon-6"></em>照片</li>
+                    <li><em class="item-icon item-icon-3"></em>新增房源</li>
+                    <li><em class="item-icon item-icon-5"></em>房源发布</li>
+                    <li><em class="item-icon item-icon-1"></em>电call</li>
+                    <li><em class="item-icon item-icon-4"></em>新增客源</li>
+                    <li><em class="item-icon item-icon-7"></em>驻守</li>
+                </ul>
+                <div class="content-txt">
+                    <span>排名</span>
+                    <span>姓名</span>
+                    <span>分数</span>
+                </div>
+                <div class="main-inner" id="slide01">
+                    <div class="condiv" id="rank_0"></div>
+                    <div class="condiv" id="rank_1"></div>
+                    <div class="condiv" id="rank_2"></div>
+                    <div class="condiv" id="rank_3"></div>
+                    <div class="condiv" id="rank_4"></div>
+                    <div class="condiv" id="rank_5"></div>
+                    <div class="condiv" id="rank_6"></div>
+                    <div class="condiv" id="rank_7"></div>
+                 </div>
+            </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" id="current_op" value="0">
+{{include file='footer.html' style='color:#2a3542;'}}
+<script type="text/javascript" src="/static/js/dpl-jquery.slide.js"></script>
+<script type="text/javascript">
+    new Slide({
+        target: $('#slide01 .condiv' ),
+        control: $('#slide01_control li' ),
+        type:'click',
+        onchange: function() {
+            $("#current_op").val(this.curPage);
+            show_ranking();
+        }
+    });
+
+    $('#sel_company').change(function(){
+        var company_id = $(this).val();
+        $.get('/activity/get_subsidiary_list/' + $(this).val(), function(data) {
+            $("#sel_subsidiary").empty();
+            $("#sel_subsidiary").append('<option value="0">选择分店</option>');
+            var data = JSON.parse(data);
+            for(var i in data) {
+                $("#sel_subsidiary").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+            }
+            show_ranking();
+        });
+    });
+
+    $('#sel_subsidiary').change(function(){
+        show_ranking();
+    });
+
+    $('#sel_year').change(function(){
+        show_ranking();
+    });
+
+    $('#sel_month').change(function(){
+        show_ranking();
+    });
+
+    function show_ranking() {
+        var op = $("#current_op").val();
+        var company_id = $("#sel_company").val();
+        var subsidiary_id = $("#sel_subsidiary").val();
+        var year = $("#sel_year").val();
+        var month = $("#sel_month").val();
+
+        $.post('/activity/show_ranking', {op:op, company_id:company_id, subsidiary_id:subsidiary_id, year:year, month:month}, function(data){
+            var data = JSON.parse(data);
+            var html = "";
+            var items = data.list;
+            for(var i in items) {
+                var item = items[i];
+                html += '<ul class="condiv-ul">';
+                html += '<li>';
+                if(i<3) {
+                    html += '<em class="rank-num num-' + i + '"></em>';
+                } else {
+                    html += '<em class="rank-num num-' + i + '">' + (parseInt(i)+1) + '</em>';
+                }
+                html += '</li>';
+                html += '<li class="nameandcom">';
+                html += '<span class="s-head-pic"><img src="/uploadfiles/profile/' + (item.u_pic ? item.u_pic : "user_photo.gif") + '" alt="" width="42" height="42"></span>';
+                html += '<p><span class="s-name-txt">' + item.u_name + '</span><br />';
+                html += '<span class="s-company">公司:' + (item.c_name == null ? '无': item.c_name) + '</span>&nbsp;&nbsp;&nbsp;&nbsp;';
+                html += '<span lass="s-store">门店:' + (item.s_name == null ? '无': item.s_name) + '</span></p>';
+                html += '</li>';
+                html += '<li class="li-score li-score-' + i + '">' + item.total + '</li>';
+                html += '</ul>';
+            }
+            var rank = data.rank;
+            if(rank && rank.num > 0) {
+                html += '<br>';
+                html += '<ul class="condiv-ul last-condiv-ul">';
+                html += '<li>';
+                html += '<span class="spec-span"><em class="rank-num">' + rank.num + '</em>我的排名</span>';
+                html += '</li>';
+                html += '<li class="nameandcom">';
+                html += '<span class="s-head-pic"><img src="/uploadfiles/profile/' + (rank.u_pic ? rank.u_pic : "user_photo.gif") + '" alt="" width="70" height="70"></span>';
+                html += '<p><span class="s-name-txt">' + rank.u_name + '</span><br />';
+                html += '<span class="s-company">公司:' + rank.c_name + '</span>&nbsp;&nbsp;&nbsp;&nbsp;';
+                html += '<span lass="s-store">门店:' + rank.s_name + '</span></p>';
+                html += '</li>';
+                html += '<li class="li-score">' + rank.total + '</li>';
+                html += '</ul>';
+            }
+
+            $('#rank_' + op).empty();
+            $('#rank_' + op).html(html);
+        });
+    }
+ </script>
+</body>

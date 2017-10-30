@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>未提交</title>
+  <meta name="description" content="房猫金融">
+  <meta name="keywords" content="index">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+  <script src="/static/assets/js/jquery.min.js"></script>
+  <script src="/static/assets/js/amazeui.min.js"></script>
+  <style>
+    html {
+      width: 100%;
+      height:auto;
+      overflow-x: hidden;
+    }
+
+    body {
+      text-align: left;
+      width: 100%;
+      background: #e9dfc7;
+      overflow-y:scroll;
+    }
+  </style>
+</head>
+<body style="overflow: auto;">
+<div class="am-cf admin-main" id="wrapper">
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-ind-top">
+        <div class="search-wrap-box">
+          <div class="am-login-user"><em><img src="/static/images/user_icon.png" alt=""></em></em><br />{{$rel_name}}</div>
+          <div class="search-box">
+            <form method="post" action="/finance_wx_user/index_status">
+              <input type="hidden" name="status" value="{{$status}}" id="status">
+              <input type="search" name="search_info" value="{{$search_info_hidden|default:''}}" class="search-input" placeholder="姓名/电话号码"><em class="am-icon-search"></em>
+            </form>
+            <input type="hidden" id="search_info_hidden" value="{{$search_info_hidden|default:''}}">
+          </div>
+          <div class="am-login-user am-outer-user"><a href="/finance_wx_user/logout"><em><img src="/static/images/outer_icon.png" alt=""></em><br />退出</a></div>
+        </div>
+      </div>
+      {{if $permission_id > 3 && !in_array(12,$position_id)}}
+      <div class="am-data-add" style="margin-top: 5rem;"><a href="/finance_wx_user/add_finance" class="am-data-add-icon"><img src="/static/assets/i/jia.png"></a>提交新的金融订单</div>
+      {{/if}}
+      <ul class="am-data-ul" id="events-list">
+
+      </ul>
+      <p id="is_end" style="text-align: center;font-size: 12px;padding: 1rem 0;display: none">已到最后一页</p>
+
+      <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+        <div class="am-modal-dialog">
+          <div class="am-modal-hd">正在加载...</div>
+          <div class="am-modal-bd">
+            <span class="am-icon-spinner am-icon-spin"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {{include file="finance/weixin/admin-menu.html"}}
+
+</div>
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+  $(function(){
+    window.is_end = false
+    window.page = 1
+    window.top = 20
+    $(window).scroll(function () {
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+      if (scrollTop + windowHeight == scrollHeight) {
+        if(window.is_end){
+          $("#is_end").show()
+        }else{
+          window.top += 20;
+          $('#my-modal-loading').modal()
+          get_data()
+        }
+      }
+    });
+
+    function get_data(){
+      var search_info_hidden = $("#search_info_hidden").val();
+      var status = $("#status").val();
+      $.post("{{site_url url='finance_wx_user/list_finance_loaddata'}}/"+window.page,{search_info_hidden:search_info_hidden,status:status},function(data){
+        if(data){
+          $("#events-list").append(data)
+          $('#events-list').find('.flag-'+window.page).add('#doc-confirm-toggle').
+          on('click', function() {
+            $('#my-confirm').modal({
+              relatedTarget: this,
+              onConfirm: function(options) {
+
+              },
+              onCancel: function() {
+
+              }
+            });
+          });
+          window.page += 1
+          $('#my-modal-loading').modal('close');
+        }else{
+          $('#my-modal-loading').modal('close');
+          $("#is_end").show()
+          window.is_end = true
+        }
+
+      });
+    }
+    get_data();
+
+
+  })
+
+
+</script>

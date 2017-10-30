@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>二手房税费计算器</title>
+    <meta name="keywords" content="房猫,二手房,税费,计算器" />
+    <meta name="description" content="二手房税费计算器" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <!--<li><a href="/calculate/loan_calculate"><em class="loan"></em>房贷计算器</a></li>-->
+                    <li class="on"><a href="/calculate/tax_calculate"><em class="taxation"></em>税费计算器</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap clearfix">
+                <p class="tab-tit">二手房税费计算器</p>
+                <div class="argument-items" style="height: 700px;">
+                    <span class="s1">请您填写：</span>
+                    <table class="add-data-table">
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>评估价：</dt><dd><input type="text" class="add-txt" id="housepinggu" msg="评估价" value="{{$data.pgj|default:0}}" onblur="area()" onkeyup="clearNoNum(this)" /><em>元</em></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>房屋面积：</dt><dd><input type="text" class="add-txt" id="housearea" msg="房屋面积"   onblur="area()" onkeyup="clearNoNum(this)" /><em>平米</em></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>阁楼面积：</dt><dd><input type="text" class="add-txt" id="houseareagl" msg="阁楼面积" value="0"  onblur="area()" onkeyup="clearNoNum(this)" /><em>平米</em></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <!--<tr>
+                            <td>
+                                <dl>
+                                    <dt>房屋单价：</dt><dd><input type="text" class="add-txt" id="unitprice" msg="房屋单价" onblur="area()" onkeyup="clearNoNum(this)" /><em>元/平米</em></dd>
+                                </dl>
+                            </td>
+                        </tr>-->
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>房屋总价：</dt><dd><input type="text" class="add-txt" id="totalPrice" msg="房屋总价"><em>万元</em></dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>计征方式：</dt>
+                                    <dd>总价
+                                        <!--<select name="jzfs" id="jzfs" class="argument-sel">-->
+                                            <!--<option value="总价">总价</option>-->
+                                            <!--<option value="差价">差价</option>-->
+                                        <!--</select>-->
+
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>房产性质：</dt>
+                                    <dd>
+                                        <input type="text" readonly value="普通住宅" name="fcxz" id="houseproperty" class="add-txt" >
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl id="dlFwyj" style="display: none;">
+                                    <dt>房屋原价：</dt>
+                                    <dd>
+                                        <input type="text" class="add-txt" id="fwyj" msg="房屋原价"><em>万元</em>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>房产购置年限：</dt>
+                                    <dd>
+                                        <select name="limityear" id="limityear" class="argument-sel">
+                                            <option value="两年以内">两年以内</option>
+                                            <option value="2-5年">2-5年</option>
+                                            <option value="5年以上">5年以上</option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>买房购房数量：</dt>
+                                    <dd>
+                                        <label><input name="buyonly" value="首套" checked="checked" type="radio"> 首套</label>
+                                        <label><input name="buyonly" value="二套" type="radio"> 二套</label>
+                                        <label><input name="buyonly" value="二套以上" type="radio"> 二套以上</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>有无贷款：</dt>
+                                    <dd>
+                                        <label><input name="daikuanonly" value="有" checked="checked" type="radio"> 有</label>
+                                        <label><input name="daikuanonly" value="无" type="radio"> 无</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dl>
+                                    <dt>卖房是否唯一住房：</dt><dd>
+                                     <label><input name="sellonly" value="是" checked="checked" type="radio"> 是</label>
+                                     <label><input name="sellonly" value="否" type="radio"> 否</label>
+                                    </dd>
+                                </dl>
+                            </td>
+                        </tr>
+                    </table>
+                    <a href="javascript:" class="calculate-btn" onclick="checkNull()">开始计算</a>
+                    <span class="arrow-icon"></span>
+                </div>
+                <div class="result-div" style="height: 640px;">
+                     <p  class="result-bg" id="result-bg"><img src="/static/images/cal_bg.png" /><br />
+                      想要知道交多少税？赶紧算算吧！</p>
+                    <div id="cal-result">
+                    <table cellpadding="0" cellspacing="0" class="result-table">
+                        <thead>
+                            <tr>
+                                <td colspan="2">二手房税费</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th width="110">首 付：</th>
+                                <td><input id="shoufu" name="shoufu" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th width="110">契 税：</th>
+                                <td><input id="qishui" name="qishui" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th>营 业 税：</th>
+                                <td><input id="yyshui" name="yyshui" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th>印 花 税：	</th>
+                                <td><input id="yhshui" name="yhshui" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th>个人所得税：</th>
+                                <td><input id="grsdshui" name="grsdshui" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th>工本印花税：</th>
+                                <td><input id="ggyhshui" name="ggyhshui" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                            <tr>
+                                <th>合 计：</th>
+                                <td><input id="sfhj" name="sfhj" class="res-txt" type="text" readonly="true" />元</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                     <p style="margin:20px 0 0 30px;font-size:14px; color:#999;">*以上结果仅供参考</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/jquery-1.9.0.js"></script>
+<script type="text/javascript">
+    //计算房屋总价
+    function area(){
+        var houseArea =   $("#housearea").val() || 0;//房屋面积
+        var unitPrice = $("#unitprice").val() || 0;//房屋单价
+       // var totalPrice = parseFloat(houseArea) * parseFloat(unitPrice)/10000;
+        //alert(unitprice);
+        //总价处理
+        //$("#totalPrice").val(totalPrice);
+    }
+    //房产购置年限
+
+
+    //只能输入数字和小数
+    function clearNoNum(obj) {
+        //obj.value = obj.value.replace(/[^\d.]{5}$/, "")
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除“数字”以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是.
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的.
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+    }
+
+    //清理结果数据
+    function ext_ReSet() {
+        $('#qishui').val();
+        $('#yyshui').val();
+        $('#yhshui').val();
+        $('#grsdshui').val();
+        $('#gbshui').val();
+        $('#zhdijikuai').val();
+        $('#heji').val();
+    }
+
+    //计算总结果
+    function ext_total(){
+        $('#result-bg').hide();
+        $('#cal-result').show();
+        ext_ReSet();
+        var city ='苏州',dklv ='',shoufu='' ;
+        var housepinggu = parseFloat($("#housepinggu").val()) || 0;//评估价
+        var houseArea = parseFloat($("#housearea").val()) || 0;//房屋面积
+        var houseareagl = parseFloat($("#houseareagl").val()) || 0;//阁楼面积
+        //var unitPrice = parseFloat($("#unitprice").val()) || 0;//房屋单价
+        //var totalPrice = parseFloat(houseArea) * parseFloat(unitPrice);//房屋总价
+        var totalPrice = parseFloat($("#totalPrice").val()) * 10000 || 0;//房屋总价
+        var houseProperty = $('#houseproperty').val() || 0;//房产性质
+        var limitYear = $('#limityear').val() || 0; //购置年限
+        var buyOnly =  $('input[name="buyonly"]:checked').val() || 0;//买家首次购房
+        var daikuanonly =  $('input[name="daikuanonly"]:checked').val() || 0;//有无贷款
+        var sellOnly =  $('input[name="sellonly"]:checked').val() || 0;//卖家首次购房
+       // $("#ggyhshui").val() || 0;
+        //  alert(houseArea+' '+unitPrice+' '+totalPrice+' '+houseProperty+' '+limitYear+' '+buyOnly+' '+sellOnly);
+
+
+        if(houseProperty == '普通住宅')  //普通住宅
+        //买家
+        {
+            if( buyOnly == '首套')//买家首次购房
+            {
+                if(houseArea <= 90){ //90平以内（含）
+                    $('#qishui').val((totalPrice * 1 / 100).toFixed(2));//精确到小数点后两位
+                }else if(houseArea >90){ $('#qishui').val((totalPrice * 1.5 / 100).toFixed(2));}
+                 if(daikuanonly = '有'){
+                     dklv = 0.5;
+                 }
+                if(daikuanonly = '无'){
+                     dklv = 0.7;
+                 }
+            }
+
+            if( buyOnly == '二套')//买家二套购房
+            {
+                if(houseArea <= 90){ //90平以内（含）
+                    $('#qishui').val((totalPrice * 1 / 100).toFixed(2));
+                }else if(houseArea >90){ $('#qishui').val((totalPrice * 2 / 100).toFixed(2));}
+                if(daikuanonly = '有'){
+                    dklv = 0.2;
+                }
+                if(daikuanonly = '无'){
+                    dklv = 0.5;
+                }
+            }
+            if( buyOnly == '二套以上')//买家二套以上购房
+            {
+
+                $('#qishui').val((totalPrice * 3 / 100).toFixed(2));
+                dklv = 0.2;
+            }
+
+//卖家
+            if(sellOnly == '是'){//卖家唯一住房
+                if(limitYear == '两年以内'){
+                    $('#grsdshui').val((totalPrice * 1 /100).toFixed(2));
+                    $('#yyshui').val((totalPrice * 5.6 /100).toFixed(2));
+                }else if( limitYear =='2-5年'){
+                    $('#grsdshui').val((totalPrice * 1 /100).toFixed(2));
+                    $('#yyshui').val(0);
+                }else if( limitYear =='5年以上'){
+                    $('#grsdshui').val(0);
+                    $('#yyshui').val(0);
+                }
+            }else if(sellOnly == '否'){
+                if(limitYear == '两年以内'){
+                    $('#grsdshui').val((totalPrice * 1 /100).toFixed(2));
+                    $('#yyshui').val((totalPrice * 5.6 /100).toFixed(2));
+                }else if( limitYear =='2-5年'){
+                    $('#grsdshui').val((totalPrice * 1 /100).toFixed(2));
+                    $('#yyshui').val(0);
+                }else if( limitYear =='5年以上'){
+                    $('#grsdshui').val((totalPrice * 1 /100).toFixed(2));
+                    $('#yyshui').val(0);
+                }
+            }
+            $("#yhshui").val(0);//印花税
+            $("#ggyhshui").val(0);//工本印花税
+        }
+        if(houseProperty == '非普通住宅')  //非普通住宅
+        {
+            var cj = parseFloat(totalPrice) - parseFloat($('#fwyj').val() * 10000);//差价
+            $('#qishui').val((totalPrice * 3 / 100).toFixed(2));//精确到小数点后两位
+            $('#yyshui').val((cj * 5.6 /100).toFixed(2));
+            $('#grsdshui').val((cj * 20 /100).toFixed(2));
+            $("#yhshui").val(totalPrice * 5 /1000);
+            $("#ggyhshui").val(5);//工本印花税
+        }
+       shoufu = totalPrice - [(housepinggu * houseArea + housepinggu * houseareagl * 0.5 ) * dklv];
+       $("#shoufu").val(shoufu);
+
+      //alert(dklv);
+        calnum();
+
+    }
+    function hProperty(){
+       if( $('#houseproperty').val() == "非普通住宅"){
+           $('#dlFwyj').show();
+       }
+        else{
+           $('#dlFwyj').hide();
+       }
+    }
+    function checkNull()
+    {
+        if($('#housearea').val() ==''){
+            alert( $('#housearea').attr("msg")+"不能为空！\r\n");
+            return false ;
+        }else if($('#totalPrice').val() ==''){
+            alert( $('#totalPrice').attr("msg")+"不能为空！\r\n");
+            return false;
+        }else if( $('#houseproperty').val() == "非普通住宅" &&  $('#dlFwyj').show() &&  $('#fwyj').val() ==""){
+            alert( $('#fwyj').attr("msg")+"不能为空！\r\n");
+            return false;
+        }
+        ext_total();
+    }
+    function  calnum() {
+        var num =parseFloat($("#qishui").val())+parseFloat($("#yyshui").val())+parseFloat($("#yhshui").val())+parseFloat($("#grsdshui").val())+parseFloat($("#ggyhshui").val());
+        $("#sfhj").val(num);
+    }
+</script>
+{{include file='footer.html'}}
+</body>
+</html>

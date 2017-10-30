@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>上传资料</title>
+    <meta name="keywords" content="上传资料" />
+    <meta name="description" content="上传资料" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li><a href="/video/list_video"><em class="onlineclass"></em>在线课程</a></li>
+                    <li class="on">
+                        <a href="/document/list_doc"><em class="documentdata"></em>文档资料</a>
+                        <span class="document-nav-list">
+                            <a href="/document/list_doc">文档列表</a><br />
+                            <a href="/document/publish_doc">上传文档</a><br />
+                            <a href="/document/upload_data" class="on">上传资料</a>
+                        </span>
+                    </li>
+                    {{if in_array(4,$position_id)}}
+                    <li><a href="/document/list_doc_nopass"><em class="documentdata"></em>文档审核</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">上传资料</p>
+                <div class="upload-document-main">
+                    <div class="document-main-fl">
+                        <form id="save_form" method="post" enctype="multipart/form-data" action="{{site_url url='document/save_file'}}">
+                            <table cellspadding="0" width="370">
+                                <tr>
+                                    <th><em class="red">*</em> 上传文件</th>
+                                    <td width="285">
+                                        <div class="upload"><input id="file" name="file" type="file" style="width: 180px;"></div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th><em class="red">*</em> 标题</th>
+                                    <td><input id="title" type="text" value="{{$title|default:''}}" name="title" class="input-txt" /></td>
+                                </tr>
+                                <tr>
+                                    <th><em class="red">*</em> 分类</th>
+                                    <td><select id="type" name="type" class="doc-sel">
+                                        <option value="">选择分类</option>
+                                        <option value="6" selected>下载中心</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><input id="save_btn" type="button" value="确认上传" class="sub-btn" /></td>
+                                </tr>   
+                            </table>
+                        </form>
+                    </div>
+                    <div class="document-main-fr">
+                    <p class="tab-tit">上传文件时的注意事项： </p>
+                    <em class="orange">上传前须知：</em>
+                    <p class="doc-p">上传文件的大小最好是小于20M。</p>
+<em class="orange">上传中：</em>
+<p class="doc-p">文档标题默认为上传的附件的名称，自己可以进行修改，文档标题不能为空，最长可以输入20个汉字。 
+      对文档进行简要的介绍，能够方便其他用户快速了解文档中所包含的主要内容。文档介绍不能为空，最长可以输入100个汉字。 
+       每一份文档都有所属的正确分类，我们应该为自己的文档选择合适的分类，这能够让我们的文档得到更多的浏览和下载。</p>
+                    </div>
+                </div>
+               
+            
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="js/dpl-jquery.slide.js"></script>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<!--plupload start--------------------------------------------------------------------------->
+<!-- Load plupload and all it's runtimes and finally the UI widget -->
+
+<!--plupload end---------------------------------------------------------------------------->
+<script type="text/javascript"> 
+  /*  new Slide({
+        target: $('#slide01 .condiv' ),
+        control: $('#slide01_control li' ),
+        type:'click',
+        onchange: function() {
+        }
+    });*/
+    $("#file").change(function(){
+        if($.trim($("#title").val())==""){
+            var file_name = $("#file").val();
+           // var new_f = file_name.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");
+          //  var new_f = file_name.replace(/.*\\\\([^\\.]+)\\..*/,"$1");
+            var path_arr = file_name.split("\\");
+            path_arr.forEach(function(e){
+                new_f = e;
+            })
+            $("#title").val(new_f);
+        }
+    })
+
+    $("#save_btn").click(function () {
+        var files = $('#file').val();
+        if(files.length == 0){
+            layer.msg('请选择文件');
+            return;
+        }
+        if($.trim($("#title").val())==""){
+            layer.msg('标题不能为空');
+
+            return false;
+        }
+        if($.trim($("#type").val())==""){
+            layer.msg('类别不能为空');
+
+            return false;
+        }
+        $("#save_form").submit();
+
+    })
+</script>
+</body>
+</html>

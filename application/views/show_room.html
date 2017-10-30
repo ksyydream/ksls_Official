@@ -1,0 +1,12 @@
+{{foreach from=$appointments item=item}}
+    <dl class="{{$item->clz}}">
+        <dt></dt>
+        <dd>
+            <span>{{$item->room_name}}</span>
+            <br />
+            {{$item->date}} {{$item->company_name}}  {{$item->subsidiary_name}}
+            <br/>
+            {{$item->user_name}} {{$item->tel}}
+        </dd>
+    </dl>
+{{/foreach}}

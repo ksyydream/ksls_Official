@@ -1,0 +1,205 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>审核页面</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+      <form id="status_form" method="post" action="/finance_wx_user/status_finance_save">
+          <input type="hidden" name="finance_id" value="{{$data.id}}">
+          <div class="am-form am-form-horizontal am-form-wrap-finance no-margin">
+              <div class="am-approve-group am-finance-approve-top">
+                  <span class="approve-tit"><em><img src="/static/assets/i/sh_icon1.png" alt=""></em>匹配方案</span>
+                  <p class="add-approve">
+                      <a href="javascript:void(0);" onclick="add_fangan()" class="add-approve-btn" id="Jadd-approve-btn"><img src="/static/assets/i/add-ap.png" alt=""></a>
+                  </p>
+              </div>
+
+                  <div id="Japprove-list">
+                      {{if $data.result}}
+                      {{foreach from=$data.result item=item key=myId}}
+                      <div class="approve-list">
+                          <fangan></fangan>
+                          <em class="ap-list-icon"></em>
+                          <em onclick="del_fangan(this)" class="ap-remove-icon"></em>
+                          <div class="approve-list-data">
+                              <span class="ap-list-tit">类型:</span>
+                              <div class="am-sm-fin">
+                                  <div class="am-radio">
+                                      <label>
+                                          <input type="radio" {{if $item.type==1}}checked{{/if}} value="1"  name="type{{$myId}}">信用</label>
+                                  </div>
+                                  <div class="am-radio">
+                                      <label>
+                                          <input type="radio" {{if $item.type==2}}checked{{/if}} name="type{{$myId}}" value="2">抵押</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="approve-list-data">
+                              <span class="ap-list-tit">额度:</span>
+                              <div class="am-sm-fin">
+                                  <input type="text" name="ed[]" value="{{$item.ed|default:''}}" class="am-form-field am-approve-field yy_num" placeholder=""><em class="ap-txt">万元</em>
+                              </div>
+                              <span class="ap-list-tit">年化:</span>
+                              <div class="am-sm-fin">
+                                  <input type="text" name="nh[]" value="{{$item.nh|default:''}}" class="am-form-field am-approve-field" placeholder=""><em class="ap-txt">%</em>
+                              </div>
+                          </div>
+                          <div class="approve-list-data">
+                              <span class="ap-list-tit">周期:</span>
+                              <div class="am-sm-fin">
+                                  <input type="text" value="{{$item.minzq|default:''}}" name="minzq[]" class="am-form-field am-approve-field yy_num">
+                              </div>
+                              <span class="ap-list-tit">——</span>
+                              <div class="am-sm-fin">
+                                  <input type="text" value="{{$item.maxzq|default:''}}" name="maxzq[]" class="am-form-field am-approve-field yy_num">
+                              </div>
+                              <em class="ap-txt">期</em>
+                          </div>
+                      </div>
+                        {{/foreach}}
+                        {{/if}}
+                     </div>
+
+              <div class="approve-describe">
+                  <span class="approve-de-span"><em class="approve-de-icon"><img src="/static/assets/i/sh_icon3.png" alt=""></em>状态</span>
+                  <select id="sel_status" name="status">
+                      <option value="">请选择</option>
+                      <option {{if $data.status == 3}}selected{{/if}} value="3">审核通过</option>
+                      <option {{if $data.status == 4}}selected{{/if}} value="4">结案</option>
+                      <option {{if $data.status == 5}}selected{{/if}} value="5">审批未通过</option>
+                      <option {{if $data.status == -1}}selected{{/if}} value="-1">终止</option>
+                  </select>
+                  <span class="approve-de-span"><em class="approve-de-icon"><img src="/static/assets/i/sh_icon3.png" alt=""></em>请输入状态描述</span>
+                  <div class="approve-area">
+                    <textarea name="meno_text" id="meno_text" cols="30" rows="5" class="approve-textarea" placeholder="">{{$data.meno_text|default:''}}</textarea>
+                  </div>
+                  <p class="submit-btn-p"><a href="javascript:void(0);" id="save_btn" class="submit-btn">提 交</a></p>
+              </div>
+
+          </div>
+      </form>
+
+ </div>
+
+</div>
+
+
+</div>
+
+{{include file="finance/weixin/admin-menu.html"}}
+
+</body>
+</html>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#save_btn").click(function() {
+            if($("#sel_status").val()==""){
+                layer.msg('请选择状态', {icon: 2});
+                return false;
+            }
+            var flag=0;
+
+            $("[name='maxzq[]']").each(function(index_name){
+                if ($.trim($(this).val())==''){
+                    layer.msg('存在最大周期未填写!');
+                    flag=1;
+                    return false;
+                }
+                if ($.trim($("input[name='type" + index_name + "']:checked").val())==''){
+                    layer.msg('类型未填写!');
+                    flag=1;
+                    return false;
+                }
+            });
+            $("[name='minzq[]']").each(function(){
+                if ($.trim($(this).val())==""){
+                    layer.msg('存在最小周期未填写!');
+                    flag=1;
+                    return false;
+                }
+            });
+            $("[name='nh[]']").each(function(){
+                if ($.trim($(this).val())==""){
+                    layer.msg('存在年化率未填写!');
+                    flag=1;
+                    return false;
+                }
+            });
+            $("[name='ed[]']").each(function(){
+                if ($.trim($(this).val())==''){
+                    layer.msg('存在额度未填写!');
+                    flag=1;
+                    return false;
+                }
+            });
+
+
+
+            if (flag !=1){
+                $('#status_form').submit();
+            }
+        });
+
+
+    })
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    function add_fangan(){
+        var html_ = "<div class='approve-list'><fangan></fangan><em class='ap-list-icon'></em><em onclick='del_fangan(this)' class='ap-remove-icon'></em>";
+        html_+= "<div class='approve-list-data'><span class='ap-list-tit'>类型:</span><div class='am-sm-fin'><div class='am-radio'><label><input type='radio' value='1'  name='type_yy'>信用</label> </div> <div class='am-radio'> <label> <input type='radio' name='type_yy' value='2'>抵押</label></div></div></div>";
+        html_+= "<div class='approve-list-data'><span class='ap-list-tit'>额度:</span><div class='am-sm-fin'><input type='text' name='ed[]' value='' class='am-form-field am-approve-field yy_num' placeholder=''><em class='ap-txt'>万元</em> </div> <span class='ap-list-tit'>年化:</span><div class='am-sm-fin'><input type='text' name='nh[]' value='' class='am-form-field am-approve-field' placeholder=''><em class='ap-txt'>%</em></div></div>";
+        html_+= "<div class='approve-list-data'><span class='ap-list-tit'>周期:</span><div class='am-sm-fin'><input type='text' value='' name='minzq[]' class='am-form-field am-approve-field yy_num'></div> <span class='ap-list-tit'>——</span><div class='am-sm-fin'><input type='text' value='' name='maxzq[]' class='am-form-field am-approve-field yy_num'></div><em class='ap-txt'>期</em></div>";
+        html_+= "</div>"
+        $("#Japprove-list").append(html_);
+        $("#Japprove-list").find("fangan").each(function(index_){
+            //$(this).html(index_+1);
+            $(this).parent().find("input[type='radio']").attr("name","type"+index_);
+        })
+        $(".yy_num").off('keyup').off('blur').off('paste');
+        $(".yy_num").keyup(function () {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).blur(function(){
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).bind("paste", function () {  //CTR+V事件处理
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+    }
+    function del_fangan(self){
+        $(self).parent().remove();
+        $("#Japprove-list").find("fangan").each(function(index_){
+            //$(this).html(index_+1);
+            $(this).parent().find("input[type='radio']").attr("name","type"+index_);
+        })
+    }
+
+</script>

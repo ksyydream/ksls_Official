@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>租房信息</title>
+    <meta name="keywords" content="租房信息" />
+    <meta name="description" content="租房信息" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/hire/hire_list"><em class="schedule"></em>租房信息</a></li>
+                    <li><a href="/hire/hire_deadline_list"><em class="noplan"></em>提醒到期</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap" style="padding:0 20px;">
+                 <form id="formSearchHire" method="POST" action="/hire/hire_list">
+                     <div class="calendar-input-wrap">
+                         <span class="calendar-start-icon trigger-icon-yui_3_5_1_1_1467856854734_16"></span>
+                         <input type="text" name="xiaoqu" value="{{$hire_list.xiaoqu}}" class="sel-begin-time" style="width:200px;"></div>
+                     <a href="javascript:void(0);" class="search-btn" id="btn_search"></a>
+                     <a href="/hire/add_hire" class="add-schedule-btn">+新增租房</a>
+                 </form>
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">租房信息</p>
+                <div class="examination-main clearfix">
+                    <table cellspadding="0" border="0" class="examination-list-table">
+                        <tr>
+                            <th width="">小区</th>
+                            <th width="">房号</th>
+                            <th width="">面积</th>
+                            <th width="">装修</th>
+                            <th width="">租金</th>
+                            <th width="">房东号码</th>
+                            <th width="">操作时间</th>
+                            <th width="">提醒时间</th>
+                            <th>操作</th>
+                        </tr>
+                        {{foreach from=$hire_list.res_list item=item}}
+                        <tr>
+                            <td>{{$item.xiaoqu}}</td>
+                            <td>{{$item.fanghao}}</td>
+                            <td>{{$item.mianji}}</td>
+                            <td>{{$item.zhuangxiu}}</td>
+                            <td>{{$item.zhujing}}</td>
+                            <td>{{$item.haoma}}</td>
+                            <td>{{$item.create_time}}</td>
+                            <td>
+                                {{if $item.flag==2}}
+                                不在提醒
+                                {{else}}
+                                {{$item.tixin_time}}
+                                {{/if}}
+                            </td>
+                            <td><a href="/hire/add_hire/{{$item.id}}">查看</a></td>
+                        </tr>
+                        {{/foreach}}
+                    </table>
+                    <div id="hire_page" class="pages">
+                        {{$pager}}
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+    {{include file='footer.html'}}
+</body>
+</html>
+<script>
+    $("#btn_search").click(function(){
+        $("#formSearchHire").submit();
+    })
+    $("#hire_page").find('a').click(function(){
+        var path = $(this).attr('href');
+        $("#formSearchHire").attr("action",path);
+        $("#formSearchHire").submit();
+        return false;
+    })
+</script>

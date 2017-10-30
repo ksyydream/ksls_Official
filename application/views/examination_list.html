@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>题库</title>
+    <meta name="keywords" content="题库" />
+    <meta name="description" content="题库" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li>
+                        <a href="/examination/self_examination"><em class="onlineexam"></em>在线考试</a>
+                    </li>
+                    <li class="on"><a href="/examination/enter_examination"><em class="onlineexam"></em>题库</a>
+                        <span class="document-nav-list">
+                             {{if in_array(5,$login_position_id_array)}}
+                            <a href="/examination/enter_examination">上传试题</a><br />
+                            {{/if}}
+                            <a href="/examination/setup_examination">生成试卷</a><br />
+                            <a href="/examination/examination_list" class="on">我的试卷</a>
+                        </span>
+                    </li>
+                    {{if $login_permission_id <= 4}}
+                    <li><a href="/examination/mark_list"><em class="onlinemark"></em>在线阅卷</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+               
+            </div>
+              <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">我的试卷</p>
+                <div class="examination-main clearfix">
+                    <table cellspadding="0" border="0" class="examination-list-table">
+                        <tr>
+                            <th width="350">考试名称</th>
+                            <th width="230">时间</th>
+                            <th>操作</th>
+                        </tr>
+                        {{foreach from=$exam_list.res_list item=item}}
+                        <tr>
+                            <td>{{$item.title}}</td>
+                            <td>{{$item.created}}</td>
+                            <td><a href="/examination/view_examination/{{$item.id}}">查看</a></td>
+                        </tr>
+                        {{/foreach}}
+                    </table>
+                    <div class="pages">
+                        {{$pager}}
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+{{include file='footer.html'}}
+</body>
+</html> 

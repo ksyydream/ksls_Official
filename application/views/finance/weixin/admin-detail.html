@@ -1,0 +1,312 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>金融服务</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/weixinfinance.css">
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="am-cf admin-main">
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">申请人信息</strong> / <small>Applicant Infromation</small>
+      </div>
+    </div>
+    <div class="am-form am-form-horizontal am-form-wrap-finance no-margin">
+        <div class="am-finance-detail am-finance-detail-status">
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">申请状态</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{if $data.status==1}}未提交
+                        {{elseif $data.status==2}}待审核
+                        {{elseif $data.status==3}}审核通过
+                        {{elseif $data.status==4}}结案
+                        {{elseif $data.status==5}}审核失败
+                        {{elseif $data.status==-1}}关闭
+                        {{else}}{{/if}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="am-finance-detail"> 
+          <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label">姓名</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_name|default:''}}</p>
+             <!--  <input type="text" id="doc-ipt-1-1" class="am-form-field" placeholder="请输入姓名"> -->
+            </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label">年龄</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_age|default:''}}</p>
+            </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label">性别</label>
+            <div class="am-sm-fin">
+                <p class="am-p-d">{{if $data.borrower_sex|default:0 == 1 }}男{{else}}女{{/if}}</p>
+            </div>
+          </div>
+           <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label">婚 姻</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{if $data.borrower_marriage|default:0 == 1 }}已婚{{else}}未婚{{/if}}</p>
+            </div>
+          </div>
+                <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label">房产</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{if $data.borrower_hasP|default:0 == 1 }}有{{else}}无{{/if}}</p>
+            </div>
+          </div>
+           <div class="am-form-group am-form-finance">
+             <label for="doc-ipt-1-1" class="am-form-label">籍贯</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_native|default:''}}</p>
+            </div>
+           </div> 
+            <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">学历</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_qualifications|default:''}}</p>
+            </div>
+           </div>
+         </div>
+         <div class="am-finance-detail"> 
+          <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label am-form-adress">工作地址</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_workADD|default:''}}</p>
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label">职位</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_position|default:''}}</p>
+            </div>
+           </div>
+            <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label am-form-adress">月收入</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_income|default:''}}</p>
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label am-form-identity">身份证号码</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_code|default:''}}</p>
+            </div>
+           </div>
+           <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label am-form-adress">社保年限</label>
+            <div class="am-sm-fin">
+              <p class="am-p-d">{{$data.borrower_SSY|default:''}}</p>
+            </div>
+           </div>
+          <div class="am-form-group am-form-finance">
+            <label for="doc-ipt-1-1" class="am-form-label am-form-adress">联系方式</label>
+              <div class="am-sm-fin">
+                <p class="am-p-d">{{$data.borrower_phone|default:''}}</p>
+              </div>
+           </div>
+          </div>
+        {{if $data.borrower_marriage|default:0 == 1 }}
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf">
+                <strong class="am-text-primary am-text-lg">配偶信息</strong> / <small>Partner Infromation</small>
+            </div>
+        </div>
+        <div class="am-finance-detail">
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">姓名</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_name|default:''}}</p>
+                    <!--  <input type="text" id="doc-ipt-1-1" class="am-form-field" placeholder="请输入姓名"> -->
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">年龄</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_age|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">籍贯</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_native|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">学历</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_qualifications|default:''}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="am-finance-detail">
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label am-form-adress">工作地址</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_workADD|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label">职位</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_position|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label am-form-adress">月收入</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_income|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label am-form-identity">身份证号码</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_code|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label am-form-adress">社保年限</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_SSY|default:''}}</p>
+                </div>
+            </div>
+            <div class="am-form-group am-form-finance">
+                <label for="doc-ipt-1-1" class="am-form-label am-form-adress">联系方式</label>
+                <div class="am-sm-fin">
+                    <p class="am-p-d">{{$data.spouse_phone|default:''}}</p>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{if $data.borrower_hasP|default:0 == 1 }}
+        <div class="am-fl am-cf">
+            <strong class="am-text-primary am-text-lg">房产信息</strong> / <small>House Infromation</small>
+        </div>
+    </div>
+      <div class="am-finance-detail">
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">社区名</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_community|default:''}}</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">楼栋号</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_num|default:''}}</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">物业类型</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_estates|default:''}}</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">面积</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_area|default:''}}㎡</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">购入总价</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_price|default:''}}万</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">权利人</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{{$data.property_owner|default:''}}</p>
+              </div>
+          </div>
+          <div class="am-form-group am-form-finance">
+              <label for="doc-ipt-1-1" class="am-form-label">现余按揭</label>
+              <div class="am-sm-fin">
+                  <p class="am-p-d">{$data.property_AJ|default:''}}万</p>
+              </div>
+          </div>
+
+      </div>
+        {{/if}}
+          <div class="am-cf am-padding">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">资金需求</strong> / <small>Fund Infromation</small>
+      </div>
+    </div>
+    <div class="am-finance-detail">
+        <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label">额度</label>
+          <div class="am-sm-fin">
+             <p class="am-p-d">{{$data.borrowing_amount|default:''}}万</p>
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label">预计还款周期</label>
+          <div class="am-sm-fin">
+             <p class="am-p-d">{{if $data.repayment|default:0 == 1 }}3个月{{/if}}
+                 {{if $data.repayment|default:0 == 2 }}半年{{/if}}
+                 {{if $data.repayment|default:0 == 3 }}一年{{/if}}
+                 {{if $data.repayment|default:0 == 4 }}两年{{/if}}
+                 {{if $data.repayment|default:0 == 5 }}三年{{/if}}
+                 {{if $data.repayment|default:0 == 6 }}三年以上{{/if}}</p>
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label">还款方式</label>
+          <div class="am-sm-fin">
+             <p class="am-p-d">{{if $data.repayment_methods|default:0 == 1 }}等额本息{{/if}}
+                 {{if $data.repayment_methods|default:0 == 2 }}等额本金{{/if}}
+                 {{if $data.repayment_methods|default:0 == 3 }}先息后本{{/if}}</p>
+          </div>
+        </div>
+        <div class="am-form-group am-form-finance">
+          <label for="doc-ipt-1-1" class="am-form-label">征信概要</label>
+          <div class="am-sm-fin">
+             <p class="am-p-d">信用卡逾期:{{if $data.explain_XYK_radio|default:0 == 1 }}有{{/if}}{{if $data.explain_XYK_radio|default:0 == 2 }}无{{/if}}</p>
+              <p class="am-p-d">按揭逾期:{{if $data.explain_AJ_radio|default:0 == 1 }}有{{/if}}{{if $data.explain_AJ_radio|default:0 == 2 }}无{{/if}}</p>
+              <p class="am-p-d">房产有无第三方质押:{{if $data.explain_ZY_radio|default:0 == 1 }}有{{/if}}{{if $data.explain_ZY_radio|default:0 == 2 }}无{{/if}}</p>
+             <p class="am-p-d">有无商业保险:{{if $data.explain_SYBX_radio|default:0 == 1 }}有{{/if}}{{if $data.explain_SYBX_radio|default:0 == 2 }}无{{/if}}</p>
+             <p class="am-p-d">有无司法裁决:{{if $data.explain_SFZC_radio|default:0 == 1 }}有{{/if}}{{if $data.explain_SFZC_radio|default:0 == 2 }}无{{/if}}</p>
+          </div>
+        </div>
+
+    </div>
+
+              <!--  <p class="finance-btn-p"><a href="/finance_wx_user/show_finance_2/{{$data.id|default:''}}" class="finance-btn">下一页</a></p>-->
+              <a href="/finance_wx_user/show_finance_2/{{$data.id|default:''}}" class="am-btn am-btn-primary am-btn-block am-btn-xl am-round">下一页</a>
+           </div>
+        </div>
+
+       </div>
+
+    {{include file="finance/weixin/admin-menu.html"}}
+</div>
+</body>
+</html>

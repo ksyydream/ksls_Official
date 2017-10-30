@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>发布新闻</title>
+    <meta name="keywords" content="发布新闻" />
+    <meta name="description" content="发布新闻" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <a href="/" class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></a>
+            <div class="nav-left">
+                <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                    <li class="on"><a href="/news/news_list"><em class="onlineclass"></em>发布新闻</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+             <div class="search-wrap">
+            </div>
+            <div class="schedule-wrap upload-document-wrap">
+                <p class="tab-tit">发布新闻</p>
+                <div class="publish-document-main">
+                    <form id="publishNewsForm" method="post" action="{{site_url url='news/save_news'}}" enctype="multipart/form-data">
+                        <input type="hidden" id="news_id" name="news_id" value="{{$news['id']|default:''}}">
+                        <dl>
+                            <dt>标题</dt>
+                            <dd><input id="title" type="text" name="title" value="{{$news['title']|default:''}}" class="input-txt"  /></dd>
+                        </dl>
+                        <dl>
+                            <dt>封面</dt>
+                            <dd>
+                                大图片建议尺寸：620像素 * 440像素<br>
+                                <a href="javascript:" class="publish-news-btn" id="upload_file">本地上传</a>
+                                <div class="newscoverpic">
+                                    <a href="javascript:">
+                                        {{if $news}}
+                                        <img id="imgFenmian" src="/uploadfiles/news/{{$news['pic']}}" alt="" width="155" height="110">
+                                        {{else}}
+                                        <img id="imgFenmian" src="http://dummyimage.com/155x110/ccc/fff" alt="" width="155" height="110">
+                                        {{/if}}
+
+                                        <span class="delete"><em></em></span>
+                                    </a>
+                                    <input style="display: none" type="file" name="userfile" class="file" id="file_field" />
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="editor-box">
+                            <input type="hidden" name="content" id="content" />
+                            <script id="editor" type="text/plain" style="width: 100%;height:500px;">{{$news['content']|default:''}}</script>
+                        </div>
+                        <p class="p-btn"><a href="javascript:void(0);" id="save_btn" class="publish-btn">发布</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{include file='footer.html'}}
+</div>
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<!--可视化编辑引用js-->
+<script type="text/javascript" charset="utf-8" src="/static/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/static/js/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    //可视化编辑器实例调用
+    var ue =UE.getEditor('editor');
+
+    $("#upload_file").click(function() {
+        $("#file_field").click();
+    });
+
+    $("#file_field").change(function(){
+        var objUrl = getObjectURL(this.files[0]);
+        if (objUrl) {
+            $("#imgFenmian").attr('src', objUrl);
+        }
+    });
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url ;
+    }
+
+    $("#save_btn").click(function(){
+        var title = $("#title").val();
+        if(title == "") {
+            layer.msg('请输入标题', {icon: 2});
+            return;
+        }
+
+        var file_field = $("#file_field").val();
+        if(file_field == "" && $("#news_id").val()=="") {
+            layer.msg('请输入封面', {icon: 2});
+            return;
+        }
+
+        var content = $("#content").val(ue.getContent());
+        if(content == "" ) {
+            layer.msg('请输入内容', {icon: 2});
+            return;
+        }
+
+        layer.confirm('确定要发布新闻吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $("#publishNewsForm").submit();
+        }, function(){
+        });
+    })
+</script>
+</body>
+</html>

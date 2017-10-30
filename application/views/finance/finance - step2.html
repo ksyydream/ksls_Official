@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房猫房地产管理系统</title>
+    <meta name="keywords" content="房猫-行程管理-我的行程" />
+    <meta name="description" content="房猫-行程管理-我的行程" />
+    <link href="/static/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="doc">
+    {{include file='header.html'}}
+
+
+    <div class="wraper clearfix">
+        <div class="wrap-left">
+            <span class="logo"><img src="/static/images/logo.jpg" alt="" width="130" height="35"></span>
+            <div class="nav-left">
+                 <ul class="nav-left-ul">
+                    <li><a href="/"><em class="home"></em>回到首页</a></li>
+                     {{if $permission_id > 3 && !in_array(12,$position_id)}}
+                     <li class="on"><a href="/finance/finance_list"><em class="finance"></em>我的金融</a></li>
+                     {{/if}}
+                     {{if $permission_id < 5 || in_array(12,$position_id)}}
+                     <li><a href="/finance/finance_list_other"><em class="finance"></em>金融服务</a></li>
+                     {{/if}}
+                </ul>
+            </div>
+        </div>
+        <div class="wrap-right">
+            <div class="search-wrap">
+                <div class="t-tit">金融服务申请 Financial services applications</div>
+            </div>
+            <form id="financeForm" method="post" action="/finance/save_finance_2">
+                <input type="hidden" name="id" value="{{$data.id|default:''}}" />
+             <div class="div-th" style="background-color:#4d8df8;"><em></em>不动产信息</div>
+             <div class="div-bd" style="border-color:#4d8df8;">
+              
+                <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+                     <tr>
+                        <td colspan="3">
+                            <dl>
+                                <dt>房 产：</dt>
+                                <dd><label><input type="radio" id="borrower_hasP_1" {{if $data.borrower_hasP|default:0 == 1 }}checked{{/if}} name="borrower_hasP" value="1" class="radio-choose" />有房产</label>
+                                    <label><input type="radio" id="borrower_hasP_2" {{if $data.borrower_hasP|default:0 == 2 }}checked{{/if}} name="borrower_hasP" value="2" class="radio-choose" />无房产</label></dd>
+                            </dl>
+                        </td> 
+                    </tr>
+                </table>
+                 <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1" id="Jhashouse" {{if $data.borrower_hasP|default:2 != 1 }}style="display:none;"{{/if}}>
+                    <tr>
+                        <td width="30%">
+                            <dl>
+                                <dt class="">社区名：</dt>
+                                <dd><input type="text" value="{{$data.property_community|default:''}}" id="property_community" name="property_community" class="add-txt add-txt-wid170" /></dd>
+                            </dl>
+                        </td>
+                        <td width="30%"><dl><dt class="">楼栋号：</dt>
+                            <dd><input type="text" value="{{$data.property_num|default:''}}" id="property_num" name="property_num" class="add-txt add-txt-wid75" /><!-- <em>平方米</em> --></dd></dl></td>
+                        <td><dl><dt class="">物业类型：</dt>
+                            <dd><input type="text" value="{{$data.property_estates|default:''}}" id="property_estates" name="property_estates" class="add-txt add-txt-wid75" /><!-- <em>平方米</em> --></dd></dl></td>
+                    </tr>
+                    <tr>
+                        <td><dl><dt class="">面 积:</dt><dd><input type="text" value="{{$data.property_area|default:''}}"  id="property_area" name="property_area" class="yy_float_2 add-txt add-txt-wid170" /><em>平方米</em></dd></dl></td>
+                        <td>
+                            <dl>
+                                <dt>购入总价：</dt>
+                                <dd><input type="text"  value="{{$data.property_price|default:''}}" id="property_price" name="property_price" class="yy_float_2 add-txt add-txt-wid75" /><em>万元</em></dd></dl></dd>
+                            </dl>
+                        </td>
+                        <td>
+                            <dl>
+                                <dt>权利人：</dt>
+                                <dd><input type="text"  value="{{$data.property_owner|default:''}}" id="property_owner" name="property_owner" class="add-txt add-txt-wid75" /></dd></dl></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <dl>
+                                <dt>现余按揭：</dt>
+                                <dd><input type="text" id="property_AJ"  value="{{$data.property_AJ|default:''}}"  name="property_AJ" class="yy_float_2 add-txt add-txt-wid75" /><em>万元</em></dd></dl></dd>
+                            </dl>
+                        </td>
+                    </tr>
+                   
+                </table>
+                </div>
+                      <div class="div-th" style="background-color:#fabe00;"><em></em>资金需求</div>
+             <div class="div-bd" style="border-color:#fabe00;">
+              
+                <table cellpadding="0" cellsapcing="0" class="add-data-table add-data-table1">
+                     <tr>
+                        <td>
+                            <dl>
+                                <dt>额 度：</dt>
+                                <dd> <input type="text" id="borrowing_amount"  value="{{$data.borrowing_amount|default:''}}" maxlength="20" name="borrowing_amount" class="yy_num add-txt add-txt-wid75"><em>万元</em></dd>
+                            </dl>
+                        </td> 
+                        <td colspan="2">
+                            <dl>
+                                <dt class="wid120">预计还款周期：</dt>
+                                <dd> <select id="repayment" name="repayment" class="doc-select">
+                                    <option {{if $data.repayment|default:0 == 1 }}selected="selected"{{/if}} value="1">3个月</option>
+                                    <option {{if $data.repayment|default:0 == 2 }}selected="selected"{{/if}} value="2">半年</option>
+                                    <option {{if $data.repayment|default:0 == 3 }}selected="selected"{{/if}} value="3">一年</option>
+                                    <option {{if $data.repayment|default:0 == 4 }}selected="selected"{{/if}} value="4">两年</option>
+                                    <option {{if $data.repayment|default:0 == 5 }}selected="selected"{{/if}} value="5">三年</option>
+                                    <option {{if $data.repayment|default:0 == 6 }}selected="selected"{{/if}} value="6">三年以上</option>
+                                </select></dd>
+                            </dl>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <dl>
+                                <dt class="">还款方式：</dt>
+                                <dd>
+                                    <label><input type="radio" {{if $data.repayment_methods|default:0 == 1 }}checked{{/if}} id="repayment_methods_1" value="1" name="repayment_methods" class="radio-choose" />等额本息</label>
+                                    <label><input type="radio" {{if $data.repayment_methods|default:0 == 2 }}checked{{/if}} id="repayment_methods_2" value="2" name="repayment_methods" class="radio-choose" />等额本金</label>
+                                    <label><input type="radio" {{if $data.repayment_methods|default:0 == 3 }}checked{{/if}} id="repayment_methods_3" value="3" name="repayment_methods" class="radio-choose" />先息后本</label>
+                                </dd>
+                            </dl>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td colspan="3"><dl><dt style="font-weight:bold">征信概要</dt><dd></dd></dl></td>
+                     </tr>
+                     <tr>   
+                        <td colspan="3">
+                            <dl>
+                            <dt class="wid120">有无信用卡逾期</dt>
+                            <dd>
+                                <label for="xkyq-yes"><input type="radio" {{if $data.explain_XYK_radio|default:0 == 1 }}checked{{/if}} id="xkyq-yes" value="1" name="explain_XYK_radio"> 有</label>
+                                <label for="xkyq-no"><input type="radio" {{if $data.explain_XYK_radio|default:0 == 2 }}checked{{/if}} id="xkyq-no" value="2" name="explain_XYK_radio"> 无</label>
+                            <!--<textarea name="explain_XYK" id="explain_XYK" cols="30" rows="10" class="txt-area">{{$data.explain_XYK|default:''}}</textarea>-->
+                            </dd>
+                       </dl>
+                            </td>
+                         </tr>
+                    <tr> <td colspan="3">
+                        <dl>
+                            <dt class="wid120">有无按揭逾期</dt>
+                            <dd>
+                                <label for="ajyq-yes"><input type="radio" {{if $data.explain_AJ_radio|default:0 == 1 }}checked{{/if}} id="ajyq-yes" value="1" name="explain_AJ_radio"> 有</label>
+                                <label for="ajyq-no"><input type="radio" {{if $data.explain_AJ_radio|default:0 == 2 }}checked{{/if}} id="ajyq-no" value="2" name="explain_AJ_radio"> 无</label>
+                            <!--<textarea name="explain_AJ" id="explain_AJ" cols="30" rows="10" class="txt-area">{{$data.explain_AJ|default:''}}</textarea>-->
+                            </dd></dl></td></tr>
+                    <tr> <td colspan="3"><dl>
+                            <dt class="wid160">房产有无第三方质押</dt>
+                            <dd>
+                                <label for="sfzy-yes"><input type="radio" {{if $data.explain_ZY_radio|default:0 == 1 }}checked{{/if}} id="sfzy-yes" value="1" name="explain_ZY_radio"> 有</label>
+                                <label for="sfzy-no"><input type="radio" {{if $data.explain_ZY_radio|default:0 == 2 }}checked{{/if}} id="sfzy-no" value="2" name="explain_ZY_radio"> 无</label>
+                            <!--<textarea name="explain_ZY" id="explain_ZY" cols="30" rows="10" class="txt-area">{{$data.explain_ZY|default:''}}</textarea>-->
+                            </dd></dl></td></tr>
+                    <tr> <td colspan="3">
+                            <dt class="wid120">有无商业保险</dt>
+                            <dd>
+                            <!--<textarea name="explain_SYBX" id="explain_SYBX" cols="30" rows="10" class="txt-area">{{$data.explain_SYBX|default:''}}</textarea>-->
+                                <label for="sybx-yes"><input type="radio" {{if $data.explain_SYBX_radio|default:0 == 1 }}checked{{/if}} id="sybx-yes" value="1" name="explain_SYBX_radio"> 有</label>
+                                <label for="sybx-no"><input type="radio" {{if $data.explain_SYBX_radio|default:0 == 2 }}checked{{/if}} id="sybx-no" value="2" name="explain_SYBX_radio"> 无</label>
+                            </dd>
+                    </dl></td></tr>
+                    <tr> <td colspan="3">
+                        <dl>
+                            <dt class="wid120">有无司法裁决</dt>
+                            <dd>
+                                <label for="sfcj-yes"><input type="radio" {{if $data.explain_SFZC_radio|default:0 == 1 }}checked{{/if}} id="sfcj-yes" value="1" name="explain_SFZC_radio"> 有</label>
+                                <label for="sfcj-no"><input type="radio" {{if $data.explain_SFZC_radio|default:0 == 2 }}checked{{/if}} id="sfcj-no" value="2" name="explain_SFZC_radio"> 无</label>
+                            <!--<textarea name="explain_SFZC" id="explain_SFZC" cols="30" rows="10" class="txt-area">{{$data.explain_SFZC|default:''}}</textarea>-->
+                            </dd>
+                            </dl>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            </form>
+                 <p style="padding:0 20px 30px;">郑重提醒：<br />
+       客户承诺提交资料真实有效，平台根据客户提交资料给出相匹配之金融产品。并给出贷款额度。如因客户提供资料为伪造，或因后期资料不全导致无法顺利办理金融业务的。平台不承担客户任何经济及精神损失。</p>
+              <p class="p-btns" style="width:210px;">
+                 <a href="javascript:void(0);" id="go_back_btn" class="sub-btn" style="background-color:#e5e5e5; color:#333;">上一步</a>
+                  <a href="javascript:void(0);" id="save_btn" class="sub-btn" style="background-color:#35aa47">下一步</a>
+              </p> 
+        </div>
+    </div>
+</div>
+{{include file='footer.html'}}
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    
+    $("input[name='borrower_hasP']").click(function () {
+        if($(this).val()=="1"){  $("#Jhashouse").show(); }
+        else if($(this).val()=="2"){ $("#Jhashouse").hide(); }
+    });
+    
+    $(".ing-error").mouseover(function(){
+        $(this).children(".error-explain").toggle();
+    }).mouseout(function(){ $(this).children(".error-explain").hide();});
+    $("#btn_search").click(function() {
+        $('#formSearchActivity').submit();
+    });
+    $(".yy_num").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $(".yy_float_2").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        yy_float_2($(this))
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        yy_float_2($(this))
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    function yy_float_2(pro){
+        var regSalary = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
+        if($.trim(pro.val()) != "") {
+            if (!regSalary.test(pro.val())) {
+                layer.msg('只可输入两位小数点的数字', {icon: 2});
+            }
+        }
+
+    }
+    $("#save_btn").click(function() {
+        if($("#borrower_hasP_1").is(':checked') || $("#borrower_hasP_2").is(':checked')){
+
+        }else{
+            layer.msg('请选择有无房产', {icon: 2});
+            return false;
+        }
+
+        var regSalary = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
+        if($("#borrower_hasP_1").is(':checked')){
+            if($.trim($("#property_community").val()) == "") {
+                layer.msg('有房产时,请填写社区', {icon: 2});
+                return false;
+            }
+            if($.trim($("#property_num").val()) == "") {
+                layer.msg('有房产时,请填写楼栋号', {icon: 2});
+                return false;
+            }
+            if($.trim($("#property_area").val()) == "") {
+                layer.msg('有房产时,请填写面积', {icon: 2});
+                return false;
+            }else{
+                if (!regSalary.test($("#property_area").val())) {
+                    layer.msg('面积输入不规范', {icon: 2});
+                    return false;
+                }
+            }
+            if($.trim($("#property_price").val()) == "") {
+                layer.msg('有房产时,请填写购买总价', {icon: 2});
+                return false;
+            }else{
+                if (!regSalary.test($("#property_price").val())) {
+                    layer.msg('总价输入不规范', {icon: 2});
+                    return false;
+                }
+            }
+            if($.trim($("#property_owner").val()) == "") {
+                layer.msg('有房产时,请填写权利人', {icon: 2});
+                return false;
+            }
+        }
+        if($("#repayment_methods_1").is(':checked') || $("#repayment_methods_2").is(':checked') || $("#repayment_methods_3").is(':checked')){
+
+        }else{
+            layer.msg('请选择还款方式', {icon: 2});
+            return false;
+        }
+        if($.trim($("#repayment").val()) == "" || $.trim($("#repayment").val()) == "0") {
+            layer.msg('请输入还款周期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_XYK_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无信用卡逾期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_AJ_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无按揭逾期', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_ZY_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择房产有无第三方质押', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_SYBX_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无商业保险', {icon: 2});
+            return false;
+        }
+        if($('input[name="explain_SFZC_radio"]').is(':checked')){
+
+        }else{
+            layer.msg('请选择有无司法裁决', {icon: 2});
+            return false;
+        }
+        $('#financeForm').submit();
+    })
+
+    $("#go_back_btn").click(function(){
+        $("#financeForm").attr("action","/finance/go_finance_1");
+        $('#financeForm').submit();
+    })
+</script>
+</body>
+</html>
